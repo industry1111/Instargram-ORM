@@ -1,2 +1,8 @@
-package com.travel.web_oasis.web.dto;public class PostRequestDto {
+package com.travel.web_oasis.web.dto;
+
+public class PostRequestDto {
+
+    String Content;
+
+
 }

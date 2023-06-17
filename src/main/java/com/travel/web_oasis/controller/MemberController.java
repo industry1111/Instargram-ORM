@@ -1,2 +1,8 @@
-package com.travel.web_oasis.controller;public class MemberController {
+package com.travel.web_oasis.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller("/user")
+public class MemberController {
+
 }

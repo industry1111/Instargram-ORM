@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>새로운 게시글 작성</title>
+    <style>
+        .preview-container {
+            display: flex;
+            gap: 10px;
+        }
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+    <script>
+        function previewFiles() {
+            var previewContainer = document.getElementById('previewContainer');
+            previewContainer.innerHTML = '';
+
+            var files = document.getElementById('attachments').files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /^image\//;
+
+                if (!imageType.test(file.type)) {
+                    continue;
+                }
+
+                var img = document.createElement('img');
+                img.classList.add('preview-image');
+                img.file = file;
+                previewContainer.appendChild(img);
+
+                var reader = new FileReader();
+                reader.onload = (function (aImg) {
+                    return function (e) {
+                        aImg.src = e.target.result;
+                    };
+                })(img);
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </head>
 <body>
-$END$
+<h2>새로운 게시글 작성</h2>
+<form th:action="@{/post/new}" th:object="${post}" method="post">
+    <div>
+        <label for="content">게시글 내용</label>
+        <textarea id="content" rows="5" cols="50" th:field="${content}"></textarea>
+    </div>
+    <div>
+        <label for="attachments">첨부 파일</label>
+        <input type="file" multiple="multiple" id="attachments" name="attachments" onchange="previewFiles()" />
+    </div>
+    <div id="previewContainer" class="preview-container"></div>
+    <button type="submit">게시글 저장</button>
+</form>
 </body>
 </html>
