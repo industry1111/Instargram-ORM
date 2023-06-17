@@ -21,4 +21,5 @@ public class PostResponseDto {
         this.modifiedBy = entity.getModifiedBy();
         this.modifiedDate = entity.getModifiedDate().toString();
     }
+
 }

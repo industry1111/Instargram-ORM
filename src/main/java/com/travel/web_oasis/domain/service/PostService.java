@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PostService {
     private final PostRepository postRepository;
 
+    @Transactional
     public PostResponseDto findById(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow( () -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
         return new PostResponseDto(post);
     }
+
+
 
 }
