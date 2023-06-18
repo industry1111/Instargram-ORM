@@ -1,6 +1,7 @@
 package com.travel.web_oasis.domain.comment;
 
 import com.travel.web_oasis.domain.BaseEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class Comment extends BaseEntity {
 
     @Id @GeneratedValue
+    @Column(name = "comment_id")
     private Long id;
 
     private String content;

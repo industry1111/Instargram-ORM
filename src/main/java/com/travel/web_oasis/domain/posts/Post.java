@@ -17,6 +17,7 @@ import java.util.List;
 public class Post extends BaseEntity {
 
     @Id @GeneratedValue
+    @Column(name = "post_id")
     private Long id;
 
     @Column(nullable = false, length = 3000)
