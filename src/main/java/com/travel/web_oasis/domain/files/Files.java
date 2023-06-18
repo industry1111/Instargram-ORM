@@ -20,6 +20,14 @@ public class Files extends BaseEntity {
 
     private String filePath;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
     @Builder
     public Files(String fileName, String filePath) {
         this.fileName = fileName;

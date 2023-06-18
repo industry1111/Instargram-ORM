@@ -23,17 +23,21 @@ public class Post extends BaseEntity {
     @Column(nullable = false, length = 3000)
     private String content;
 
-    @OneToMany
-    @JoinColumn(name = "post_id")
+    @OneToMany(mappedBy = "post")
     private List<Files> files = new ArrayList<>();
 
     public void addFile(Files file) {
         this.files.add(file);
+        file.setPost(this);
     }
 
     @Builder
-    public Post(String content) {
+    public Post(String content,List<Files> files) {
         this.content = content;
+
+        for (Files file : files) {
+            this.addFile(file);
+        }
     }
 
     @Override
@@ -44,5 +48,6 @@ public class Post extends BaseEntity {
                 ", files=" + files +
                 '}';
     }
+
 
 }
