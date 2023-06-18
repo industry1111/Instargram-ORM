@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Member extends BaseEntity {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
+    @Column(name = "member_id")
     private int id;
 
     @Column(nullable = false, length = 20)
@@ -29,6 +29,12 @@ public class Member extends BaseEntity {
 
     @Column(nullable = true, length = 13)
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany
     @JoinColumn(name = "member_id")
