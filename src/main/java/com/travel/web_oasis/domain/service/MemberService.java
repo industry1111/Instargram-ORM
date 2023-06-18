@@ -2,13 +2,10 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.MemberRepository;
-import com.travel.web_oasis.web.dto.MemberDto;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -16,7 +13,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Long saveMember(MemberDto memberDto) {
+    public Long saveMember(MemberDTO memberDto) {
 
         Member member = DtoToEntity(memberDto);
 
@@ -34,7 +31,7 @@ public class MemberService {
         memberRepository.deleteById(id);
     }
 
-    public void updateMember(Long id, MemberDto memberDto) {
+    public void updateMember(Long id, MemberDTO memberDto) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -45,7 +42,7 @@ public class MemberService {
 
     }
 
-    public Member DtoToEntity(MemberDto memberDto) {
+    public Member DtoToEntity(MemberDTO memberDto) {
         return Member.builder()
                 .name(memberDto.getName())
                 .email(memberDto.getEmail())
@@ -56,17 +53,16 @@ public class MemberService {
                 .build();
     }
 
-    public MemberDto EntityToDto(Member member) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setId(member.getId());
-        memberDto.setName(member.getName());
-        memberDto.setEmail(member.getEmail());
-        memberDto.setPassword(member.getPassword());
-        memberDto.setPhone(member.getPhone());
-        memberDto.setRole(member.getRole());
-        memberDto.setStatus(member.getStatus());
-
-        return memberDto;
+    public MemberDTO EntityToDto(Member member) {
+        return MemberDTO.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .password(member.getPassword())
+                .phone(member.getPhone())
+                .role(member.getRole())
+                .status(member.getStatus())
+                .build();
     }
 
 

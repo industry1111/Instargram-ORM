@@ -1,14 +1,13 @@
 package com.travel.web_oasis.web.dto;
 
-import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class MemberDto {
+@Builder
+public class MemberDTO {
     private Long id;
     private String name;
     private String email;
@@ -16,6 +15,5 @@ public class MemberDto {
     private String phone;
     private Role role;
     private Status status;
-
 
 }

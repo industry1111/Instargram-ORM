@@ -2,12 +2,11 @@ package com.travel.web_oasis.domain.member;
 
 import com.travel.web_oasis.domain.BaseEntity;
 import com.travel.web_oasis.domain.posts.Post;
-import com.travel.web_oasis.web.dto.MemberDto;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class Member extends BaseEntity {
         this.status = status;
     }
 
-    public void update(MemberDto memberDto) {
+    public void update(MemberDTO memberDto) {
         this.name = memberDto.getName();
         this.password = memberDto.getPassword();
         this.phone = memberDto.getPhone();

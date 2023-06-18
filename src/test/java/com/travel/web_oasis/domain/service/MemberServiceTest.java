@@ -4,16 +4,10 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.MemberRepository;
-import com.travel.web_oasis.web.dto.MemberDto;
-import org.assertj.core.api.Assertions;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,16 +21,15 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    MemberDto newMember() {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setName("테스트");
-        memberDto.setEmail("test@mail.com");
-        memberDto.setPassword("1234");
-        memberDto.setPhone("01000000000");
-        memberDto.setRole(Role.USER);
-        memberDto.setStatus(Status.PUBLIC);
-
-        return memberDto;
+    MemberDTO newMember() {
+        return MemberDTO.builder()
+                .name("테스트")
+                .email("test@mail.com")
+                .password("1234")
+                .phone("01012345678")
+                .role(Role.USER)
+                .status(Status.PUBLIC)
+                .build();
     }
 
     @Test
@@ -75,16 +68,17 @@ class MemberServiceTest {
 
         Member member = memberService.findById(id);
 
-        MemberDto update = new MemberDto();
-        update.setName("테스트3");
-        update.setPassword("145");
-        update.setStatus(Status.PUBLIC);
+        MemberDTO update = MemberDTO.builder()
+                        .name("테스트2")
+                        .password("123")
+                        .status(Status.PRIVATE)
+                        .build();
 
         memberService.updateMember(member.getId(),update);
 
-        Member member1 = memberService.findById(id);
+        Member resultMember = memberService.findById(id);
 
-        assertEquals(member1.getStatus(), update.getStatus());
+        assertEquals(resultMember.getStatus(), update.getStatus());
 
 
     }
