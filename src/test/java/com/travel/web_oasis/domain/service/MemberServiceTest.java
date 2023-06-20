@@ -76,9 +76,9 @@ class MemberServiceTest {
 
         memberService.updateMember(member.getId(),update);
 
-        Member resultMember = memberService.findById(id);
+        Member member1 = memberService.findById(id);
 
-        assertEquals(resultMember.getStatus(), update.getStatus());
+        assertEquals(member1.getStatus(), update.getStatus());
 
 
     }

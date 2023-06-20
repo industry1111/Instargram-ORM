@@ -15,9 +15,8 @@ public class MemberService {
 
     public Long saveMember(MemberDTO memberDto) {
 
-        Member member = DtoToEntity(memberDto);
+        Member member = dtoToEntity(memberDto);
 
-        memberRepository.save(member);
         return memberRepository.save(member).getId();
     }
 
@@ -42,7 +41,7 @@ public class MemberService {
 
     }
 
-    public Member DtoToEntity(MemberDTO memberDto) {
+    public Member dtoToEntity(MemberDTO memberDto) {
         return Member.builder()
                 .name(memberDto.getName())
                 .email(memberDto.getEmail())
@@ -53,7 +52,7 @@ public class MemberService {
                 .build();
     }
 
-    public MemberDTO EntityToDto(Member member) {
+    public MemberDTO entityToDto(Member member) {
         return MemberDTO.builder()
                 .id(member.getId())
                 .name(member.getName())
