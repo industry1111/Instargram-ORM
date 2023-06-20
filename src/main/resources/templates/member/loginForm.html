@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+  <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+  <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+</th:block>
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/member/loginForm.css}">
+  <style>
+    .img-photo{
+       width: 465px;
+       height: 635px;
+      position: relative;
+       background: url(/img/member/loginForm/phone.png)
+                    no-repeat center;
+    }
+  </style>
+</th:block>
+
+<div layout:fragment="content" class="content-mg">
+  <div class="login-container">
+    <div class="img-photo">
+      <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="foto da pagina do Instagram">
+    </div>
+    <div class="form-login">
+      <form>
+        <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logotipo">
+        <input type="text" name="username" placeholder="전화번호, 사용자 이름 또는 이메일">
+        <input type="password" name="passwordUser" placeholder="비밀번호">
+        <button type="button">로그인</button>
+        <div class="or">또는</div>
+        <a href="#" class="login-facebook">
+          <img th:src="@{/img/member/loginForm/fb.png}" alt="icon of facebook"> Facebook으로 로그인
+        </a>
+        <a href="#" class="forgot-pass">비밀번호를 잊으셨나요?</a>
+      </form>
+      <div class="signup">
+        <p>계정이 없으신가요? <a href="#">가입하기</a></p>
+      </div>
+    </div>
+  </div>
+
+
+</html>
