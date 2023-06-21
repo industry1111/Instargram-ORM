@@ -2,6 +2,8 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.web.dto.PostDTO;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,16 +23,40 @@ class PostServiceTest {
     private PostService postService;
 
     @Test
+    @DisplayName("게시글 생성")
     public void createPost() throws IOException {
+        //given
         PostDTO postDto = new PostDTO();
         postDto.setContent("This is my first post3.");
-        List<MultipartFile> files = new ArrayList<>();
-        files.add(new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png")));
+        MultipartFile[] files = new MultipartFile[5];
+        files[0] = new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
 
+        //when
         Post post = postService.createPost(postDto, files);
 
+        //then
         assertThat(postDto.getContent()).isEqualTo(post.getContent());
         assertThat(postDto.getFiles().get(0).getFileName()).isEqualTo(post.getFilesAttachList().get(0).getFileName());
+    }
+
+    @Test
+    @DisplayName("게시글 찾기")
+    public void findById() throws IOException{
+        //given
+        PostDTO postDto = new PostDTO();
+        postDto.setContent("찾기용 게시글");
+        MultipartFile[] files = new MultipartFile[5];
+        files[0] = new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
+
+        Long id = postService.createPost(postDto, files).getId();
+
+        //when
+        Post findPost = postService.findById(id);
+
+        //then
+        assertThat(findPost.getId()).isEqualTo(id);
+        assertThat(findPost.getContent()).isEqualTo("찾기용 게시글");
+
     }
 
 
