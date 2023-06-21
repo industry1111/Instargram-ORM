@@ -4,6 +4,7 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.service.MemberService;
+import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,15 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class MemberControllerTest {
 
     @Autowired
-    private MemberService memberService;
+    private MemberServiceImpl memberService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +42,7 @@ class MemberControllerTest {
                 .status(Status.PUBLIC)
                 .build();
 
-        return Member.register(memberDTO, passwordEncoder);
+        return Member.register(memberDTO,passwordEncoder);
     }
 
     @Test
@@ -47,23 +50,31 @@ class MemberControllerTest {
         String email = "test@mail.com";
         String password = "12345678";
 
-        this.testMember(email, password);
+        Long id = memberService.saveMember(testMember(email, password));
 
-        mockMvc.perform(formLogin().userParameter("email")
+        mockMvc.perform(formLogin()
+                .loginProcessingUrl("/member/login")
+                .user("email", email).password(password))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(SecurityMockMvcResultMatchers.authenticated());
+
+    }
+    @Test
+    public void loginFail() throws Exception {
+        String email = "test@mail.com";
+        String password = "12345678";
+
+        this.testMember(email, "123456");
+
+        mockMvc.perform(formLogin()
                         .loginProcessingUrl("/member/login")
-                        .user(email).password(password))
+                        .user("email", "test1@mail.com").password(password))
+                .andDo(print())
                 .andExpect(SecurityMockMvcResultMatchers.unauthenticated());
     }
-
-    @Test
-    void testLoginForm() {
-    }
-
     @Test
     void registerForm() {
     }
 
-    @Test
-    void testRegisterForm() {
-    }
 }

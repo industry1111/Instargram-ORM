@@ -2,6 +2,7 @@ package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.service.MemberService;
+import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberServiceImpl memberService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -27,11 +28,11 @@ public class MemberController {
         return "/member/loginForm";
     }
 
-    @PostMapping("/login")
-    public String loginForm(MemberDTO memberDTO) {
-        return "redirect:/";
+    @GetMapping("/login/error")
+    public String loginError(Model model) {
+        model.addAttribute("message","이메일 또는 비밀번호를 확인해주세요");
+        return "/member/loginForm";
     }
-
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("memberDTO", new MemberDTO());
@@ -40,15 +41,15 @@ public class MemberController {
 
     @PostMapping("/register")
     public String registerForm(@Valid MemberDTO memberDTO, BindingResult bindingResult, Model model) {
-        System.out.println("memberDTO.toString() = " + memberDTO.toString());
         if (bindingResult.hasErrors()) {
             return "member/registerForm";
         }
         try {
             Member member = Member.register(memberDTO, passwordEncoder);
-            memberService.saveMember(member);
+            Long id = memberService.saveMember(member);
+            model.addAttribute("message","회원가입에 성공하셨습니다.");
         } catch (IllegalStateException e) {
-            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("message", "회원가입에 실패했습니다. 관리자에게 문의하세요");
             return "member/registerForm";
         }
 

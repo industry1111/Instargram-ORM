@@ -34,7 +34,7 @@
       <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="Instagram photo">
     </div>
     <div class="form-signup">
-      <form action="/member/register" role="form" method="post" th:object="${memberDTO}">
+      <form th:action="@{/member/register}" method="post" th:object="${memberDTO}">
         <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
 
         <input type="text" th:field="*{email}" name="email" placeholder="이메일">
@@ -52,7 +52,7 @@
         <button type="submit">가입</button>
       </form>
       <div class="signin">
-        <p>계정이 있으신가요? <a href="#">로그인</a></p>
+        <p>계정이 있으신가요? <a th:href="@{/member/login}">로그인</a></p>
       </div>
 
     </div>

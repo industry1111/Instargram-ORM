@@ -23,25 +23,32 @@
        background: url(/img/member/loginForm/phone.png)
                     no-repeat center;
     }
+    .error{
+      color: #bd2130;
+    }
   </style>
+
 </th:block>
 
 <div layout:fragment="content" class="content-mg">
   <div class="login-container">
     <div class="img-photo">
-      <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="foto da pagina do Instagram">
+      <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="background insta photo">
     </div>
     <div class="form-login">
-      <form method="post" action="/member/login">
-        <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logotipo">
-        <input type="text" name="name" placeholder="전화번호, 사용자 이름 또는 이메일">
+      <form method="post" th:action="@{/member/login}" th:object="${memberDTO}">
+        <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
+        <input type="text" name="email" placeholder="이메일">
         <input type="password" name="password" placeholder="비밀번호">
+
+        <p th:if="${message}" class="error" th:text="${message}"></p>
         <button type="submit">로그인</button>
+
         <div class="or">또는</div>
         <a href="#" class="forgot-pass">비밀번호를 잊으셨나요?</a>
       </form>
       <div class="signup">
-        <p>계정이 없으신가요? <a href="#">가입하기</a></p>
+        <p>계정이 없으신가요? <a th:href="@{/member/register}">가입하기</a></p>
       </div>
     </div>
   </div>

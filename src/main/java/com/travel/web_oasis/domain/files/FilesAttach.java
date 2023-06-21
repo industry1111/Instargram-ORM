@@ -22,7 +22,7 @@ public class FilesAttach extends BaseEntity {
 
     private String fileUrl;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private Post post;
 

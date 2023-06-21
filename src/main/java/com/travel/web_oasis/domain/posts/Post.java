@@ -22,7 +22,7 @@ public class Post extends BaseEntity {
     @Column(nullable = false, length = 3000)
     private String content;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<FilesAttach> filesAttachList = new ArrayList<>();
 
     public void addFile(FilesAttach filesAttach) {

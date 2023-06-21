@@ -28,8 +28,6 @@ body{
 }
 
 
-
-
 .img-photo img{
     position: absolute;
     bottom: 65px;
@@ -56,7 +54,7 @@ body{
 
 .form-signup input{
     width: 100%;
-    color: #dbdbdb;
+    color: #000000;
     box-sizing: border-box;
     font-size: 0.7rem;
     padding: 13px 0 13px 8px;
