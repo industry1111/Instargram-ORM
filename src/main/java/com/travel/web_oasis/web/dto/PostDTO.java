@@ -1,10 +1,8 @@
 package com.travel.web_oasis.web.dto;
 
-import com.travel.web_oasis.domain.files.Files;
+import com.travel.web_oasis.domain.files.FilesAttach;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,7 +13,7 @@ public class PostDTO {
 
     private Long id;
     private String content;
-    private List<Files> files;
+    private List<FilesAttach> files;
     private String createdDate;
     private String modifiedDate;
 }

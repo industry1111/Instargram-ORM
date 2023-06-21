@@ -10,36 +10,32 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Files extends BaseEntity {
+public class FilesAttach extends BaseEntity {
 
     @Id @GeneratedValue
     private Long id;
 
+    private String fileOriName;
+
     @Column(length = 20)
     private String fileName;
 
-    private String filePath;
+    private String fileUrl;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
 
     public void setPost(Post post) {
         this.post = post;
     }
 
     @Builder
-    public Files(String fileName, String filePath) {
+    public FilesAttach(String fileOriName, String fileName, String fileUrl) {
+        this.fileOriName = fileOriName;
         this.fileName = fileName;
-        this.filePath = filePath;
+        this.fileUrl = fileUrl;
     }
 
-    @Override
-    public String toString() {
-        return "Files{" +
-                "id=" + id +
-                ", fileName='" + fileName + '\'' +
-                ", filePath='" + filePath + '\'' +
-                '}';
-    }
 }

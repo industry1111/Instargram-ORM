@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.files.Files;
+import com.travel.web_oasis.domain.files.FilesAttach;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.FilesRepository;
 import com.travel.web_oasis.domain.repository.PostRepository;
@@ -18,38 +18,25 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    private final FilesRepository filesRepository;
+    public Post createPost(PostDTO postDto,List<MultipartFile> files) {
 
-    public Long save(PostDTO postDto) {
+        String fileUrl = "http://localhost:8080/files/";
+
+        List<FilesAttach> filesAttachList = new ArrayList<>();
+
+        for (MultipartFile multipartFile : files) {
+            FilesAttach filesAttach = FilesAttach.builder()
+                    .fileName(multipartFile.getOriginalFilename())
+                    .fileUrl(fileUrl + multipartFile.getOriginalFilename())
+                    .build();
+            filesAttachList.add(filesAttach);
+        }
+
+        postDto.setFiles(filesAttachList);
 
         Post post = dtoToEntity(postDto);
 
-        Long id = postRepository.save(post).getId();
-
-        addFilesToPost(post.getFiles());
-
-        return id;
-    }
-
-    public void addFilesToPost(List<Files> files) {
-        List<Files> savedFiles = filesRepository.saveAll(files);
-    }
-
-    public Post dtoToEntity(PostDTO postDto) {
-        return Post.builder()
-                .content(postDto.getContent())
-                .files(postDto.getFiles())
-                .build();
-    }
-
-    public PostDTO entityToDto(Post post) {
-        return PostDTO.builder()
-                .id(post.getId())
-                .content(post.getContent())
-                .files(post.getFiles())
-                .createdDate(post.getCreatedDate().toString())
-                .modifiedDate(post.getModifiedDate().toString())
-                .build();
+        return postRepository.save(post);
     }
 
     public Post findById(Long id) {
@@ -59,13 +46,23 @@ public class PostService {
         );
     }
 
-    public PostDTO createPost(PostDTO postDTO) {
-
-        Post post = dtoToEntity(postDTO);
-
-        Long saveId = postRepository.save(post).getId();
-
-        return null;
+    public Post dtoToEntity(PostDTO postDto) {
+        return Post.builder()
+                .content(postDto.getContent())
+                .filesAttachList(postDto.getFiles())
+                .build();
     }
+
+    public PostDTO entityToDto(Post post) {
+        return PostDTO.builder()
+                .id(post.getId())
+                .content(post.getContent())
+                .files(post.getFilesAttachList())
+                .createdDate(post.getCreatedDate().toString())
+                .modifiedDate(post.getModifiedDate().toString())
+                .build();
+    }
+
+
 }
 
