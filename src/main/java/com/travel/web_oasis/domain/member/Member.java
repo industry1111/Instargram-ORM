@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,17 @@ public class Member extends BaseEntity {
         this.password = memberDto.getPassword();
         this.phone = memberDto.getPhone();
         this.status = memberDto.getStatus();
+    }
+
+    public static Member register(MemberDTO memberDTO, PasswordEncoder passwordEncoder) {
+       return Member.builder()
+                .email(memberDTO.getEmail())
+                .name(memberDTO.getName())
+                .password(passwordEncoder.encode(memberDTO.getPassword()))
+                .phone(memberDTO.getPhone())
+                .role(Role.USER)
+                .status(Status.PUBLIC)
+                .build();
     }
 
     @Override

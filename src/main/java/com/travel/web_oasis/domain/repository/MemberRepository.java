@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    void deleteByName(String name);
+    Member findByEmail(String email);
 }
