@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<head>
-  <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
-  <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+<!--<head>-->
+<!--      <meta name="_csrf" th:content="${_csrf.token}"/>-->
+<!--      <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 
-</head>
+<!--</head>-->
 
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -23,6 +23,9 @@
       background: url(/img/member/loginForm/phone.png)
       no-repeat center;
     }
+    .fieldError{
+      color: #bd2130;
+    }
   </style>
 </th:block>
 <div layout:fragment="content" class="content-mg">
@@ -31,16 +34,22 @@
       <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="Instagram photo">
     </div>
     <div class="form-signup">
-      <form>
+      <form action="/member/register" role="form" method="post" th:object="${memberDTO}">
         <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
-        <a href="#" class="login-facebook primary button">
-          <img th:src="@{/img/member/loginForm/fb_white.png}" height="22" width="23" alt="icon of facebook"> Facebook으로 로그인
-        </a>
-        <div class="or">또는</div>
-        <input type="text" name="email" placeholder="전화번호, 사용자 이름 또는 이메일">
-        <input type="text" name="username" placeholder="사용자 이름">
-        <input type="password" name="passwordUser" placeholder="비밀번호">
-        <button type="button" disabled>가입</button>
+
+        <input type="text" th:field="*{email}" name="email" placeholder="이메일">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError" ></p>
+
+        <input type="text" th:field="*{name}" name="name" placeholder="사용자 이름">
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="fieldError"></p>
+
+        <input type="password" th:field="*{password}" name="password" placeholder="비밀번호">
+        <p th:if="${#fields.hasErrors('password')} " th:errors="*{password}" class="fieldError"></p>
+
+        <input type="text" th:field="*{phone}" name="phone" placeholder="휴대폰">
+        <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError"></p>
+
+        <button type="submit">가입</button>
       </form>
       <div class="signin">
         <p>계정이 있으신가요? <a href="#">로그인</a></p>

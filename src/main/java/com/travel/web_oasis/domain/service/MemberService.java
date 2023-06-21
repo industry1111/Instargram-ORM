@@ -5,30 +5,25 @@ import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    public Long saveMember(MemberDTO memberDto) {
-
-        Member member = dtoToEntity(memberDto);
-
+    public Long saveMember(Member member) {
+        System.out.println(member.toString());
+        validateDuplicateMember(member);
         return memberRepository.save(member).getId();
     }
 
-    public Member findById(Long id) {
-
-        return memberRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("해당 멤버가 없습니다. id = " + id));
-
-    }
-
-    public void deleteMember(Long id) {
-        memberRepository.deleteById(id);
-    }
 
     public void updateMember(Long id, MemberDTO memberDto) {
 
@@ -41,28 +36,24 @@ public class MemberService {
 
     }
 
-    public Member dtoToEntity(MemberDTO memberDto) {
-        return Member.builder()
-                .name(memberDto.getName())
-                .email(memberDto.getEmail())
-                .password(memberDto.getPassword())
-                .phone(memberDto.getPhone())
-                .role(memberDto.getRole())
-                .status(memberDto.getStatus())
-                .build();
+    private void validateDuplicateMember(Member member) {
+        Member findMember = memberRepository.findByEmail(member.getEmail());
+        if (findMember != null) {
+            throw new IllegalStateException("이미 가입된 회원입니다.");
+        }
     }
 
-    public MemberDTO entityToDto(Member member) {
-        return MemberDTO.builder()
-                .id(member.getId())
-                .name(member.getName())
-                .email(member.getEmail())
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(email);
+
+        if (member == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        return User.builder()
+                .username(member.getEmail())
                 .password(member.getPassword())
-                .phone(member.getPhone())
-                .role(member.getRole())
-                .status(member.getStatus())
+                .roles(member.getRole().toString())
                 .build();
     }
-
-
 }
