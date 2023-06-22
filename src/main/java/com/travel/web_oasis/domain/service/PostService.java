@@ -8,9 +8,8 @@ import java.util.List;
 
 public abstract interface PostService {
 
-    Post createPost(PostDTO postDTO, MultipartFile[] files);
+    Post createPost(PostDTO postDTO);
     Post findById(Long id);
-
-
+    void deletePost(Long id);
 }
 

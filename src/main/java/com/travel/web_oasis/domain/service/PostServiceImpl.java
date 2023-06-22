@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.files.FilesAttach;
+import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.PostDTO;
@@ -18,20 +18,20 @@ public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
 
     @Override
-    public Post createPost(PostDTO postDTO, MultipartFile[] files) {
+    public Post createPost(PostDTO postDTO) {
         String fileUrl = "http://localhost:8080/files/";
 
-        List<FilesAttach> filesAttachList = new ArrayList<>();
+        List<FileAttach> fileAttachList = new ArrayList<>();
 
-        for (MultipartFile multipartFile : files) {
-            FilesAttach filesAttach = FilesAttach.builder()
+        for (MultipartFile multipartFile : postDTO.getFiles()) {
+            FileAttach fileAttach = FileAttach.builder()
                     .fileName(multipartFile.getOriginalFilename())
                     .fileUrl(fileUrl + multipartFile.getOriginalFilename())
                     .build();
-            filesAttachList.add(filesAttach);
+            fileAttachList.add(fileAttach);
         }
 
-        postDTO.setFiles(filesAttachList);
+//        postDTO.setFiles(fileAttachList);
 
         Post post = dtoToEntity(postDTO);
 
@@ -44,10 +44,17 @@ public class PostServiceImpl implements PostService{
                 () -> new IllegalArgumentException("해당 게시글이 없습니다. id : " + id)
         );
     }
+
+    @Override
+    public void deletePost(Long id) {
+        Post removePost = findById(id);
+        postRepository.delete(removePost);
+    }
+
     public Post dtoToEntity(PostDTO postDto) {
         return Post.builder()
                 .content(postDto.getContent())
-                .filesAttachList(postDto.getFiles())
+//                .filesAttachList(postDto.getFiles())
                 .build();
     }
 
@@ -55,7 +62,7 @@ public class PostServiceImpl implements PostService{
         return PostDTO.builder()
                 .id(post.getId())
                 .content(post.getContent())
-                .files(post.getFilesAttachList())
+//                .files(post.getFileAttachList())
                 .createdDate(post.getCreatedDate().toString())
                 .modifiedDate(post.getModifiedDate().toString())
                 .build();

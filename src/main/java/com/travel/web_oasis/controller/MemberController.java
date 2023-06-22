@@ -39,6 +39,7 @@ public class MemberController {
         return "/member/registerForm";
     }
 
+
     @PostMapping("/register")
     public String registerForm(@Valid MemberDTO memberDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {

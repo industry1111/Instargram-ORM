@@ -1,7 +1,7 @@
 package com.travel.web_oasis.domain.posts;
 
 import com.travel.web_oasis.domain.BaseEntity;
-import com.travel.web_oasis.domain.files.FilesAttach;
+import com.travel.web_oasis.domain.files.FileAttach;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,18 +23,18 @@ public class Post extends BaseEntity {
     private String content;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true)
-    private List<FilesAttach> filesAttachList = new ArrayList<>();
+    private List<FileAttach> fileAttachList = new ArrayList<>();
 
-    public void addFile(FilesAttach filesAttach) {
-        this.filesAttachList.add(filesAttach);
-        filesAttach.setPost(this);
+    public void addFile(FileAttach fileAttach) {
+        this.fileAttachList.add(fileAttach);
+        fileAttach.setPost(this);
     }
 
     @Builder
-    public Post(String content,List<FilesAttach> filesAttachList) {
+    public Post(String content,List<FileAttach> fileAttachList) {
         this.content = content;
 
-        for (FilesAttach file : filesAttachList) {
+        for (FileAttach file : fileAttachList) {
             this.addFile(file);
         }
     }
@@ -44,7 +44,7 @@ public class Post extends BaseEntity {
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", filesAttachList=" + filesAttachList +
+                ", filesAttachList=" + fileAttachList +
                 '}';
     }
 

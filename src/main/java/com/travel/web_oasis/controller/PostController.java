@@ -21,16 +21,28 @@ public class PostController {
     private PostServiceImpl postService;
 
     /*
-    * @PostDTO : 게시글 내용과 파일 정보를 담은 DTO
-    * @RequestPart("files") List<MultipartFile> : 파일 정보를 담은 List
+    * @Param
+    *   postDTO : 게시글 내용과 파일 정보를 담은 DTO
+    *   files : 파일 정보를 담은 MultipartFile 배열
+    * @Description : 게시글 생성
     *
+    * @Return : 게시글 생성 후 메인 페이지로 이동
     * */
     @PostMapping("/create")
-    public String createPost(@ModelAttribute PostDTO postDTO, @RequestPart("file") MultipartFile[] files) {
-        Post savedPost = postService.createPost(postDTO, files);
+    public String createPost(@ModelAttribute PostDTO postDTO, @RequestParam("files") List<MultipartFile> files) {
+        postDTO.setFiles(files);
+        Post savedPost = postService.createPost(postDTO);
         return "redirect:/";
     }
 
+
+    /*
+     * @Param
+     *  id : 게시글 id
+     * @Description : 게시글 상세보기
+     *
+     * @Return : model에 게시글 정보를 담아 게시글 상세보기 페이지로 이동
+     * */
     @GetMapping("/{id}")
     public String getPost(@PathVariable Long id, Model model) {
 
@@ -39,6 +51,20 @@ public class PostController {
 
         return "/post/postDetail";
     }
+
+    /*
+     * @Param
+     *  id : 게시글 id
+     * @Description : 게시글 삭제
+     *
+     * @Return : 메인 페이지로 이동
+     * */
+    @DeleteMapping("/{id}")
+    public String deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return "redirect:/";
+    }
+
 
 
 }
