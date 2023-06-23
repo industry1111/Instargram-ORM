@@ -27,7 +27,7 @@ class FileAttachServiceImplTest {
     @DisplayName("파일 업로드")
     void upload() throws IOException {
         List<MultipartFile> files = new ArrayList<>();
-        MultipartFile file = new MockMultipartFile("file", "logo.png", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
+        MultipartFile file = new MockMultipartFile("file", "logo.png}", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png}"));
         MultipartFile file2 = new MockMultipartFile("file", "test.txt", "text/plain", "test".getBytes());
         files.add(file);
         files.add(file2);

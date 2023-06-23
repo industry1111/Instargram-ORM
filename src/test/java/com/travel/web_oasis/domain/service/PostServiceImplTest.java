@@ -25,7 +25,6 @@ class PostServiceImplTest {
 
     @Test
     @DisplayName("게시글 생성")
-    @Transactional
     public void createPost() throws IOException {
         //given
         String expected = "게시글 생성 테스트";
@@ -55,8 +54,8 @@ class PostServiceImplTest {
         //when
         Post post = postService.createPost(postDto, files);
 
-        Post findPost = postService.getPost(post.getId());
-        String actual = findPost.getContent();
+        PostDTO findPostDTO = postService.getPost(post.getId());
+        String actual = findPostDTO.getContent();
 
         //then
         assertThat(actual).isEqualTo(expected);

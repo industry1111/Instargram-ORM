@@ -32,7 +32,6 @@ public class PostFileAssociationIntegrationTest {
 
     @Test
     @DisplayName("게시글 생성(파일첨부)")
-    @Transactional
     void createPostWithFile() {
         //given
         PostDTO postDto = new PostDTO();
@@ -47,8 +46,8 @@ public class PostFileAssociationIntegrationTest {
         Post post = postService.createPost(postDto, files);
 
         //when
-        Post findPost = postService.getPost(post.getId());
-        List<FileAttach> fileAttaches = findPost.getFileAttachList();
+        PostDTO findPostDTO = postService.getPost(post.getId());
+        List<FileAttach> fileAttaches = findPostDTO.getFiles();
 
         //then
         for (FileAttach file : fileAttaches) {
@@ -77,8 +76,12 @@ public class PostFileAssociationIntegrationTest {
         for (FileAttach fileAttach : fileAttaches) {
             expected.add(fileAttach.getFileStoreName());
         }
+
+        System.out.println("before post = " + post.getId());
         //when
         postService.deletePost(post.getId());
+
+        System.out.println("post = " + post.getId());
 
         //then
         for (String storageName : expected) {

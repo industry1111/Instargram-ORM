@@ -9,6 +9,6 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {
-        return "/post/postList";
+        return "/layouts/layout1";
     }
 }

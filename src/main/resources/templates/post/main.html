@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
 
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <th:block layout:fragment="script"></th:block>
-    <th:block layout:fragment="css"></th:block>
-
+    <link rel="stylesheet" href="../../static/css/style.css">
 </head>
+
+
 <body>
 
-<div th:replace="~{fragments/header::header}"></div>
+    <nav class="navbar">
+        <div class="nav-wrapper">
+            <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
+            <input type="text" class="search-box" placeholder="search">
+            <div class="nav-items">
+                <img th:src="@{/img/main/home.png}" class="icon" alt="">
+                <img th:src="@{/img/main/messenger.png}" class="icon" alt="">
+                <img th:src="@{/img/main/add.png}" class="icon" alt="">
+                <img th:src="@{/img/main/explore.png}" class="icon" alt="">
+                <img th:src="@{/img/main/like.png}" class="icon" alt="">
+                <div class="icon user-profile"></div>
+            </div>
+        </div>
+    </nav>
 
-<div layout:fragment="content" class="content">
+
     <section class="main">
         <div class="wrapper">
             <div class="left-col">
@@ -152,11 +161,11 @@
                     </div>
                     <button class="action-btn">follow</button>
                 </div>
-            </div>
+        </div>
     </section>
-</div>
 
-<div th:replace="~{fragments/footer::footer}"></div>
+
+
 
 </body>
 </html>

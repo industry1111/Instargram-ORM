@@ -1,5 +1,8 @@
 package com.travel.web_oasis.domain.posts;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.travel.web_oasis.domain.BaseEntity;
 import com.travel.web_oasis.domain.files.FileAttach;
 import jakarta.persistence.*;
@@ -10,7 +13,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasterxml.jackson.annotation.ObjectIdGenerators.*;
+
 @Getter
+@JsonIdentityInfo(generator = IntSequenceGenerator.class, property = "id")
 @NoArgsConstructor
 @Entity
 public class Post extends BaseEntity {
@@ -31,9 +37,9 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(String content,List<FileAttach> fileAttachList) {
+    public Post(Long id, String content,List<FileAttach> fileAttachList) {
+        this.id = id;
         this.content = content;
-
         for (FileAttach file : fileAttachList) {
             this.addFile(file);
         }

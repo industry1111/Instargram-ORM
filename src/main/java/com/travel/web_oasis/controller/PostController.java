@@ -38,16 +38,18 @@ public class PostController {
      *  id : 게시글 id
      * @Description : 게시글 상세보기
      *
-     * @Return : model에 게시글 정보를 담아 게시글 상세보기 페이지로 이동
-     * */
+     * @Return : Post 정보를 JSON 형태로 반환
+
+     */
+    @ResponseBody
     @GetMapping("/{id}")
-    public String getPost(@PathVariable Long id, Model model) {
+    public PostDTO getPost(@PathVariable Long id) {
 
-        Post post = postService.getPost(id);
-        model.addAttribute("post", post);
+        PostDTO postDTO = postService.getPost(id);
 
-        return "/post/postDetail";
+        return postDTO;
     }
+
 
     /*
      * @Param

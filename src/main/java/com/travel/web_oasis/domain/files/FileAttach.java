@@ -1,5 +1,8 @@
 package com.travel.web_oasis.domain.files;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.travel.web_oasis.domain.BaseEntity;
 import com.travel.web_oasis.domain.posts.Post;
 import jakarta.persistence.*;
@@ -9,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 @NoArgsConstructor
 @Entity
 public class FileAttach extends BaseEntity {

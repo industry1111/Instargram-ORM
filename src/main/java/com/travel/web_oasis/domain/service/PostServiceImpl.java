@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class PostServiceImpl implements PostService{
@@ -39,22 +41,30 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Post getPost(Long id) {
-        return postRepository.findById(id).orElseThrow(
+    public PostDTO getPost(Long id) {
+        Post post =  postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 게시글이 없습니다. id : " + id)
         );
+
+        return entityToDto(post);
     }
 
     @Override
     public void deletePost(Long id) {
         //삭제할 포스트
-        Post removePost = getPost(id);
+        PostDTO removePostDTO = getPost(id);
         //삭제할 포스트의 첨부파일들
-        List<FileAttach> files = removePost.getFileAttachList();
+        List<FileAttach> files = removePostDTO.getFiles();
+        System.out.println("files = " + files);
+        for (FileAttach file : files) {
+
+            log.info("deletePost() called   file : {}", file.toString());
+
+        }
         //저장소에서 첨부파일들 삭제
         fileAttachService.deleteFiles(files);
         //포스트 삭제
-        postRepository.delete(removePost);
+        postRepository.deleteById(id);
     }
 
     public Post dtoToEntity(PostDTO postDto) {
