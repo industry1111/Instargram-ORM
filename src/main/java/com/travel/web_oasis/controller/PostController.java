@@ -2,9 +2,7 @@ package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.service.PostService;
-import com.travel.web_oasis.domain.service.PostServiceImpl;
 import com.travel.web_oasis.web.dto.PostDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,7 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private PostServiceImpl postService;
+    private PostService postService;
 
     /*
     * @Param
@@ -29,9 +27,8 @@ public class PostController {
     * @Return : 게시글 생성 후 메인 페이지로 이동
     * */
     @PostMapping("/create")
-    public String createPost(@ModelAttribute PostDTO postDTO, @RequestParam("files") List<MultipartFile> files) {
-        postDTO.setFiles(files);
-        Post savedPost = postService.createPost(postDTO);
+    public String createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files) {
+        Post savedPost = postService.createPost(postDTO, files);
         return "redirect:/";
     }
 
@@ -46,7 +43,7 @@ public class PostController {
     @GetMapping("/{id}")
     public String getPost(@PathVariable Long id, Model model) {
 
-        Post post = postService.findById(id);
+        Post post = postService.getPost(id);
         model.addAttribute("post", post);
 
         return "/post/postDetail";

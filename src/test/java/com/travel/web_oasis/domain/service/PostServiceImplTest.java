@@ -7,10 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -19,41 +22,44 @@ class PostServiceImplTest {
     @Autowired
     private PostService postService;
 
+
     @Test
     @DisplayName("게시글 생성")
+    @Transactional
     public void createPost() throws IOException {
         //given
+        String expected = "게시글 생성 테스트";
         PostDTO postDto = new PostDTO();
-        postDto.setContent("This is my first post3.");
-        MultipartFile[] files = new MultipartFile[1];
-        files[0] = new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
+        postDto.setContent(expected);
+
+        List<MultipartFile> files = new ArrayList<>();
 
         //when
-//        Post post = postService.createPost(postDto, files);
+        Post post = postService.createPost(postDto, files);
+        String actual = post.getContent();
 
         //then
-//        assertThat(postDto.getContent()).isEqualTo(post.getContent());
-//        assertThat(postDto.getFiles().get(0).getFileName()).isEqualTo(post.getFileAttachList().get(0).getFileName());
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     @DisplayName("게시글 찾기")
-    public void findById() throws IOException{
+    public void getPost() throws IOException{
         //given
+        String expected = "게시글 찾기 테스트";
         PostDTO postDto = new PostDTO();
-        postDto.setContent("찾기용 게시글");
-        MultipartFile[] files = new MultipartFile[1];
-        files[0] = new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
+        postDto.setContent(expected);
 
-//        Long id = postService.createPost(postDto, files).getId();
+        List<MultipartFile> files = new ArrayList<>();
 
         //when
-//        Post findPost = postService.findById(id);
+        Post post = postService.createPost(postDto, files);
+
+        Post findPost = postService.getPost(post.getId());
+        String actual = findPost.getContent();
 
         //then
-//        assertThat(findPost.getId()).isEqualTo(id);
-//        assertThat(findPost.getContent()).isEqualTo("찾기용 게시글");
-
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -64,17 +70,17 @@ class PostServiceImplTest {
                 .content("삭제용 게시글")
                 .build();
 
-        MultipartFile[] files = new MultipartFile[1];
-        files[0] = new MockMultipartFile("file", "test.txt", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png"));
+        List<MultipartFile> files = new ArrayList<>();
+        Long savePostId = postService.createPost(postDTO, files).getId();
+        String expected = "해당 게시글이 없습니다. id : "+savePostId;
 
         try {
             //when
-//            Long savePostId = postService.createPost(postDTO, files).getId();
-//            postService.deletePost(savePostId);
+            postService.deletePost(savePostId);
         } catch (IllegalArgumentException e) {
             // Then
-//            assertThat(e).isInstanceOf(IllegalArgumentException.class);
-//            assertThat(e.getMessage()).isEqualTo("해당 게시글이 없습니다. id : 1");
+            assertThat(e).isInstanceOf(IllegalArgumentException.class);
+            assertThat(e.getMessage()).isEqualTo(expected);
         }
     }
 }

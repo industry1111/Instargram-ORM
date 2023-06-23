@@ -28,7 +28,7 @@ public class FileAttach extends BaseEntity {
     private Long fileSize;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
@@ -54,7 +54,6 @@ public class FileAttach extends BaseEntity {
                 ", fileUrl='" + fileUrl + '\'' +
                 ", fileType='" + fileType + '\'' +
                 ", fileSize=" + fileSize +
-                ", post=" + post +
                 '}';
     }
 }

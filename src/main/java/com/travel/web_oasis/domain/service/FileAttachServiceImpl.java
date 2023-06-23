@@ -7,14 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
-@RequiredArgsConstructor
 @Service
 public class FileAttachServiceImpl implements FileAttachService {
-
-    private final FileAttachRepository fileAttachRepository;
 
     @Override
     public List<FileAttach> upload(List<MultipartFile> multipartFiles) {
@@ -29,35 +31,58 @@ public class FileAttachServiceImpl implements FileAttachService {
     }
 
     private FileAttach uploadSingleFile(MultipartFile multipartFile) {
-        String fileUrl = "http://localhost:8080/files/"; // 파일 URL 설정
+        String fileUrl = "http://localhost:8080/files/"; // 파일 URL 설정 -> 환경변수로 설정 예정
         String fileName = multipartFile.getOriginalFilename();
         String fileContentType = multipartFile.getContentType();
 
         String fileStorageName = saveFileToStorage(multipartFile);
 
-        FileAttach fileAttach = FileAttach.builder()
+        return FileAttach.builder()
                 .fileName(fileName)
                 .fileStoreName(fileStorageName)
                 .fileUrl(fileUrl + fileName)
                 .FileType(fileContentType)
                 .fileSize(multipartFile.getSize())
-
                 .build();
-        System.out.println("fileAttach = " + fileAttach);
-        return fileAttachRepository.save(fileAttach);
     }
 
     private String saveFileToStorage(MultipartFile multipartFile) {
-        String filePath = "/Users/gohyeong-gyu/Downloads/upload/" + multipartFile.getOriginalFilename(); // 파일 저장 경로 설정
+        String storagePath = "/Users/gohyeong-gyu/Downloads/upload/"; // 파일 저장 경로 설정 -> 환경 변수로 설정 예정
+        String fileName = multipartFile.getOriginalFilename();
 
+        File file = new File(storagePath + fileName);
+
+        //파일 이름이 존재하는지 확인
+        if (file.exists()) {
+            fileName += "_" + System.currentTimeMillis();
+        }
         try {
-            multipartFile.transferTo(new File(filePath));
-
+            //저장경로 + 파일이름의 위치에 파일생성
+            multipartFile.transferTo(new File(storagePath+fileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return storagePath+fileName;
+    }
 
-        return filePath;
+    @Override
+    public void deleteFiles(List<FileAttach> fileAttachList) {
+        for (FileAttach fileAttach : fileAttachList) {
+            deleteFileFromStorage(fileAttach);
+        }
+    }
+
+    private void deleteFileFromStorage(FileAttach fileAttach) {
+        Path storePath = Paths.get(fileAttach.getFileStoreName());
+
+        //파일이 존재할 때만 삭제
+        try {
+            if (Files.exists(storePath)) {
+                Files.delete(storePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
