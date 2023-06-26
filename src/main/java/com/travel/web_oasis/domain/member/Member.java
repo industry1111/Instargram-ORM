@@ -59,16 +59,8 @@ public class Member extends BaseEntity {
         this.status = memberDto.getStatus();
     }
 
-    public static Member register(MemberDTO memberDTO, PasswordEncoder passwordEncoder) {
-       return Member.builder()
-                .email(memberDTO.getEmail())
-                .name(memberDTO.getName())
-                .password(passwordEncoder.encode(memberDTO.getPassword()))
-                .phone(memberDTO.getPhone())
-                .role(Role.USER)
-                .status(Status.PUBLIC)
-                .build();
-    }
+
+
 
     @Override
     public String toString() {

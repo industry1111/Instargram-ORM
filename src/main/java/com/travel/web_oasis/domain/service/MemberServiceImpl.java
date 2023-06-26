@@ -2,6 +2,8 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.member.CustomUser;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.member.Role;
+import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import groovy.util.logging.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,12 +65,17 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 
         return new CustomUser(member, roles);
-//        return  User.builder()
-//                .username(member.getEmail())
-//                .password(member.getPassword())
-//                .roles(member.getRole().toString())
-//                .build();
-//                }
 
     }
+    public static Member register(MemberDTO memberDTO, PasswordEncoder passwordEncoder) {
+        return Member.builder()
+                .email(memberDTO.getEmail())
+                .name(memberDTO.getName())
+                .password(passwordEncoder.encode(memberDTO.getPassword()))
+                .phone(memberDTO.getPhone())
+                .role(Role.USER)
+                .status(Status.PUBLIC)
+                .build();
+    }
+
 }

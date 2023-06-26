@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{layouts/layout1}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
@@ -16,6 +17,12 @@
 </th:block>
 
 <div layout:fragment="content" class="content-mg">
+    <div th:if="${snsMember != null}">
+        <p th:text="${snsMember.email}"></p>
+        <p th:text="${snsMember.name}"></p>
+        <p th:text="${snsMember.picture}"></p>
+        <p th:text="${snsMember.role}"></p>
+    </div>
 
     <h2 class="mb-4">
         장바구니 목록

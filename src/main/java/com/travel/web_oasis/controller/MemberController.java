@@ -6,6 +6,7 @@ import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberServiceImpl memberService;
+    @Autowired
+    private MemberServiceImpl memberService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
@@ -46,14 +48,15 @@ public class MemberController {
             return "member/registerForm";
         }
         try {
-            Member member = Member.register(memberDTO, passwordEncoder);
+            Member member = memberService.register(memberDTO, passwordEncoder);
             Long id = memberService.saveMember(member);
             model.addAttribute("message","회원가입에 성공하셨습니다.");
         } catch (IllegalStateException e) {
-            model.addAttribute("message", "회원가입에 실패했습니다. 관리자에게 문의하세요");
+            model.addAttribute("message", e.getMessage());
+            System.out.println("e.getMessage() = " + e.getMessage());
             return "member/registerForm";
         }
 
-        return "redirect:/";
+        return "redirect:/member/login";
     }
 }

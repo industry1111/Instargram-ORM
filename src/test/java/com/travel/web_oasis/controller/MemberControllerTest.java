@@ -42,7 +42,7 @@ class MemberControllerTest {
                 .status(Status.PUBLIC)
                 .build();
 
-        return Member.register(memberDTO,passwordEncoder);
+        return memberService.register(memberDTO,passwordEncoder);
     }
 
     @Test

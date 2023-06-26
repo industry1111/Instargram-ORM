@@ -11,6 +11,14 @@
 
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
+  <script th:inline="javascript">
+    $(function (){
+      var message = [[${message}]]
+      if (message != null) {
+        alert(message)
+      }
+    })
+  </script>
 </th:block>
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -49,6 +57,7 @@
         <input type="text" th:field="*{phone}" name="phone" placeholder="휴대폰">
         <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError"></p>
 
+        <p th:if="${message != null}" th:text="${message}" class="fieldError"></p>
         <button type="submit">가입</button>
       </form>
       <div class="signin">

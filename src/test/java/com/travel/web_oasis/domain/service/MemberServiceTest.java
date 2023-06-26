@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired
-    MemberService memberService;
+    MemberServiceImpl memberService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -34,7 +34,7 @@ class MemberServiceTest {
                 .role(Role.USER)
                 .status(Status.PUBLIC)
                 .build();
-        return Member.register(memberDTO,passwordEncoder);
+        return memberService.register(memberDTO,passwordEncoder);
     }
 
     @Test
