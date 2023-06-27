@@ -1,5 +1,6 @@
-package com.travel.web_oasis.domain.member;
+package com.travel.web_oasis.config.oauth.dto;
 
+import com.travel.web_oasis.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.java.Log;

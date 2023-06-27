@@ -1,6 +1,8 @@
 package com.travel.web_oasis.config;
 
 import com.travel.web_oasis.config.oauth.service.CustomOAuth2Service;
+import com.travel.web_oasis.config.oauth.service.CustomUserDetailService;
+import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,13 +23,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final CustomOAuth2Service customOAuth2UserService;
-    private final MemberServiceImpl memberService;
+    private final CustomUserDetailService customUserDetailService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.userDetailsService(memberService);
+        http.userDetailsService(customUserDetailService);
 
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/member/**","/","/member/profile","/post/**").permitAll()

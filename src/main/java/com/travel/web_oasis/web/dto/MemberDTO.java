@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class MemberDTO {
 
     private Long id;
