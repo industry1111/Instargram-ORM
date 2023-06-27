@@ -8,14 +8,17 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Builder
 @Setter
 @ToString
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class MemberDTO {
+
     private Long id;
 
     @NotBlank(message = "이름은 필수 입력값입니다.")
@@ -33,6 +36,7 @@ public class MemberDTO {
     private String phone;
     private Role role;
     private Status status;
+
 
     public MemberDTO entityToDto(Member member) {
         return MemberDTO.builder()

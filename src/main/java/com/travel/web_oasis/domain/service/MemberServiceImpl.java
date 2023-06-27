@@ -6,11 +6,8 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
-import groovy.util.logging.Slf4j;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
-import org.slf4j.Logger;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,19 +23,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService, UserDetailsService {
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public Long saveMember(Member member) {
+    public Long saveMember(MemberDTO memberDTO) {
+        Member member = dtoToEntity(memberDTO);
         validateDuplicateMember(member);
         return memberRepository.save(member).getId();
     }
 
     @Override
-    public Long updateMember(Long id, MemberDTO memberDto) {
-
-        Member member = memberRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-
+    public Long updateMember(MemberDTO memberDto) {
+        Member member = memberRepository.findById(memberDto.getId())
+                .orElseThrow(IllegalStateException::new);
         member.update(memberDto);
 
         return memberRepository.save(member).getId();
@@ -67,15 +64,20 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return new CustomUser(member, roles);
 
     }
-    public static Member register(MemberDTO memberDTO, PasswordEncoder passwordEncoder) {
+    public Member dtoToEntity(MemberDTO memberDTO) {
         return Member.builder()
                 .email(memberDTO.getEmail())
                 .name(memberDTO.getName())
                 .password(passwordEncoder.encode(memberDTO.getPassword()))
                 .phone(memberDTO.getPhone())
-                .role(Role.USER)
-                .status(Status.PUBLIC)
+                .status(memberDTO.getStatus())
+                .role(memberDTO.getRole())
                 .build();
+
     }
+
+
+
+
 
 }

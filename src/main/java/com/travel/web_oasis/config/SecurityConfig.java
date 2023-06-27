@@ -2,6 +2,7 @@ package com.travel.web_oasis.config;
 
 import com.travel.web_oasis.config.oauth.service.CustomOAuth2Service;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private CustomOAuth2Service customOAuth2UserService;
-    @Autowired
-    private MemberServiceImpl memberService;
+    private final CustomOAuth2Service customOAuth2UserService;
+    private final MemberServiceImpl memberService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -29,9 +29,10 @@ public class SecurityConfig {
         http.userDetailsService(memberService);
 
         http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/member/**","/post/**").permitAll()
-                    .requestMatchers("/js/**","/img/**", "/css/**", "/webjars/**").permitAll()
-                    .requestMatchers("/").hasRole("USER");
+            request.requestMatchers("/member/**","/","/member/profile","/post/**").permitAll()
+                    .requestMatchers("/member/login").anonymous()
+                    .requestMatchers("/member/logout").authenticated()
+                    .requestMatchers("/img/**", "/css/**", "/webjars/**","/js/**").permitAll();
         });
 
 

@@ -21,7 +21,7 @@ import java.util.List;
 
 
 public interface  MemberService  {
-    public Long saveMember(Member member);
+    public Long saveMember(MemberDTO memberDTO);
     public Long updateMember(Long id, MemberDTO memberDto);
     public void validateDuplicateMember(Member member);
 

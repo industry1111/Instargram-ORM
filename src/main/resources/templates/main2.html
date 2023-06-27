@@ -1,31 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
 
-    <link rel="stylesheet" href="../../static/css/style.css">
-</head>
-
-<body>
-
-    <nav class="navbar">
-        <div class="nav-wrapper">
-            <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
-            <input type="text" class="search-box" placeholder="search">
-            <div class="nav-items">
-                <img th:src="@{/img/main/home.png}" class="icon" alt="">
-                <img th:src="@{/img/main/messenger.png}" class="icon" alt="">
-                <img th:src="@{/img/main/add.png}" id="save" class="icon" alt="">
-                <img th:src="@{/img/main/explore.png}" class="icon" alt="">
-                <img th:src="@{/img/main/like.png}" class="icon" alt="">
-                <div class="icon user-profile"></div>
-            </div>
-        </div>
-    </nav>
-
-
+<div layout:fragment="content">
     <section class="main">
         <div class="wrapper">
             <div class="left-col">
@@ -160,11 +138,7 @@
                     </div>
                     <button class="action-btn">follow</button>
                 </div>
-        </div>
+            </div>
     </section>
-
-
-
-
-</body>
+</div>
 </html>

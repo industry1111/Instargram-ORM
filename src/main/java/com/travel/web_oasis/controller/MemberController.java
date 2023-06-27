@@ -48,9 +48,8 @@ public class MemberController {
             return "member/registerForm";
         }
         try {
-            Member member = memberService.register(memberDTO, passwordEncoder);
-            Long id = memberService.saveMember(member);
-            model.addAttribute("message","회원가입에 성공하셨습니다.");
+            Long id = memberService.saveMember(memberDTO);
+            model.addAttribute("message", "회원가입에 성공하셨습니다.");
         } catch (IllegalStateException e) {
             model.addAttribute("message", e.getMessage());
             System.out.println("e.getMessage() = " + e.getMessage());
@@ -58,5 +57,10 @@ public class MemberController {
         }
 
         return "redirect:/member/login";
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "member/profile";
     }
 }

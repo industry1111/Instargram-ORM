@@ -9,20 +9,15 @@
 <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 </head>
 
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-</th:block>
+<!--&lt;!&ndash; 사용자 스크립트 추가 &ndash;&gt;-->
+<!--<th:block layout:fragment="script">-->
+<!--</th:block>-->
+<!--&lt;!&ndash; 사용자 CSS 추가 &ndash;&gt;-->
+<!--<th:block layout:fragment="css">-->
+<!--</th:block>-->
 
 <div layout:fragment="content" class="content-mg">
-    <div th:if="${snsMember != null}">
-        <p th:text="${snsMember.email}"></p>
-        <p th:text="${snsMember.name}"></p>
-        <p th:text="${snsMember.picture}"></p>
-        <p th:text="${snsMember.role}"></p>
-    </div>
+
 
     <h2 class="mb-4">
         장바구니 목록
