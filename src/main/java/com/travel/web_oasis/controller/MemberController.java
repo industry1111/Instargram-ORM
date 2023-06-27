@@ -26,6 +26,7 @@ public class MemberController {
 
     @GetMapping("/login")
     public String loginForm(Model model) {
+
         model.addAttribute("memberDTO",new MemberDTO());
         return "/member/loginForm";
     }
@@ -40,7 +41,6 @@ public class MemberController {
         model.addAttribute("memberDTO", new MemberDTO());
         return "/member/registerForm";
     }
-
 
     @PostMapping("/register")
     public String registerForm(@Valid MemberDTO memberDTO, BindingResult bindingResult, Model model) {

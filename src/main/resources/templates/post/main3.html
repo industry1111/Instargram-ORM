@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .error-box {
+      position: fixed;
+      bottom: -55px;
+      left: 0;
+      width: 100%;
+      height: 55px;
+      background-color: black;
+      color: white;
+      font-size: 19px;
+      animation-name: hide-error-box;
+      animation-delay: 0.5s;
+      animation-duration: 4s;
+    }
+
+    @keyframes hide-error-box {
+      0% {
+        bottom: -55px;
+      }
+      25%,
+      75% {
+        bottom: 0;
+      }
+      100% {
+        bottom: -55px;
+      }
+    }
+
+    .error {
+      margin: 19px;
+    }
+  </style>
+</head>
+<body class="main-body">
+<header class="main-header">
+  <div class="header-inner">
+    <div class="header-title">
+      <a class="main-title">Instagram</a>
+    </div>
+
+    <div class="header-search">
+      <i class="fas fa-search"></i>
+      <input class="header-search__input" type="text" placeholder="검색" />
+      <div class="search-result-wrap">
+        <div class="search-result__triangle"></div>
+        <div class="search-result"></div>
+      </div>
+    </div>
+
+    <div class="header-nav">
+      <a href="" class="nav-icon-wrap go-home">
+        <i class="fas fa-home nav-icon"></i>
+      </a>
+      <a href="" class="nav-icon-wrap go-chat">
+        <i class="far fa-paper-plane nav-icon"></i>
+      </a>
+      <div class="nav-icon-wrap show-add-post">
+        <i class="far fa-plus-square nav-icon"></i>
+      </div>
+      <a href="" class="nav-icon-wrap go-adventure">
+        <i class="far fa-compass nav-icon"></i>
+      </a>
+      <div class="nav-icon-wrap show-alarm">
+        <i class="far fa-heart nav-icon"></i>
+      </div>
+      <div class="nav-icon-wrap show-user-info">
+        <i class="fas fa-user nav-icon"></i>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+  <section class="main-post-wrap"></section>
+  <section class="main-post-more-wrap">
+    <button type="button" class="main-post-more">더보기</button>
+  </section>
+</main>
+
+<div id="comment" class="modal">
+  <div class="comment-cancel modal-header">
+    <i class="fas fa-times comment-post__cancel-btn"></i>
+  </div>
+
+  <div class="modal-body">
+    <article class="post comment-post">
+      <section class="comment-left-section">
+        <div class="comment-post-media-wrap">
+          <div class="post-images-wrap comment-post-images-wrap">
+            <div class="comment-post-images__buttons">
+              <div class="comment-post-images__prev-button slide-button">
+                <i class="fas fa-chevron-circle-left"></i>
+              </div>
+
+              <div class="comment-post-images__next-button slide-button">
+                <i class="fas fa-chevron-circle-right"></i>
+              </div>
+            </div>
+
+            <ul class="post-images slide-image comment-post-images"></ul>
+          </div>
+          <!-- <div class="post-video-wrap"></div> -->
+        </div>
+      </section>
+
+      <section class="comment-right-section">
+        <div class="post-header comment-post-header">
+          <header class="post-profile comment-post-header-profile">
+            <div class="post-profile__info comment-post-header__info"></div>
+
+            <div class="post-profile__more comment-post-header__more">
+              <i class="fas fa-ellipsis-h fa-lg show-option-box__post"></i>
+            </div>
+          </header>
+        </div>
+
+        <div class="comments">
+          <div class="comment not-comment"></div>
+
+          <div class="comment-wrap"></div>
+
+          <div class="more-comment">
+            <div class="more-comment__button">
+              <span class="more-comment__plus">+</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-contents comment-post-contents">
+          <div class="post-options">
+            <div class="post-options-column">
+              <i class="far fa-heart post-options__heart"></i>
+              <i class="far fa-comment post-options__comment"></i>
+              <i class="far fa-paper-plane post-options__share"></i>
+            </div>
+            <div class="post-options-column">
+              <i class="far fa-bookmark post-options__bookmark"></i>
+            </div>
+          </div>
+          <div class="post-like-text">
+            <span>좋아요 <span class="post-like-count">8000</span>개</span>
+          </div>
+          <div class="post-time-wrap comment-post-time-wrap"></div>
+
+          <div class="post-comment">
+            <form
+                    action="/comments"
+                    method="post"
+                    class="post-comment__form comment-post__comment-form"
+                    th:object="${commentSaveForm}"
+            >
+              <div class="post-comment__icons-wrap">
+                <i class="far fa-smile"></i>
+              </div>
+              <div class="post-comment__hidden-inputs"></div>
+              <input
+                      type="text"
+                      placeholder="댓글 달기..."
+                      class="post-comment__text comment-post__comment-text"
+                      th:field="*{text}"
+              />
+              <input
+                      type="submit"
+                      value="게시"
+                      class="post-comment__button comment-post__add-comment-button"
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+    </article>
+  </div>
+</div>
+
+<div id="add-post" class="modal">
+  <div class="add-post-cancel modal-header">
+    <i class="fas fa-times add-post__cancel-btn post-modal__cancel-btn"></i>
+  </div>
+  <div class="add-post__form-wrap post-modal-body modal-body">
+    <form
+            action="/posts"
+            method="post"
+            enctype="multipart/form-data"
+            class="add-post__form post-modal__form"
+            th:object="${postSaveForm}"
+    >
+      <header class="add-post__header post-modal__header">
+        <div class="add-post__header-column post-modal__header-column">
+          <div class="add-post__return-wrap add-post-cancel">
+            <i class="fas fa-arrow-left add-post__return post-modal__return"></i>
+          </div>
+        </div>
+
+        <div class="add-post__header-column post-modal__header-column">
+          <span class="add-post__header-title post-modal__header-title">새 게시물 만들기</span>
+        </div>
+
+        <div class="add-post__header-column post-modal__header-column">
+          <input type="submit" value="공유하기" class="add-post__submit post-modal__submit" />
+        </div>
+      </header>
+
+      <div class="add-post__contents post-modal__contents">
+        <div class="add-post__file-contents post-modal__file-contents">
+          <div class="add-post__preview-wrap post-modal__files-wrap">
+            <div class="add-post__preview-control-buttons">
+              <div class="add-post__preview-prev-button post-modal__preview-prev-button slide-button">
+                <i class="fas fa-chevron-left"></i>
+              </div>
+
+              <div
+                      class="add-post__preview-next-button post-modal__preview-prev-button slide-button image-next-button"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+
+            <ul class="add-post__preview post-modal__files slide-image"></ul>
+          </div>
+
+          <div class="add-post__file-log-wrap">
+            <i class="fas fa-photo-video add-post__file-log"></i>
+          </div>
+          <div class="add-post__file-explanation-wrap">
+                <span class="add-post__file-explanation"
+                >사진과 동영상을 여기에 끌어다 놓으세요</span
+                >
+          </div>
+          <div class="add-post__file-input-wrap">
+            <label for="files" class="add-post__file-label"
+            >컴퓨터에서 선택</label
+            >
+            <input
+                    type="file"
+                    id="files"
+                    multiple
+                    class="add-post__file-input"
+                    th:field="*{files}"
+            />
+          </div>
+        </div>
+
+        <div class="add-post__text-contents post-modal__text-contents">
+          <div class="add-post__profile post-modal__profile">
+            <img
+                    th:src="|/images/${signInMember.originalStoreFileName}|"
+                    src="images/03.png"
+                    class="add-post__profile-image post-modal__profile-image"
+            />
+            <span
+                    class="add-post__profile-name post-modal__profile-name"
+                    th:text="${signInMember.nickname}"
+            >최준영</span
+            >
+          </div>
+
+          <div class="add-post__text-wrap post-modal__text-wrap">
+                <textarea
+                        placeholder="문구 입력..."
+                        class="add-post__text post-modal__text"
+                        th:field="*{text}"
+                ></textarea>
+          </div>
+
+          <div class="add-post__text-options post-modal__text-options">
+            <i class="far fa-smile add-post__text-icons post-modal__text-icons"></i>
+
+            <span class="add-post__text-info post-modal__text-info"
+            ><span class="add-post__text-count">0</span>/2,200</span
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="update-post" class="modal">
+  <div class="update-post-cancel modal-header">
+    <i class="fas fa-times update-post__cancel-btn post-modal__cancel-btn"></i>
+  </div>
+  <div class="update-post__form-wrap post-modal-body modal-body">
+    <form
+            action=""
+            method="post"
+            enctype="multipart/form-data"
+            class="update-post__form post-modal__form"
+    >
+      <header class="update-post__header post-modal__header">
+        <div class="update-post__header-column post-modal__header-column">
+          <div class="update-post__return-wrap update-post-cancel">
+            <i class="fas fa-arrow-left update-post__return post-modal__return"></i>
+          </div>
+        </div>
+
+        <div class="update-post__header-column post-modal__header-column">
+          <span class="update-post__header-title post-modal__header-title">정보 수정</span>
+        </div>
+
+        <div class="update-post__header-column post-modal__header-column">
+          <input type="submit" value="공유하기" class="update-post__submit post-modal__submit" />
+        </div>
+      </header>
+
+      <div class="update-post__contents post-modal__contents">
+        <div class="update-post__file-contents post-modal__file-contents">
+          <div class="update-post__preview-wrap post-modal__files-wrap">
+            <div class="update-post__preview-control-buttons">
+              <div class="update-post__preview-prev-button post-modal__preview-prev-button slide-button">
+                <i class="fas fa-chevron-left"></i>
+              </div>
+
+              <div
+                      class="update-post__preview-next-button post-modal__preview-next-button slide-button image-next-button"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </div>
+            </div>
+
+            <ul class="update-post__preview post-modal__files slide-image">
+            </ul>
+          </div>
+        </div>
+
+        <div class="update-post__text-contents post-modal__text-contents">
+          <div class="update-post__profile post-modal__profile">
+            <img
+                    src=""
+                    class="update-post__profile-image post-modal__profile-image"
+            />
+            <span
+                    class="update-post__profile-name post-modal__profile-name"
+            >최준영</span
+            >
+          </div>
+
+          <div class="update-post__text-wrap post-modal__text-wrap">
+                <textarea
+                        placeholder="문구 입력..."
+                        id="modifiedText"
+                        name="modifiedText"
+                        class="update-post__text post-modal__text"
+                ></textarea>
+          </div>
+
+          <div class="update-post__text-options post-modal__text-options">
+            <i class="far fa-smile update-post__text-icons post-modal__text-icons"></i>
+            <span class="update-post__text-info post-modal__text-info"
+            ><span class="update-post__text-count">0</span>/2,200</span
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal option-box">
+  <div class="add-post__form-wrap modal-body">
+    <div class="option-box-body__buttons">
+      <div class="option-box-body__delete">
+        <span>삭제</span>
+      </div>
+
+      <div class="option-box-body__modify">
+        <span>수정</span>
+      </div>
+
+      <div class="option-box-body__cancel">
+        <span>취소</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="error-box" th:if="${#fields.hasErrors('${postSaveForm.*}')} or
+    ${#fields.hasErrors('${commentSaveForm.*}')} or ${#fields.hasErrors('${postUpdateForm.*}')} or
+    ${#fields.hasErrors('${replySaveForm.*}')}">
+  <p class="error" th:each="err : ${#fields.errors('${postSaveForm.*}')}"
+     th:text="${err}">에러 메세지</p>
+  <p class="error" th:each="err : ${#fields.errors('${commentSaveForm.*}')}"
+     th:text="${err}">에러 메세지</p>
+  <p class="error" th:each="err : ${#fields.errors('${postUpdateForm.*}')}"
+     th:text="${err}">에러 메세지</p>
+  <p class="error" th:each="err : ${#fields.errors('${replySaveForm.*}')}"
+     th:text="${err}">에러 메세지</p>
+</div>
+
+<script
+        src="https://kit.fontawesome.com/b17793764c.js"
+        crossorigin="anonymous"
+></script>
+<script type="text/template" id="template__search-result">
+  <a class="search-result__profile">
+    <img
+            src="/images/{imagePath}"
+            alt=""
+            class="search-result__profile-photo"
+    />
+    <div class="search-result__profile-names">
+      <span class="search-result__profile-nickname">{nickname}</span>
+      <span class="search-result__profile-name">{name}</span>
+    </div>
+  </a>
+</script>
+<script type="text/template" id="template__main-post">
+  <article class="post main-post main-post-{postId}">
+    <div class="post-header main-post-header">
+      <header class="post-profile main-post-profile">
+        <div class="post-profile__info main-post-profile__info">
+          <img
+                  src="/images/{member.imagePath}"
+                  class="post-profile__image main-post-profile__image"
+          />
+          <span class="post-profile__name main-post-profile__name">{member.nickname}</span>
+        </div>
+        <div class="post-profile__more main-post-profile__more">
+          <i class="fas fa-ellipsis-h fa-lg show-option-box__post" postId="{postId}"></i>
+        </div>
+      </header>
+    </div>
+
+    <div class="main-post-media-wrap">
+      <div class="post-images-wrap main-post-images-wrap">
+        <div class="post-images_buttons">
+          <div class="post-images__prev-button slide-button">
+            <i class="fas fa-chevron-circle-left"></i>
+          </div>
+
+          <div class="post-images__next-button slide-button">
+            <i class="fas fa-chevron-circle-right"></i>
+          </div>
+        </div>
+
+        <ul class="post-images slide-image main-post-images main-post-images-{post-index}">
+        </ul>
+      </div>
+      <!-- <div class="post-video-wrap"></div> -->
+    </div>
+
+    <div class="post-contents main-post-contents">
+      <div class="post-options">
+        <div class="post-options-column">
+          <i class="far fa-heart post-options__heart"></i>
+          <i class="far fa-comment post-options__comment"></i>
+          <i class="far fa-paper-plane post-options__share"></i>
+        </div>
+        <div class="post-options-column">
+          <i class="far fa-bookmark post-options__bookmark"></i>
+        </div>
+      </div>
+      <div class="post-like-text">
+        <span>좋아요 <span class="post-like-count">8000</span>개</span>
+      </div>
+      <div class="main-post-explanation">
+        <a class="main-post-explanation__owner">{member.nickname}</a>
+        <span class="main-post-explanation__text">{text}
+              </span
+              >
+      </div>
+      <div class="post-comments-count main-post-comments-count">
+        <span class="show-comment">댓글 <span>{commentCount}</span>개 모두 보기</span>
+      </div>
+      <div class="post-time-wrap">
+        <a>{createdDate}</a>
+      </div>
+      <div class="post-comments__owner-comments-wrap">
+      </div>
+
+      <div class="post-comment">
+        <form action="/comments" method="post" class="post-comment__form">
+          <input type="hidden" id="postId" name="postId" value="{postId}" />
+          <div class="post-comment__icons-wrap">
+            <i class="far fa-smile"></i>
+          </div>
+          <input
+                  type="text"
+                  placeholder="댓글 달기..."
+                  class="post-comment__text main-post-comment__text"
+                  id="text"
+                  name="text"
+                  value=""
+          />
+          <input type="submit" value="게시" class="post-comment__button" />
+        </form>
+      </div>
+    </div>
+  </article>
+</script>
+<script type="text/template" id="template__main-post-images">
+  <li class='post-images__list'>
+    <img src='/images/{filePath}' class='main-post-image' />
+  </li>
+</script>
+<script type="text/template" id="template__main-post-comments">
+  <div>
+    <span>{ownerComment}</span>
+  </div>
+</script>
+<script type="text/template" id="template__comment-post-image">
+  <li class="post-images__list comment-post-images__list">
+    <img src="/images/{filePath}" class="comment-post-image" />
+  </li>
+</script>
+<script type="text/template" id="template__comment-post-profile">
+  <img
+          src="/images/{imagePath}"
+          class="post-profile__image comment-post-header__image"
+  />
+  <span class="post-profile__name comment-post-header__name">
+        {nickname}
+      </span>
+</script>
+<script type="text/template" id="template__comment-post-text">
+  <div class="comment-owner">
+    <div class="comment-owner__photo-wrap">
+      <img src="/images/{imagePath}" class="comment-owner__photo" />
+    </div>
+    <div class="comment-owner__text-wrap">
+      <a class="comment-owner__name">{nickname}</a>
+      <span class="comment-owner__text">
+            {text}
+          </span>
+      <div class="comment-owner__options">
+        <span class="comment-owner__created-time">{createdDate}</span>
+      </div>
+    </div>
+  </div>
+</script>
+<script type="text/template" id="template__comment-post-createdDate">
+  <a>{createdDate}</a>
+</script>
+<script type="text/template" id="template__comment-post__hidden-inputs">
+  <input type="hidden" id="postId" name="postId" value="{postId}" />
+  <input type="hidden" id="commentId" name="commentId" value="" class="post-comment__comment-id-input"/>
+</script>
+<script type="text/template" id="template__comment">
+  <div class="comment comment-{commentId}">
+    <div class="comment-owner">
+      <div class="comment-owner__photo-wrap">
+        <img src="/images/{member.imagePath}" class="comment-owner__photo" />
+      </div>
+      <div class="comment-owner__text-wrap">
+        <a class="comment-owner__name">{member.nickname}</a>
+        <span class="comment-owner__text">
+              {text}
+            </span>
+        <div class="comment-owner__options">
+          <span class="comment-owner__created-time">{createdDate}</span>
+          <span class="comment-owner__liker">좋아요 3개</span>
+          <span class="comment_owner__reply" commentId="{commentId}">답글 달기</span>
+          <span class="comment_owner__option">
+                <i class="fas fa-ellipsis-h fa-lg show-option-box__comment" commentId="{commentId}"></i>
+              </span>
+        </div>
+      </div>
+      <div class="comment-owner__heart-wrap">
+        <i class="far fa-heart comment-owner__heart"></i>
+      </div>
+    </div>
+
+    <div class="comment-divider">
+      <div class="comment-divider__line"></div>
+      <div class="comment-divider__toggle-replies">
+        <span class="comment-divider__show-replies">답글 보기(<span class="comment-divider__reply-count">{replyCount}</span>개)</span>
+        <span style="display: none" class="comment-divider__hide-replies">답글 숨기기</span>
+      </div>
+    </div>
+
+    <div class="replies">
+    </div>
+  </div>
+</script>
+<script type="text/template" id="template__reply">
+  <div class="reply-{replyId} reply comment-owner">
+    <div class="comment-owner__photo-wrap">
+      <img src="/images/{member.imagePath}" class="comment-owner__photo" />
+    </div>
+    <div class="comment-owner__text-wrap">
+      <a class="comment-owner__name">{member.nickname}</a>
+      <span class="comment-owner__text">
+            {text}
+          </span>
+      <div class="comment-owner__options">
+        <span class="comment-owner__created-time">{createdDate}</span>
+        <span class="comment-owner__liker">좋아요 3개</span>
+        <span class="comment_owner__reply">답글 달기</span>
+        <span class="comment_owner__option">
+                <i class="fas fa-ellipsis-h fa-lg show-option-box__reply" replyId="{replyId}"></i>
+              </span>
+      </div>
+    </div>
+    <div class="comment-owner__heart-wrap">
+      <i class="far fa-heart comment-owner__heart"></i>
+    </div>
+  </div>
+</script>
+<script src="/javascript/main.js"></script>
+<script src="/javascript/post-modal.js"></script>
+</body>
+</html>

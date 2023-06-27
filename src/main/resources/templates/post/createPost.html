@@ -1,27 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
-
+<html>
 <head>
-    <!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
-    <!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <meta charset="UTF-8">
+    <title>Instagram Post Upload</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-
-<!-- 사용자 스크립트 추가 -->
-<th:block layout:fragment="script">
-</th:block>
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-</th:block>
-
-<div layout:fragment="content" class="content-mg">
-
-    <h2 class="mb-4">
-         새 게시글 작성
-    </h2>>
-
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col" id="upload-area">
+            <input type="file" id="file-input" multiple>
+            <label for="file-input" id="file-label">Choose Files</label>
+        </div>
+        <div class="col" id="text-area">
+            <textarea id="caption-input" placeholder="Write your caption..."></textarea>
+        </div>
+    </div>
 </div>
 
-
+<script src="js/script.js"></script>
+</body>
 </html>

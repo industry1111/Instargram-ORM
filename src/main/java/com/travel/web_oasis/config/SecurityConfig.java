@@ -29,8 +29,8 @@ public class SecurityConfig {
         http.userDetailsService(memberService);
 
         http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/member/**").permitAll()
-                    .requestMatchers("/img/**", "/css/**", "/webjars/**","/**").permitAll()
+            request.requestMatchers("/member/**","/post/**").permitAll()
+                    .requestMatchers("/js/**","/img/**", "/css/**", "/webjars/**").permitAll()
                     .requestMatchers("/").hasRole("USER");
         });
 

@@ -19,6 +19,6 @@ public class IndexController {
         if (snsMember != null) {
             model.addAttribute("snsMember", snsMember);
         }
-        return "/post/postList";
+        return "/layouts/layout1";
     }
 }
