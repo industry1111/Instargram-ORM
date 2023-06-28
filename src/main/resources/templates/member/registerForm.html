@@ -11,6 +11,7 @@
 
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
+  <script th:src="@{/js/member/registerForm.js}" type="module"/>
   <script th:inline="javascript">
     $(function (){
       var message = [[${message}]]
@@ -42,7 +43,7 @@
       <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="Instagram photo">
     </div>
     <div class="form-signup">
-      <form th:action="@{/member/register}" method="post" th:object="${memberDTO}">
+      <form th:object="${memberDTO}">
         <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
 
         <input type="text" th:field="*{email}" name="email" placeholder="이메일">
@@ -58,7 +59,7 @@
         <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError"></p>
 
         <p th:if="${message != null}" th:text="${message}" class="fieldError"></p>
-        <button type="submit">가입</button>
+        <button id="btn_register" >가입</button>
       </form>
       <div class="signin">
         <p>계정이 있으신가요? <a th:href="@{/member/login}">로그인</a></p>

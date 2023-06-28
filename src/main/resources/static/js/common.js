@@ -16,7 +16,7 @@ function customAjax(method, url, data, submitFunc, errorFunc) {
         contentType: false,
         success: function (result) {
             if (submitFunc != null) {
-                submitFunc(data);
+                submitFunc(result);
             }
         },
         error: function (request, status, error) {

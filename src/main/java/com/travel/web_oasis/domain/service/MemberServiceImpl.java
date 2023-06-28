@@ -1,6 +1,7 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class MemberServiceImpl implements MemberService{
     public Long updateMember(MemberDTO memberDto) {
         Member member = memberRepository.findById(memberDto.getId())
                 .orElseThrow(IllegalStateException::new);
+        System.out.println("member = " + member);
         member.update(memberDto);
 
         return memberRepository.save(member).getId();
@@ -45,7 +47,7 @@ public class MemberServiceImpl implements MemberService{
                 .password(passwordEncoder.encode(memberDTO.getPassword()))
                 .phone(memberDTO.getPhone())
                 .status(memberDTO.getStatus())
-                .role(memberDTO.getRole())
+                .role(Role.USER) //나중에 memberDTO.getRole()로 바꿔야함
                 .build();
 
     }

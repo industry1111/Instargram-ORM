@@ -139,11 +139,6 @@ window.onload = function () {
     function aa(fd) {
         customAjax("GET", "/post/1", fd,);
     }
-
-
-
-
-
 }
 
 
