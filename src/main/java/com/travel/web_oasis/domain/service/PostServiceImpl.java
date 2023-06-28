@@ -4,6 +4,7 @@ import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.PostDTO;
+import com.travel.web_oasis.web.dto.ResponseDTO;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -41,30 +42,36 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDTO getPost(Long id) {
-        Post post =  postRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("해당 게시글이 없습니다. id : " + id)
-        );
+    public ResponseDTO<PostDTO> getPost(Long id) {
 
-        return entityToDto(post);
+        String message = "";
+        PostDTO postDTO = new PostDTO();
+        Post post =  postRepository.findById(id).orElse(null);
+
+        if (post == null) {
+            message = "해당 게시글이 존재하지 않습니다.";
+        } else {
+            postDTO = entityToDto(post);
+        }
+        return new ResponseDTO<PostDTO>(200, message, postDTO);
     }
 
     @Override
     public void deletePost(Long id) {
         //삭제할 포스트
-        PostDTO removePostDTO = getPost(id);
+//        PostDTO removePostDTO = getPost(id);
         //삭제할 포스트의 첨부파일들
-        List<FileAttach> files = removePostDTO.getFiles();
-        System.out.println("files = " + files);
-        for (FileAttach file : files) {
-
-            log.info("deletePost() called   file : {}", file.toString());
-
-        }
-        //저장소에서 첨부파일들 삭제
-        fileAttachService.deleteFiles(files);
-        //포스트 삭제
-        postRepository.deleteById(id);
+//        List<FileAttach> files = removePostDTO.getFiles();
+//        System.out.println("files = " + files);
+//        for (FileAttach file : files) {
+//
+//            log.info("deletePost() called   file : {}", file.toString());
+//
+//        }
+//        //저장소에서 첨부파일들 삭제
+//        fileAttachService.deleteFiles(files);
+//        //포스트 삭제
+//        postRepository.deleteById(id);
     }
 
     public Post dtoToEntity(PostDTO postDto) {

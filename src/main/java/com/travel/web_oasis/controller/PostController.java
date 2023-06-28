@@ -3,13 +3,16 @@ package com.travel.web_oasis.controller;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.service.PostService;
 import com.travel.web_oasis.web.dto.PostDTO;
+import com.travel.web_oasis.web.dto.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/post")
 @Controller
@@ -43,11 +46,11 @@ public class PostController {
      */
     @ResponseBody
     @GetMapping("/{id}")
-    public PostDTO getPost(@PathVariable Long id) {
+    public ResponseDTO<PostDTO> getPost(@PathVariable Long id) {
 
-        PostDTO postDTO = postService.getPost(id);
-
-        return postDTO;
+        ResponseDTO<PostDTO> result = postService.getPost(id);
+        System.out.println("result = " + result.toString());
+        return result;
     }
 
 

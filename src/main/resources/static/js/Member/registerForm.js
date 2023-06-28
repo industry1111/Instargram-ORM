@@ -1,6 +1,4 @@
 import {customAjax} from "../common.js";
-
-alert("123123");
 function register(fd) {
     customAjax("POST", "/member/register", fd, function (data) {
         console.log(data)

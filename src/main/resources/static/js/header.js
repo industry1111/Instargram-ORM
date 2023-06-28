@@ -18,12 +18,12 @@ window.onload = function () {
 
     const buttonCloseModal = document.getElementById("close_modal");
     buttonCloseModal.addEventListener("click", e => {
-        closeModal("modal");
+        closeModal();
     });
 
     const buttonCloseModal2 = document.getElementById("close_modal2");
     buttonCloseModal2.addEventListener("click", e => {
-        closeModal("modal2");
+        closeModal();
     });
 
     function closeModal(e){
@@ -33,11 +33,11 @@ window.onload = function () {
         });
 
         //2번째 모달창 안보이게
-        if (e === "modal2") {
-            $('#modal_add_feed_content').css({
-                display : 'none'
-            });
-        }
+        $('#modal_add_feed_content').css({
+            display : 'none'
+        });
+
+        document.body.style.overflowY = "scroll"; // 스크롤 보이게
 
 
     }

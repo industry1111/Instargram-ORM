@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -67,20 +70,21 @@ public class MemberController {
      * */
     @ResponseBody
     @PostMapping("/register")
-    public  String registerForm(@Valid @ModelAttribute MemberDTO memberDTO, BindingResult bindingResult, Model model) {
+    public  Map<String,String> registerForm(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("memberDTO = " + memberDTO);
-        if (bindingResult.hasErrors()) {
-            return "member/registerForm";
-        }
+        Map<String,String> result = new HashMap<>();
+        String message = "";
         try {
             Long id = memberService.saveMember(memberDTO);
-            model.addAttribute("message", "회원가입에 성공하셨습니다.");
+            message = "회원가입에 성공하셨습니다.";
         } catch (IllegalStateException e) {
-            model.addAttribute("message", e.getMessage());
             System.out.println("e.getMessage() = " + e.getMessage());
-            return "member/registerForm";
+            message = "회원가입에 실패하셨습니다. 관리자에게 문의해 주세요.";
         }
-        return "성공";
+
+        result.put("message",message);
+        System.out.println("message = " + message);
+        return result;
     }
 
     @GetMapping("/profile")
