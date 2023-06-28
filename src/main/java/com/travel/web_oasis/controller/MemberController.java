@@ -22,7 +22,6 @@ public class MemberController {
 
     @Autowired
     private MemberServiceImpl memberService;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String loginForm(Model model) {

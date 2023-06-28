@@ -1,8 +1,11 @@
 import {customAjax} from "./common.js";
 
 window.onload = function () {
+
     const modal = document.getElementById("modal_add_feed");
     const btnCreatePost = document.getElementById("btn-create_post");
+    let files;
+
     btnCreatePost.addEventListener("click", e => {
 
         modal.style.top = window.scrollY + "px"; // 스크롤 위치에 따라 모달 위치 변경
@@ -69,7 +72,7 @@ window.onload = function () {
 
         e.dataTransfer = e.originalEvent.dataTransfer;
 
-        const files = e.dataTransfer.files;
+        files = e.dataTransfer.files;
         if (files.length > 1) {
             alert('하나만 올려라.');
             return;

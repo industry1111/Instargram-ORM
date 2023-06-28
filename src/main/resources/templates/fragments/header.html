@@ -10,7 +10,7 @@
             <div class="nav-wrapper">
                 <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
                 <input type="text" class="search-box" placeholder="search">
-                <div class="nav-items" sec:authorize="hasRole('USER')" sec:authentication="principal.">
+                <div class="nav-items" sec:authorize="hasRole('USER')">
                     <img th:src="@{/img/main/home.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/messenger.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/add.PNG}" th:id="btn-create_post" class="icon" alt="">

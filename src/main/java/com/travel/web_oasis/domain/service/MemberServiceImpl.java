@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
-   public PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public Long saveMember(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);

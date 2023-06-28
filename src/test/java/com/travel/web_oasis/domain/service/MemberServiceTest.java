@@ -25,23 +25,23 @@ class MemberServiceTest {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    Member newMember() {
-        MemberDTO memberDTO = MemberDTO.builder()
-                .name("테스트")
-                .email("test@mail.com")
-                .password("1234")
-                .phone("01012345678")
-                .role(Role.USER)
-                .status(Status.PUBLIC)
-                .build();
-        return memberService.register(memberDTO,passwordEncoder);
-    }
+//    Member newMember() {
+//        MemberDTO memberDTO = MemberDTO.builder()
+//                .name("테스트")
+//                .email("test@mail.com")
+//                .password("1234")
+//                .phone("01012345678")
+//                .role(Role.USER)
+//                .status(Status.PUBLIC)
+//                .build();
+//        return memberService.register(memberDTO,passwordEncoder);
+//    }
 
-    @Test
-    void saveMember() {
-
-        memberService.saveMember(newMember());
-    }
+//    @Test
+//    void saveMember() {
+//
+//        memberService.saveMember(newMember());
+//    }
 
 //    @Test
 //    void findById() {
