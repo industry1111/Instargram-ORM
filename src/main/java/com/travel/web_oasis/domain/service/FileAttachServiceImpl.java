@@ -1,10 +1,9 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.files.FileAttach;
-import com.travel.web_oasis.domain.repository.FileAttachRepository;
 import groovy.util.logging.Slf4j;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Service
 public class FileAttachServiceImpl implements FileAttachService {
 
-    Logger log = org.slf4j.LoggerFactory.getLogger(FileAttachServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileAttachServiceImpl.class);
 
     @Override
     public List<FileAttach> upload(List<MultipartFile> multipartFiles) {
@@ -41,7 +40,7 @@ public class FileAttachServiceImpl implements FileAttachService {
         String fileContentType = multipartFile.getContentType();
 
         String fileStorageName = saveFileToStorage(multipartFile);
-
+        logger.info("fileName : {} , fileContentType : {}", fileName, fileContentType);
         return FileAttach.builder()
                 .fileName(fileName)
                 .fileStoreName(fileStorageName)
@@ -79,7 +78,7 @@ public class FileAttachServiceImpl implements FileAttachService {
 
     private void deleteFileFromStorage(FileAttach fileAttach) {
         Path storePath = Paths.get(fileAttach.getFileStoreName());
-        log.info("deleteFileFromStorage() called : {}", storePath);
+        logger.info("deleteFileFromStorage() called : {}", storePath);
         //파일이 존재할 때만 삭제
         try {
             if (Files.exists(storePath)) {

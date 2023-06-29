@@ -3,8 +3,10 @@ package com.travel.web_oasis.controller;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.service.PostService;
 import com.travel.web_oasis.web.dto.PostDTO;
-import com.travel.web_oasis.web.dto.ResponseDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    private final static Logger logger = LoggerFactory.getLogger(PostController.class);
     /*
     * @Param
     *   postDTO : 게시글 내용과 파일 정보를 담은 DTO
@@ -29,12 +32,11 @@ public class PostController {
     *
     * @Return : 게시글 생성 후 메인 페이지로 이동
     * */
+    @ResponseBody
     @PostMapping("/create")
-    public String createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files) {
-        Post savedPost = postService.createPost(postDTO, files);
-        return "redirect:/";
+    public Long createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files) {
+         return postService.createPost(postDTO, files);
     }
-
 
     /*
      * @Param
@@ -46,11 +48,11 @@ public class PostController {
      */
     @ResponseBody
     @GetMapping("/{id}")
-    public ResponseDTO<PostDTO> getPost(@PathVariable Long id) {
+    public PostDTO getPost(@PathVariable Long id) {
 
-        ResponseDTO<PostDTO> result = postService.getPost(id);
-        System.out.println("result = " + result.toString());
-        return result;
+        PostDTO postDTO = postService.getPost(id);
+
+        return postDTO;
     }
 
 

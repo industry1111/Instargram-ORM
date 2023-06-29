@@ -4,20 +4,17 @@ import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.PostDTO;
-import com.travel.web_oasis.web.dto.ResponseDTO;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class PostServiceImpl implements PostService{
@@ -26,34 +23,32 @@ public class PostServiceImpl implements PostService{
 
     private final FileAttachService fileAttachService;
 
-    private final Logger log = org.slf4j.LoggerFactory.getLogger(PostServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Override
-    public Post createPost(PostDTO postDTO, List<MultipartFile> files) {
+    @Transactional
+    public Long createPost(PostDTO postDTO, List<MultipartFile> files) {
 
-        log.info("createPost() called   PostDTO : {}", postDTO);
+        logger.info("createPost() called   PostDTO : {}", postDTO);
         List<FileAttach> fileAttachList = fileAttachService.upload(files);
 
         postDTO.setFiles(fileAttachList);
 
         Post post = dtoToEntity(postDTO);
 
-        return postRepository.save(post);
+        Long id = postRepository.save(post).getId();
+
+        return id;
     }
 
     @Override
-    public ResponseDTO<PostDTO> getPost(Long id) {
+    public PostDTO getPost(Long id) {
 
-        String message = "";
-        PostDTO postDTO = new PostDTO();
         Post post =  postRepository.findById(id).orElse(null);
 
-        if (post == null) {
-            message = "해당 게시글이 존재하지 않습니다.";
-        } else {
-            postDTO = entityToDto(post);
-        }
-        return new ResponseDTO<PostDTO>(200, message, postDTO);
+        PostDTO postDTO = entityToDto(post);
+
+        return postDTO;
     }
 
     @Override
