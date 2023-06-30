@@ -1,9 +1,12 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.domain.repository.FileAttachRepository;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,12 +17,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 @Slf4j
 @Service
 public class FileAttachServiceImpl implements FileAttachService {
 
+    @Autowired
+    private FileAttachRepository fileAttachRepository;
+
+    @Value("${file.storage.path}")
+    private  String storagePath;
     private static final Logger logger = LoggerFactory.getLogger(FileAttachServiceImpl.class);
 
     @Override
@@ -34,6 +43,10 @@ public class FileAttachServiceImpl implements FileAttachService {
         return fileAttachments;
     }
 
+
+    /* 단일 파일 업로드
+    *Param
+    * */
     private FileAttach uploadSingleFile(MultipartFile multipartFile) {
         String fileUrl = "http://localhost:8080/files/"; // 파일 URL 설정 -> 환경변수로 설정 예정
         String fileName = multipartFile.getOriginalFilename();
@@ -50,23 +63,63 @@ public class FileAttachServiceImpl implements FileAttachService {
                 .build();
     }
 
+
+    /* 업로드한 파일을 저장소에 저장
+    * Param
+    *  multipartFile : 사용자가 화면상에서 업로드한 파일
+    *
+    * return : 저장시 UUID로 생성된 파일명
+    * */
     private String saveFileToStorage(MultipartFile multipartFile) {
-        String storagePath = "/Users/gohyeong-gyu/Downloads/upload/"; // 파일 저장 경로 설정 -> 환경 변수로 설정 예정
-        String fileName = multipartFile.getOriginalFilename();
 
-        File file = new File(storagePath + fileName);
+        String originalFilename = multipartFile.getOriginalFilename();
 
-        //파일 이름이 존재하는지 확인
-        if (file.exists()) {
-            fileName += "_" + System.currentTimeMillis();
-        }
+        String storeFileName = createStoreFilename(originalFilename);
+
         try {
             //저장경로 + 파일이름의 위치에 파일생성
-            multipartFile.transferTo(new File(storagePath+fileName));
+            multipartFile.transferTo(new File(getFullPath(storeFileName)));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return storagePath+fileName;
+        return storeFileName;
+    }
+
+    /* UUID를 이용한 파일명 생성
+    * Param
+    *  originalFileName : 사용자가 실제 업로드한 파일명 (logo.png)
+    *
+    * return : UUID + '.' + 확장자*/
+    private String createStoreFilename(String originalFilename) {
+
+        //확장자
+        String ext = extracted(originalFilename);
+
+        String uuid = UUID.randomUUID().toString();
+
+        return uuid + "." + ext;
+    }
+
+    /* 파일 확장자 추출
+    * Param
+    *  originalFileName : 사용자가 실제 업로드한 파일명 (logo.png)
+    *
+    * return : 파일 확장자 (png)
+    * */
+    private String extracted(String originalFileName) {
+        int pos = originalFileName.lastIndexOf('.');
+        return originalFileName.substring(pos + 1);
+    }
+
+    /*저장 경로
+    * Param
+    *  fileName : UUID.확장자가 붙은 파일명
+    *
+    * return : 저장경로
+    * */
+    @Override
+    public String getFullPath(String fileName) {
+        return storagePath + fileName;
     }
 
     @Override
@@ -87,6 +140,12 @@ public class FileAttachServiceImpl implements FileAttachService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getFileType(String fileName) {
+
+        return fileAttachRepository.findByFileStoreName(fileName).getFileType();
     }
 }
 

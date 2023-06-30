@@ -139,29 +139,45 @@ window.onload = function () {
 
     function findAllPost () {
 
-        const id = 1;
-        customAjax("GET","post/"+id,null,findAllPostCallBack);
-    }
-
-
-    function findAllPostCallBack(data) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/Users/gohyeong-gyu/Downloads/upload/logo.png");
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                let file = xhr.responseText;
-                console.log(file);
-            } else {
-                console.log("Error: " + xhr.status);
+        let data = {
+            pathParams:{
+                id: '1'
             }
-        };
-        xhr.send();
+        }
+        customAjax("GET","/post/{id}",data,findAllPostCallBack);
     }
+
+
+    function findAllPostCallBack(result) {
+
+        let downLpadFiles = result.files;
+
+        let data = {
+            pathParams:{
+                fileName: ''
+            }
+        }
+
+        for (const downLpadFile of downLpadFiles) {
+            data.pathParams.fileName = downLpadFile.fileStoreName;
+            customAjax("GET","/post/download/{fileName}",data,postImagesCallBack,failCallback);
+        }
+    }
+
+    function postImagesCallBack(data) {
+        const img = document.createElement('img');
+
+        var blob = new Blob([data]);
+        img.src = URL.createObjectURL(blob);
+        document.body.appendChild(img);
+    }
+
 
     const btnHome = document.getElementById("btn-home");
     btnHome.addEventListener("click", e => {
         findAllPost();
     });
+
 
 }
 

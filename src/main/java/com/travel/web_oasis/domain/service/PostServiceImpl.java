@@ -21,8 +21,6 @@ public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
 
-    private final FileAttachService fileAttachService;
-
     private final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Override
@@ -30,9 +28,6 @@ public class PostServiceImpl implements PostService{
     public Long createPost(PostDTO postDTO, List<MultipartFile> files) {
 
         logger.info("createPost() called   PostDTO : {}", postDTO);
-        List<FileAttach> fileAttachList = fileAttachService.upload(files);
-
-        postDTO.setFiles(fileAttachList);
 
         Post post = dtoToEntity(postDTO);
 

@@ -20,7 +20,6 @@ public class FileAttach extends BaseEntity {
     @Id @GeneratedValue
     private Long id;
 
-    @Column(length = 20)
     private String fileName;
 
     private String fileStoreName;

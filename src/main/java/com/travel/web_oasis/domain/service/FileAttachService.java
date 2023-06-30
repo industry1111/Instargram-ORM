@@ -8,4 +8,7 @@ import java.util.List;
 public interface FileAttachService {
     List<FileAttach> upload(List<MultipartFile> multipartFiles);
     void deleteFiles(List<FileAttach> fileAttachList);
+    String getFullPath(String fileName);
+
+    String getFileType(String fileName);
 }
