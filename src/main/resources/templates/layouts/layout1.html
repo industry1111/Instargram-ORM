@@ -25,6 +25,7 @@
     <section class="main">
         <div class="wrapper">
             <div class="left-col">
+
                 <div class="status-wrapper">
                     <div class="status-card">
                         <div class="profile-pic" ><img th:src="@{/img/main/cover 1.png}" alt=""></div>
@@ -40,15 +41,17 @@
                     </div>
                     // +5 more status card elements.
                 </div>
-                <div class="post">
+
+                <div class="post" th:each="post : ${posts}">
                     <div class="info">
                         <div class="user">
                             <div class="profile-pic"><img th:src="@{/img/main/cover 1.png}" alt=""></div>
-                            <p class="username">modern_web_channel</p>
+                            <p class="username" th:text="${post.files[0].fileStoreName}">modern_web_channel</p>
                         </div>
                         <img th:src="@{/img/main/option.png}" class="options" alt="">
                     </div>
-                    <img th:src="@{/img/main/cover 1.png}" class="post-image" alt="">
+                    <img th:src="|/post/download/${post.files[0].fileStoreName}|"  class="post-image" alt="">
+
                     <div class="post-content">
                         <div class="reaction-wrapper">
                             <img th:src="@{/img/main/like.png}" class="icon" alt="">
@@ -56,9 +59,9 @@
                             <img th:src="@{/img/main/send.png}" class="icon" alt="">
                             <img th:src="@{/img/main/save.png}" class="save icon" alt="">
                         </div>
-                        <p class="likes">1,012 likes</p>
-                        <p class="description"><span>username </span> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur tenetur veritatis placeat, molestiae impedit aut provident eum quo natus molestias?</p>
-                        <p class="post-time">2 minutes ago</p>
+                        <p class="likes" th:text="${post.id}+likes">7777 likes</p>
+                        <p class="description"><span th:text="${post.id}"></span> <span th:text="${post.content}"></span></p>
+                        <p class="post-time" th:text="${post.createdDate}">2 minutes ago</p>
                     </div>
                     <div class="comment-wrapper">
                         <img th:src="@{/img/main/smile.png}" class="icon" alt="">
@@ -66,6 +69,11 @@
                         <button class="comment-btn">post</button>
                     </div>
                 </div>
+
+                <!--POST 생성 영역-->
+                <div class="post-grid">
+                </div>
+
 
                 // +5 more post elements
             </div>

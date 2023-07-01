@@ -14,6 +14,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,11 +45,13 @@ public class PostController {
     @PostMapping("/create")
     public Long createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files) {
 
+        logger.info("createPost Method  Start \n PostDTO : {}, files : {}", postDTO, files);
+
         List<FileAttach> fileAttachList = fileAttachService.upload(files);
 
         postDTO.setFiles(fileAttachList);
 
-         return postService.createPost(postDTO, files);
+        return postService.createPost(postDTO, files);
     }
 
     /*
@@ -61,11 +64,23 @@ public class PostController {
      */
     @ResponseBody
     @GetMapping("/{id}")
-    public PostDTO getPost(@PathVariable Long id) {
+    public PostDTO findPost(@PathVariable Long id) {
 
-        PostDTO postDTO = postService.getPost(id);
+        logger.info("findPost Controller Start \n id={}", id);
+
+        PostDTO postDTO = postService.findPost(id);
 
         return postDTO;
+    }
+
+    @GetMapping("/findAll/{memberId}")
+    public String findAllPost(@PathVariable Long memberId, Model model) {
+
+        logger.info("findAllPost Controller Start \n id={}", memberId);
+        List<PostDTO> resultList = postService.findAllPost();
+        model.addAttribute("posts",resultList);
+
+        return "/layouts/layout1" ;
     }
 
 
@@ -86,10 +101,12 @@ public class PostController {
     @ResponseBody
     @GetMapping("/download/{fileName}")
     public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) throws MalformedURLException {
+        logger.info("downloadImage start \n fileName={}", fileName);
         Resource resource = new UrlResource("file:" + fileAttachService.getFullPath(fileName));
 
         if (resource.exists()) {
             String contentType = fileAttachService.getFileType(fileName);
+            logger.info("fileName={}",fileName);
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource);
@@ -98,3 +115,4 @@ public class PostController {
         }
     }
 }
+

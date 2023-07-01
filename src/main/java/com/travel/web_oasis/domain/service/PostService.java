@@ -8,9 +8,9 @@ import java.util.List;
 public abstract interface PostService {
 
     Long createPost(PostDTO postDTO, List<MultipartFile> files);
-    PostDTO getPost(Long id);
+    PostDTO findPost(Long id);
 
-//    List<PostDTO> findAll(Page);
+    List<PostDTO> findAllPost();
     void deletePost(Long id);
 }
 

@@ -14,7 +14,7 @@
     }
  }
 * submitFunc: 성공시 콜백 함수
-* errorFunc: 실패시 콜백 함수
+* errorFunc: 실패시 콜백 함수 ==> 공통함수로 처리 예정
 * */
 function customAjax(method, url, data, submitFunc, errorFunc) {
     const ajaxOptions = {
@@ -61,7 +61,7 @@ function customAjax(method, url, data, submitFunc, errorFunc) {
 
     if (url.includes("download")) {
         ajaxOptions.xhrFields = {
-            responseType: 'blob' // 파일을 받아오기 위해 responseType을 'blob'으로 설정합니다.
+            responseType: 'blob' // 파일을 받아오기 위해 responseType을 'blob'으로 설정
         }
     }
 

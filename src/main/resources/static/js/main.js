@@ -26,6 +26,8 @@ window.onload = function () {
         closeModal();
     });
 
+
+
     function closeModal(e){
         //첫번째 모달창 안보이게
         $('#modal_add_feed').css({
@@ -136,6 +138,12 @@ window.onload = function () {
         }
     });
 
+    const btnHome = document.getElementById("btn-home");
+    btnHome.addEventListener("click", e => {
+        // findAllPost();
+        location.href="/post/findAll/1";
+    });
+
 
     function findAllPost () {
 
@@ -160,23 +168,53 @@ window.onload = function () {
 
         for (const downLpadFile of downLpadFiles) {
             data.pathParams.fileName = downLpadFile.fileStoreName;
-            customAjax("GET","/post/download/{fileName}",data,postImagesCallBack,failCallback);
+            createPosGrid();
+            customAjax("GET","/post/download/{fileName}",data, downloadImage);
         }
     }
 
-    function postImagesCallBack(data) {
-        const img = document.createElement('img');
+    function downloadImage(data) {
+        const img = document.getElementById('post-image');
 
         var blob = new Blob([data]);
         img.src = URL.createObjectURL(blob);
-        document.body.appendChild(img);
     }
 
 
-    const btnHome = document.getElementById("btn-home");
-    btnHome.addEventListener("click", e => {
-        findAllPost();
-    });
+    function createPosGrid() {
+
+        const html = '<div class="post">\n' +
+            '                    <div class="info">\n' +
+            '                        <div class="user">\n' +
+            '                            <div class="profile-pic"><img th:src="@{/img/main/cover 1.png}" alt=""></div>\n' +
+            '                            <p class="username">modern_web_channel</p>\n' +
+            '                        </div>\n' +
+            '                        <img th:src="@{/img/main/option.png}" class="options" alt="">\n' +
+            '                    </div>\n' +
+            '                    <img th:src="@{/img/main/cover 1.png}" id="post-image"class="post-image" alt="">\n' +
+            '                    <div class="post-content">\n' +
+            '                        <div class="reaction-wrapper">\n' +
+            '                            <img th:src="@{/img/main/like.png}" class="icon" alt="">\n' +
+            '                            <img th:src="@{/img/main/comment.png}" class="icon" alt="">\n' +
+            '                            <img th:src="@{/img/main/send.png}" class="icon" alt="">\n' +
+            '                            <img th:src="@{/img/main/save.png}" class="save icon" alt="">\n' +
+            '                        </div>\n' +
+            '                        <p class="likes">1,012 likes</p>\n' +
+            '                        <p class="description"><span>username </span> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur tenetur veritatis placeat, molestiae impedit aut provident eum quo natus molestias?</p>\n' +
+            '                        <p class="post-time">2 minutes ago</p>\n' +
+            '                    </div>\n' +
+            '                    <div class="comment-wrapper">\n' +
+            '                        <img th:src="@{/img/main/smile.png}" class="icon" alt="">\n' +
+            '                        <input type="text" class="comment-box" placeholder="Add a comment">\n' +
+            '                        <button class="comment-btn">post</button>\n' +
+            '                    </div>\n' +
+            '                </div>'
+
+
+        document.querySelector('.post-grid').innerHTML = html;
+    }
+
+
 
 
 }

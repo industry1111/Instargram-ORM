@@ -11,7 +11,6 @@
                 <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
                 <input type="text" class="search-box" placeholder="search">
                 <div class="nav-items" sec:authorize="hasRole('USER')">
-                    <p ></p>
                     <img th:src="@{/img/main/home.PNG}" th:id="btn-home" class="icon" alt="">
                     <img th:src="@{/img/main/messenger.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/add.PNG}" th:id="btn-create_post" class="icon" alt="">

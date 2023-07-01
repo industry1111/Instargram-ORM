@@ -1,16 +1,12 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.web.dto.PostDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +49,7 @@ class PostServiceImplTest {
         //when
         Long id = postService.createPost(postDto, files);
 
-        PostDTO findPostDTO = postService.getPost(id);
+        PostDTO findPostDTO = postService.findPost(id);
         String actual = findPostDTO.getContent();
 
         //then

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -37,13 +38,16 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDTO getPost(Long id) {
+    public PostDTO findPost(Long id) {
 
-        Post post =  postRepository.findById(id).orElse(null);
+        Post post =  postRepository.findById(id).orElseThrow(null);
 
-        PostDTO postDTO = entityToDto(post);
+        if (post == null) {
+            return null;
+        }
 
-        return postDTO;
+        return entityToDto(post);
+
     }
 
     @Override
@@ -62,6 +66,20 @@ public class PostServiceImpl implements PostService{
 //        fileAttachService.deleteFiles(files);
 //        //포스트 삭제
 //        postRepository.deleteById(id);
+    }
+
+    @Override
+    public List<PostDTO> findAllPost() {
+
+        List<Post> findList = postRepository.findAll();
+
+        List<PostDTO> resultList = new ArrayList<>();
+
+        for (Post post : findList) {
+            resultList.add(entityToDto(post));
+        }
+
+        return resultList;
     }
 
     public Post dtoToEntity(PostDTO postDto) {
