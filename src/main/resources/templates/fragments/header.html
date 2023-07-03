@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div th:fragment="header">
-    <header class="p-3 mb-3 border-bottom">
+    <header class="p-3 mb-3">
         <nav class="navbar">
             <div class="nav-wrapper">
                 <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
@@ -16,10 +16,13 @@
                     <img th:src="@{/img/main/add.PNG}" th:id="btn-create_post" class="icon" alt="">
                     <img th:src="@{/img/main/explore.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/like.PNG}" class="icon" alt="">
-                    <div class="icon-user-profile"></div>
+
+                    <button class="btn-primary" sec:authorize="hasAnyRole('USER','ADMIN')" onclick="location.href='/member/logout'">Logout</button>
                 </div>
+                <button class="btn-primary" sec:authorize="isAnonymous()" onclick="location.href='/member/login'">Log In</button>
             </div>
         </nav>
     </header>
+    <script th:src="@{/js/header.js}" type="module"></script>
 </div>
 </html>

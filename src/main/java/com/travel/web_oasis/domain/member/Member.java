@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,34 +28,40 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = true, length = 13)
-    private String phone;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private String introduction;
+
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String picture;
+    private Boolean is_Auth;
+    private String provider;
 
     @OneToMany
     @JoinColumn(name = "member_id")
     private List<Post> posts = new ArrayList<>();
 
     @Builder
-    public Member(String name, String email, String password, String phone,Role role, Status status) {
+    public Member(String name, String email, String password,Role role,
+                  Status status, String provider, Boolean is_Auth,String picture) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.phone = phone;
         this.role = role;
         this.status = status;
+        this.provider = provider;
+        this.is_Auth = is_Auth;
+        this.picture = picture;
     }
 
     public void update(MemberDTO memberDto) {
         this.name = memberDto.getName();
         this.password = memberDto.getPassword();
-        this.phone = memberDto.getPhone();
         this.status = memberDto.getStatus();
+        this.picture = memberDto.getPicture();
+        this.introduction = memberDto.getIntroduction();
     }
 
 
@@ -69,9 +74,12 @@ public class Member extends BaseEntity {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='"+password+'\'' +
-                ", phone='" + phone + '\'' +
                 ", role='" + role + '\'' +
                 ", status='" + status + '\'' +
+                ", provider='" + provider + '\'' +
+                ", is_Auth='" + is_Auth + '\'' +
+                ", picture='" + picture + '\'' +
+                ", introduction='" + introduction + '\'' +
                 '}';
     }
 }

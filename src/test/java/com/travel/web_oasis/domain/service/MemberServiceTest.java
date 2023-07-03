@@ -29,7 +29,6 @@ class MemberServiceTest {
                 .name("테스트")
                 .email("test@mail.com")
                 .password("1234")
-                .phone("01012345678")
                 .role(Role.USER)
                 .status(Status.PUBLIC)
                 .build();
@@ -63,7 +62,6 @@ class MemberServiceTest {
     @Test
     void updateMember() {
         Long id = memberService.saveMember(newMember());
-        System.out.println("id = " + id);
         MemberDTO memberDTO = update();
         memberDTO.setId(id);
         memberService.updateMember(memberDTO);

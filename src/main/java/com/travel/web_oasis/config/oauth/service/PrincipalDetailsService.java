@@ -1,6 +1,6 @@
 package com.travel.web_oasis.config.oauth.service;
 
-import com.travel.web_oasis.config.oauth.dto.CustomUser;
+import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,19 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
-public class CustomUserDetailService implements UserDetailsService {
+@Service
+public class PrincipalDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        Member member = memberRepository.findByEmail(email);
+//        if (member != null) {
+//            return new PrincipalDetail(member);
+//        } else {
+//            return null;
+//        }
         Member member = memberRepository.findByEmail(email);
 
         if (member == null) {
@@ -30,7 +37,9 @@ public class CustomUserDetailService implements UserDetailsService {
         roles.add(new SimpleGrantedAuthority("ROLE_" + member.getRole()));
 
 
-        return new CustomUser(member, roles);
+        return new PrincipalDetail(member, roles);
 
     }
 }
+
+

@@ -1,7 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +12,14 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public Long saveMember(MemberDTO memberDTO) {
+        if (!validateDuplicateMember(memberDTO)) {
+            return -1L;
+        }
         Member member = dtoToEntity(memberDTO);
-        validateDuplicateMember(member);
+
         return memberRepository.save(member).getId();
     }
 
@@ -31,11 +34,11 @@ public class MemberServiceImpl implements MemberService{
 
     }
     @Override
-    public void validateDuplicateMember(Member member) {
-        Member findMember = memberRepository.findByEmail(member.getEmail());
-        if (findMember != null) {
-            throw new IllegalStateException("이미 가입된 회원입니다.");
+    public Boolean validateDuplicateMember(MemberDTO memberDTO) {
+        if (memberRepository.findByEmail(memberDTO.getEmail())!=null) {
+            return false;
         }
+        return true;
     }
 
 
@@ -45,9 +48,11 @@ public class MemberServiceImpl implements MemberService{
                 .email(memberDTO.getEmail())
                 .name(memberDTO.getName())
                 .password(passwordEncoder.encode(memberDTO.getPassword()))
-                .phone(memberDTO.getPhone())
                 .status(memberDTO.getStatus())
-                .role(Role.USER) //나중에 memberDTO.getRole()로 바꿔야함
+                .role(memberDTO.getRole())
+                .is_Auth(false)
+                .picture("")
+                .provider("local")
                 .build();
 
     }

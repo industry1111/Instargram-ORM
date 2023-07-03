@@ -1,17 +1,14 @@
 package com.travel.web_oasis.controller;
 
+import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -24,28 +21,20 @@ public class MemberController {
     /*
      * @Param
      *
-     * @Description : 로그인 페이지로 이동
+     * @Description : 로그인 페이지로 이동 / 로그인 실패시 error 파라미터를 받아서 메시지를 보내줌.
      *
      * @Return : url > /member/loginForm
      * */
     @GetMapping("/login")
-    public String loginForm(Model model) {
+    public String loginForm(@RequestParam(value = "error", required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("message", "로그인 정보를 확인해주세요.");
+            System.out.println("error = " + error);
+        }
+        model.addAttribute("memberDTO", new MemberDTO());
+        return "/member/loginForm";
+    }
 
-        model.addAttribute("memberDTO",new MemberDTO());
-        return "/member/loginForm";
-    }
-    /*
-     * @Param
-     *
-     * @Description :로그인 error가 있으면 로그인 페이지로 이동
-     *
-     * @Return : 로그인 페이지로 이동
-     * */
-    @GetMapping("/login/error")
-    public String loginError(Model model) {
-        model.addAttribute("message","이메일 또는 비밀번호를 확인해주세요");
-        return "/member/loginForm";
-    }
     /*
      * @Param
      *
@@ -70,25 +59,31 @@ public class MemberController {
      * */
     @ResponseBody
     @PostMapping("/register")
-    public  Map<String,String> registerForm(@ModelAttribute MemberDTO memberDTO) {
+    public Long registerForm(@ModelAttribute MemberDTO memberDTO) {
         System.out.println("memberDTO = " + memberDTO);
-        Map<String,String> result = new HashMap<>();
-        String message = "";
-        try {
-            Long id = memberService.saveMember(memberDTO);
-            message = "회원가입에 성공하셨습니다.";
-        } catch (IllegalStateException e) {
-            System.out.println("e.getMessage() = " + e.getMessage());
-            message = "회원가입에 실패하셨습니다. 관리자에게 문의해 주세요.";
-        }
-
-        result.put("message",message);
-        System.out.println("message = " + message);
+        Long result = memberService.saveMember(memberDTO);
         return result;
     }
 
     @GetMapping("/profile")
-    public String profile() {
+    public String profile(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model) {
+        System.out.println("principalDetail.getMember() = " + principalDetail.getMember());
+        model.addAttribute("member", principalDetail.getMember());
         return "member/profile";
+    }
+
+    @GetMapping("/profile/edit")
+    public String editProfile(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model) {
+        System.out.println("principalDetail.getMember() = " + principalDetail.getMember());
+        model.addAttribute("member", principalDetail.getMember());
+        return "member/editProfile";
+    }
+
+    @ResponseBody
+    @PostMapping("/profile/edit/{id}")
+    public String editProfile(@PathVariable Long id, @ModelAttribute MemberDTO memberDTO) {
+        System.out.println("memberDTO = " + memberDTO);
+        memberService.updateMember(memberDTO);
+        return "redirect:/member/profile";
     }
 }

@@ -21,9 +21,9 @@
 
         <div class="profile-user-settings">
 
-          <h1 class="profile-user-name">janedoe_</h1>
+          <h1 class="profile-user-name" th:text="${member.name}">janedoe_</h1>
 
-          <button class="btn profile-edit-btn">Edit Profile</button>
+          <button class="btn profile-edit-btn" onclick="location.href='/member/profile/edit'">Edit Profile</button>
 
           <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 
@@ -69,7 +69,6 @@
               <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
               <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
             </ul>
-
           </div>
 
         </div>
