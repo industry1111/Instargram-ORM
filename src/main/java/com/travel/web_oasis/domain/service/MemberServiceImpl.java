@@ -25,14 +25,20 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long updateMember(MemberDTO memberDto) {
-        Member member = memberRepository.findById(memberDto.getId())
-                .orElseThrow(IllegalStateException::new);
+        Member member = findMember(memberDto.getId());
         System.out.println("member = " + member);
         member.update(memberDto);
 
         return memberRepository.save(member).getId();
 
     }
+
+    @Override
+    public Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(IllegalStateException::new);
+    }
+
     @Override
     public Boolean validateDuplicateMember(MemberDTO memberDTO) {
         if (memberRepository.findByEmail(memberDTO.getEmail())!=null) {

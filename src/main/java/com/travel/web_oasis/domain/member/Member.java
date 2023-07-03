@@ -39,8 +39,7 @@ public class Member extends BaseEntity {
     private Boolean is_Auth;
     private String provider;
 
-    @OneToMany
-    @JoinColumn(name = "member_id")
+    @OneToMany(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
     @Builder

@@ -13,6 +13,7 @@ $('#btn_register').on("click",function() {
         let status = "PUBLIC";
         let provider = "LOCAL";
         let is_Auth = "N";
+        let picture = "";
 
         if (!emailPattern.test(email.val())) {
             alert("이메일 형식이 올바르지 않습니다.");
@@ -31,16 +32,19 @@ $('#btn_register').on("click",function() {
         }
 
 
-        let data = ""
-        fd.append("email", email.val());
-        fd.append("password", password.val());
-        fd.append("name", name.val());
-        fd.append("role", role);
-        fd.append("status", status);
-        fd.append("provider", provider);
-        fd.append("is_Auth", is_Auth);
+        let data = {
+            email : email.val(),
+            password : password.val(),
+            name : name.val(),
+            role : role,
+            status : status,
+            provider : provider,
+            is_Auth : is_Auth,
+            picture : picture
 
-        customAjax("POST", "/member/register", fd, successCallback, failCallback);
+        }
+
+        customAjax("POST", "/member/register", data, successCallback, failCallback);
     });
 
 function successCallback(data) {

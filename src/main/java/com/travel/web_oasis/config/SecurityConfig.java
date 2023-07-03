@@ -38,7 +38,6 @@ public class SecurityConfig {
             formLogin.loginPage("/member/login")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/")
-                    .failureUrl("/member/login/error")
                     .permitAll();
         });
         http.logout(logout ->{
@@ -57,6 +56,15 @@ public class SecurityConfig {
             oauth.failureUrl("/member/login/error");
 
         });
+
+        http.sessionManagement(session -> {
+                    session.maximumSessions(1)
+                            .maxSessionsPreventsLogin(true)
+                            .expiredUrl("/");
+                }
+
+        );
+
 
         return http.build();
     }

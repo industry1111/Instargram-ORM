@@ -47,7 +47,7 @@
                     <div class="info">
                         <div class="user">
                             <div class="profile-pic"><img th:src="@{/img/main/cover 1.png}" alt=""></div>
-                            <p class="username" th:text="${post.files[0].fileStoreName}">modern_web_channel</p>
+                            <p class="username" th:text="${post.memberDTO.getName()}">modern_web_channel</p>
                         </div>
                         <img th:src="@{/img/main/option.png}" class="options" alt="">
                     </div>

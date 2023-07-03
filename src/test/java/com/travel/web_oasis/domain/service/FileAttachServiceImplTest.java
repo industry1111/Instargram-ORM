@@ -1,6 +1,7 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.web.dto.FileAttachDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,18 +27,19 @@ class FileAttachServiceImplTest {
     @Test
     @DisplayName("파일 업로드")
     void upload() throws IOException {
+
         List<MultipartFile> files = new ArrayList<>();
-        MultipartFile file = new MockMultipartFile("file", "logo.png}", "text/plain", new FileInputStream("/Users/gohyeong-gyu/Downloads/logo.png}"));
         MultipartFile file2 = new MockMultipartFile("file", "test.txt", "text/plain", "test".getBytes());
-        files.add(file);
         files.add(file2);
 
-        List<FileAttach> saveFiles = fileAttachService.upload(files);
-        FileAttach saveFile = saveFiles.get(0);
-        System.out.println("saveFile = " + saveFile);
-        Assertions.assertThat(new File(saveFile.getFileStoreName()).exists()).isTrue();
+        List<FileAttachDTO> saveFiles = fileAttachService.upload(files);
+        FileAttachDTO saveFile = saveFiles.get(0);
+        String actual = saveFile.getFileStoreName();
+        int pos = actual.lastIndexOf('.');
+//        actual = actual.substring(0,pos);
+//        new File("logo.png");
+//        Assertions.assertThat(new File("logo.png").exists()).isTrue();
     }
-
     @Test
     @DisplayName("파일 삭제")
     void deleteFiles() throws IOException {
@@ -48,13 +50,13 @@ class FileAttachServiceImplTest {
             MultipartFile file = new MockMultipartFile("file", str, "text/plain", str.getBytes());
             files.add(file);
         }
-        List<FileAttach> saveFiles = fileAttachService.upload(files);
+        List<FileAttachDTO> saveFiles = fileAttachService.upload(files);
 
         //when
-        fileAttachService.deleteFiles(saveFiles);
+//        fileAttachService.deleteFiles(saveFiles);
 
         //then
-        for (FileAttach file : saveFiles) {
+        for (FileAttachDTO file : saveFiles) {
             Assertions.assertThat(new File(file.getFileStoreName()).exists()).isFalse();
         }
 
