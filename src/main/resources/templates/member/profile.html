@@ -15,7 +15,7 @@
       <div class="profile">
 
         <div class="profile-image">
-          <img style="width: 152px; height: 152px;" src="https://blog.kakaocdn.net/dn/bj4oa7/btqLJWFLMgd/wu4GV8PKbXdICuyW0me0zk/img.jpg" alt="">
+          <img style="width: 152px; height: 152px;" th:src="@{/img/profile/330d71f6ccb8480ca1f55794525a5afb.JPG}" alt="">
 
 
         </div>
@@ -40,9 +40,9 @@
 
         </div>
 
-        <div class="profile-bio">
+        <div class="profile-introduction">
 
-          <p  sec:authorize="isAuthenticated()" sec:authentication="principal.member.bio"><p>
+          <p  sec:authorize="isAuthenticated()" sec:authentication="principal.member.introduction"><p>
 
         </div>
 

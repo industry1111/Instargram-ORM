@@ -4,18 +4,17 @@ import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@Slf4j
 public class MemberController {
 
     @Autowired
@@ -89,7 +88,7 @@ public class MemberController {
      * */
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model) {
-//        model.addAttribute("member", principalDetail.getMember());
+        model.addAttribute("member", principalDetail.getMember());
         return "member/profile";
     }
     /*
@@ -104,6 +103,7 @@ public class MemberController {
         model.addAttribute("member", principalDetail.getMember());
         return "member/editProfile";
     }
+
     /*
      * @Param : MemberDTO
      *
@@ -113,8 +113,10 @@ public class MemberController {
      * */
     @ResponseBody
     @PutMapping("/profile/edit")
-    public MemberDTO editProfile(@RequestBody MemberDTO memberDTO,@AuthenticationPrincipal PrincipalDetail principalDetail) {
-        log.info("/profile/edit의 memberDTO = " + memberDTO);
-        return memberService.updateMember(memberDTO,principalDetail);
+    public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
+        log.info("editProfile");
+        log.info("file : " + file.getOriginalFilename());
+        log.info("MemberDTO : " + memberDTO.toString());
+        return memberService.updateMember(memberDTO, principalDetail,file);
     }
 }

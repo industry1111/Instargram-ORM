@@ -31,7 +31,7 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private String bio;
+    private String introduction;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -44,7 +44,7 @@ public class Member extends BaseEntity {
 
     @Builder
     public Member(String name, String email, String password,Role role,
-                  Status status, String provider, Boolean is_Auth,String picture,String bio) {
+                  Status status, String provider, Boolean is_Auth,String picture,String introduction) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -53,15 +53,14 @@ public class Member extends BaseEntity {
         this.provider = provider;
         this.is_Auth = is_Auth;
         this.picture = picture;
-        this.bio = bio;
+        this.introduction = introduction;
     }
 
     public void update(MemberDTO memberDto) {
         this.name = memberDto.getName();
-        this.password = memberDto.getPassword();
         this.status = memberDto.getStatus();
         this.picture = memberDto.getPicture();
-        this.bio = memberDto.getBio();
+        this.introduction = memberDto.getIntroduction();
     }
 
 
@@ -79,7 +78,7 @@ public class Member extends BaseEntity {
                 ", provider='" + provider + '\'' +
                 ", is_Auth='" + is_Auth + '\'' +
                 ", picture='" + picture + '\'' +
-                ", bio='" + bio + '\'' +
+                ", introduction='" + introduction + '\'' +
                 '}';
     }
 }

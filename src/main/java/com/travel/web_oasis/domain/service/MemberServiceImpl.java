@@ -5,19 +5,24 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.UUID;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     Logger log = org.slf4j.LoggerFactory.getLogger(MemberServiceImpl.class);
 
+    @Value("${file.storage.path}")
+    private  String storagePath;
 
     @Override
     public Boolean validateDuplicateMember(MemberDTO memberDTO) {
@@ -40,9 +45,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail){
+    public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file) {
         log.info("updateMember() start");
         Member member = findByIdAndProvider(memberDto.getId(), memberDto.getProvider());
+        memberDto.setPicture(pictureUpload(file));
         member.update(memberDto);
         Member updateMember = memberRepository.save(member);
         principalDetail.setMember(updateMember);
@@ -60,6 +66,20 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findByIdAndProvider(id, provider);
     }
 
+    public String pictureUpload(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf(".")+1);
+
+        String storeFileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + ext;
+
+        try{
+            file.transferTo(new File(storagePath + storeFileName));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return storagePath+storeFileName;
+    }
+
     public Member dtoToEntity(MemberDTO memberDTO) {
 
         return Member.builder()
@@ -70,7 +90,8 @@ public class MemberServiceImpl implements MemberService{
                 .role(memberDTO.getRole())
                 .is_Auth(false)
                 .provider(memberDTO.getProvider())
-                .bio(memberDTO.getBio())
+                .introduction(memberDTO.getIntroduction())
+                .picture(memberDTO.getPicture())
                 .build();
 
     }
@@ -82,7 +103,7 @@ public class MemberServiceImpl implements MemberService{
                 .password(member.getPassword())
                 .role(member.getRole())
                 .status(member.getStatus())
-                .bio(member.getBio())
+                .introduction(member.getIntroduction())
                 .picture(member.getPicture())
                 .provider(member.getProvider())
                 .build();

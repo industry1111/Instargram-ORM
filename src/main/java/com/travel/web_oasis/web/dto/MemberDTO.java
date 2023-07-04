@@ -18,7 +18,7 @@ public class MemberDTO {
     private String password;
     private Role role;
     private Status status;
-    private String bio;
+    private String introduction;
     private String picture;
     private String provider;
 

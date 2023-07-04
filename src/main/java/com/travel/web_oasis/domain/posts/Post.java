@@ -27,9 +27,6 @@ public class Post extends BaseEntity {
     @Column(nullable = false, length = 3000)
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
 
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<FileAttach> fileAttachList = new ArrayList<>();

@@ -30,8 +30,8 @@
                             <div class="text-muted"><small>Last seen 2 hours ago</small></div>
                             <div class="mt-2">
                                 <div class="filebox">
-                                    <label for="ex_file">업로드</label>
-                                    <input type="file" id="ex_file">
+                                    <label for="profile_image">업로드</label>
+                                    <input type="file" id="profile_image">
                                 </div>
                             </div>
                         </div>
@@ -66,8 +66,8 @@
                                     <div class="col mb-3">
                                         <div class="form-group">
                                             <label>Introduction</label>
-                                            <textarea class="form-control" rows="5" id="bio"
-                                                      th:placeholder="${member.bio}"></textarea>
+                                            <textarea class="form-control" rows="5" id="introduction"
+                                                      th:placeholder="${member.introduction}"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -78,6 +78,7 @@
                                 <button class="btn btn-primary" id="btn_update">Save Changes</button>
                                 <input type="hidden" id="id" th:value="${member.id}">
                                 <input type="hidden" id="provider" th:value="${member.provider}">
+                                <input type="hidden" id="status" th:value="${member.status}">
                             </div>
                         </div>
                     </div>

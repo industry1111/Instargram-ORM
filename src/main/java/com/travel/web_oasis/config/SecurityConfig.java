@@ -30,7 +30,7 @@ public class SecurityConfig {
                     .requestMatchers("/","/post/**").hasRole("USER")
                     .requestMatchers("/member/login").anonymous()
                     .requestMatchers("/member/logout","/member/profile/**").authenticated()
-                    .requestMatchers("/img/**", "/css/**", "/webjars/**","/js/**").permitAll();
+                    .requestMatchers("/img/**", "/css/**", "/webjars/**","/js/**","/images/**").permitAll();
         });
 
 
