@@ -17,6 +17,10 @@ public class PostDTO {
     private String content;
     private List<FileAttachDTO> files;
 
+    //FileAttach
+    private String[] fileNames;
+    private String[] fileStoreNames;
+
 
     //Member 정보
     private Long memberId;

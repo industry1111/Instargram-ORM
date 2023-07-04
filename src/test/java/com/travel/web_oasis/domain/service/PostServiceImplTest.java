@@ -3,7 +3,10 @@ package com.travel.web_oasis.domain.service;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
+import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -108,5 +111,30 @@ class PostServiceImplTest {
             assertThat(e).isInstanceOf(IllegalArgumentException.class);
             assertThat(e.getMessage()).isEqualTo(expected);
         }
+    }
+
+
+    @Test
+    @DisplayName("게시글 목록 가져오기(Paging)")
+    void getList() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                                                    .page(1)
+                                                    .size(3)
+                                                    .build();
+
+
+        PageResultDTO<PostDTO, Post> resultDTO = postService.getList(pageRequestDTO,1L);
+
+        System.out.println("resultDTO = " + resultDTO.getPrev());
+        System.out.println("resultDTO.getNext() = " + resultDTO.getNext());
+        System.out.println("resultDTO = " + resultDTO.getTotalPage());
+        for (PostDTO postDTO : resultDTO.getDtoList()) {
+            System.out.println("postDTO = " + postDTO);
+        }
+
+        System.out.println("resultDTO.getPage() = " + resultDTO.getPageList());
+
+
     }
 }

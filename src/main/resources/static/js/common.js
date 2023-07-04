@@ -16,21 +16,17 @@
 * submitFunc: 성공시 콜백 함수
 * errorFunc: 실패시 콜백 함수 ==> 공통함수로 처리 예정
 * */
-function customAjax(method, url, data, submitFunc, errorFunc) {
+function customAjax(method, url, data, submitFunc,customParam) {
     const ajaxOptions = {
         url: url,
         method: method,
-        success: function(result, status, xhr) {
+        success: function(result) {
             if (submitFunc != null) {
-                submitFunc(result, xhr);
+                submitFunc(result, customParam);
             }
         },
         error: function(request, status, error) {
-            if (errorFunc != null) {
-                errorFunc(request, status, error);
-            } else {
-                console.log("에러");
-            }
+            console.log(request);
         },
         complete: function() {
             console.log("무조건 실행");
