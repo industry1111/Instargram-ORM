@@ -95,5 +95,3 @@ tasks.compileQuerydsl.dependsOn(clean);
 compileQuerydsl{
 	options.annotationProcessorPath = configurations.querydsl
 }
-
-// 여기까지

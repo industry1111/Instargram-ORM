@@ -54,7 +54,7 @@ class PostServiceImplTest {
 
         Long id = memberService.saveMember(memberDTO);
 
-        Member member = memberService.findMember(id);
+        Member member = memberService.findById(id);
 
         //when
         Long actual = postService.createPost(postDto, member);
@@ -73,7 +73,7 @@ class PostServiceImplTest {
 
         Long id = memberService.saveMember(memberDTO);
 
-        Member member = memberService.findMember(id);
+        Member member = memberService.findById(id);
 
 
         //when
@@ -96,7 +96,7 @@ class PostServiceImplTest {
 
         Long id = memberService.saveMember(memberDTO);
 
-        Member member = memberService.findMember(id);
+        Member member = memberService.findById(id);
 
         //when
         Long postId = postService.createPost(postDTO, member);

@@ -177,44 +177,30 @@ window.onload = function () {
 
         document.querySelector('.post-grid').innerHTML = html;
 
-
-        downloadImages(result);
+        downloadImage(result);
     }
 
-    function downloadImages(result) {
-        result.dtoList.forEach(function(data) {
+    function downloadImage(result) {
+        result.dtoList.forEach((data) => {
+            data.fileStoreNames.forEach((fileStoreName) => {
+                let data = {
+                    pathParams: {
+                        fileStoreName: fileStoreName
+                    },
+                    queryParams: {}
+                };
 
-            data.fileStoreNames.forEach(function (fileStoreName) {
-                downloadImage(fileStoreName);
-            })
+                customAjax("GET", "/post/download/{fileStoreName}", data, function(data) {
+                    const img = document.getElementById(fileStoreName);
 
+                    let blob = new Blob([data]);
+
+                    URL.createObjectURL(blob);
+
+                    img.src = URL.createObjectURL(blob);
+                });
+            });
         });
-    }
-
-
-    //단일 이미지
-    function downloadImage(fileStoreName) {
-
-        let data = {
-            pathParams: {
-                fileStoreName: fileStoreName
-            },
-            queryParams: {}
-        };
-
-        return customAjax("GET","/post/download/{fileStoreName}", data, urlConvertBlob,fileStoreName);
-    }
-
-    function urlConvertBlob(data,customParam) {
-
-        const img = document.getElementById(customParam);
-
-        let blob = new Blob([data]);
-
-        URL.createObjectURL(blob);
-
-        img.src = URL.createObjectURL(blob);
-
     }
 
 

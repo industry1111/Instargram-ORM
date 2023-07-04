@@ -113,9 +113,8 @@ public class MemberController {
      * */
     @ResponseBody
     @PutMapping("/profile/edit")
-    public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
+    public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart(value = "file", required = false)  MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
         log.info("editProfile");
-        log.info("file : " + file.getOriginalFilename());
         log.info("MemberDTO : " + memberDTO.toString());
         return memberService.updateMember(memberDTO, principalDetail,file);
     }

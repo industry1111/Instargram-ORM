@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,8 +22,8 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
     Logger log = org.slf4j.LoggerFactory.getLogger(MemberServiceImpl.class);
 
-    @Value("${file.storage.path}")
-    private  String storagePath;
+    @Value("${profile.storage.path}")
+    private String storagePath;
 
     @Override
     public Boolean validateDuplicateMember(MemberDTO memberDTO) {
@@ -35,10 +36,16 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long saveMember(MemberDTO memberDTO) {
+
         log.info("saveMember() start");
+
         if (!validateDuplicateMember(memberDTO)) {
             return -1L;
         }
+
+        String encryptedPassword = encryptPassword(memberDTO.getPassword());
+        memberDTO.setPassword(encryptedPassword);
+
         Member member = dtoToEntity(memberDTO);
 
         return memberRepository.save(member).getId();
@@ -47,30 +54,45 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file) {
         log.info("updateMember() start");
+
         Member member = principalDetail.getMember();
-        memberDto.setPicture(pictureUpload(file));
+
+        if (file != null) {
+            String profileStoreName = pictureUpload(file);
+
+            memberDto.setPicture(profileStoreName);
+        }
         member.update(memberDto);
+
         Member updateMember = memberRepository.save(member);
+
         principalDetail.setMember(updateMember);
 
         return entityToDto(updateMember);
 
     }
 
-
     public Member findByEmailAndProvider(String email,String provider) {
         return memberRepository.findByEmailAndProvider(email,provider);
     }
 
-    public Member findByIdAndProvider(Long id, String provider) {
-        return memberRepository.findByIdAndProvider(id, provider);
+    @Override
+    public Member findById(Long id) {
+        Optional<Member> result = memberRepository.findById(id);
+        return result.get();
     }
 
     public String pictureUpload(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
-        String ext = fileName.substring(fileName.lastIndexOf(".")+1);
 
-        String storeFileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + ext;
+        String fileName = file.getOriginalFilename();
+
+        int pos = fileName.lastIndexOf(".");
+
+        String ext = fileName.substring(pos+1);
+
+        String uuid = UUID.randomUUID().toString();
+
+        String storeFileName = uuid + "." + ext;
 
         try{
             file.transferTo(new File(storagePath + storeFileName));
@@ -80,38 +102,8 @@ public class MemberServiceImpl implements MemberService{
         return storeFileName;
     }
 
-    public Member dtoToEntity(MemberDTO memberDTO) {
-
-        return Member.builder()
-                .email(memberDTO.getEmail())
-                .name(memberDTO.getName())
-                .password(passwordEncoder.encode(memberDTO.getPassword()))
-                .status(memberDTO.getStatus())
-                .role(memberDTO.getRole())
-                .is_Auth(false)
-                .provider(memberDTO.getProvider())
-                .introduction(memberDTO.getIntroduction())
-                .picture(memberDTO.getPicture())
-                .build();
-
+    private String encryptPassword(String password) {
+        return passwordEncoder.encode(password);
     }
-    public MemberDTO entityToDto(Member member) {
-        return MemberDTO.builder()
-                .id(member.getId())
-                .name(member.getName())
-                .email(member.getEmail())
-                .password(member.getPassword())
-                .role(member.getRole())
-                .status(member.getStatus())
-                .introduction(member.getIntroduction())
-                .picture(member.getPicture())
-                .provider(member.getProvider())
-                .build();
-
-    }
-
-
-
-
 
 }

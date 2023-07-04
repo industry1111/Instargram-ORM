@@ -76,7 +76,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .password(password)
                     .provider(registrationId)
                     .role((Role) role)
-                    .is_Auth(true)
                     .picture(picture)
                     .status(Status.PUBLIC)
                     .build();

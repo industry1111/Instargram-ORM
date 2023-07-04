@@ -52,7 +52,7 @@ class MemberServiceTest {
 
         Long id = memberService.saveMember(newMember());
 
-        Member member = memberService.findByIdAndProvider(id, "local");
+        Member member = memberService.findById(id);
 
         memberRepository.deleteById(member.getId());
 
@@ -64,7 +64,7 @@ class MemberServiceTest {
         MemberDTO memberDTO = update(id);
 //        memberService.updateMember(memberDTO, null);
 
-        Member member = memberService.findByIdAndProvider(id, "local");
+        Member member = memberService.findById(id);
 
         System.out.println(member.getId());
 

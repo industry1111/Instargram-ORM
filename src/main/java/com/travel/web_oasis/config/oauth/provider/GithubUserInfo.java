@@ -21,7 +21,7 @@ public class GithubUserInfo implements OAuth2UserInfo{
 
     @Override
     public String getEmail() {
-        return (String) attributes.get("login");
+        return (String) attributes.get("login") + "@github.com";
     }
 
     @Override

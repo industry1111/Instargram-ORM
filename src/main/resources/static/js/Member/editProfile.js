@@ -4,7 +4,7 @@ import {customAjax} from "../common.js";
 const namePattern = /^[a-zA-Z0-9-_]{4,20}$/;
 
 $('#btn_update').on('click', function () {
-    let name = $('#name').val();
+    let name = $('#name');
     let introduction = $('#introduction').val();
     let id = $('#id').val();
     let provider = $('#provider').val();
@@ -18,24 +18,17 @@ $('#btn_update').on('click', function () {
     }
 
     let data = new FormData();
-    data.append("name", name);
-    data.append("introduction", introduction);
-    data.append("id", id);
-    data.append("provider", provider);
-    data.append("file", file);
-    data.append("status", status);
-
-    console.log(data.get("picture"));
-
-
-    customAjax("PUT", "/member/profile/edit", data, successCallback, failCallback);
+    data.append('name', name.val());
+    data.append('introduction', introduction);
+    data.append('id', id);
+    data.append('provider', provider);
+    data.append('file', file);
+    data.append('status', status);
+    console.log(data);
+    customAjax("PUT", "/member/profile/edit", data, successCallback);
 });
 
 function successCallback(data) {
     console.log(data);
     location.href = "/member/profile";
-}
-
-function failCallback(data) {
-
 }

@@ -36,7 +36,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
     private String picture;
-    private Boolean is_Auth;
     private String provider;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL,orphanRemoval = true)
@@ -49,15 +48,15 @@ public class Member extends BaseEntity {
     private List<Follow> toFollows = new ArrayList<>();
 
     @Builder
-    public Member(String name, String email, String password,Role role,
-                  Status status, String provider, Boolean is_Auth,String picture,String introduction) {
+    public Member(Long id, String name, String email, String password,Role role,
+                  Status status, String provider, String picture,String introduction) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
         this.status = status;
         this.provider = provider;
-        this.is_Auth = is_Auth;
         this.picture = picture;
         this.introduction = introduction;
     }
@@ -82,7 +81,6 @@ public class Member extends BaseEntity {
                 ", role='" + role + '\'' +
                 ", status='" + status + '\'' +
                 ", provider='" + provider + '\'' +
-                ", is_Auth='" + is_Auth + '\'' +
                 ", picture='" + picture + '\'' +
                 ", introduction='" + introduction + '\'' +
                 '}';

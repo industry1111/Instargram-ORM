@@ -17,13 +17,13 @@
 * errorFunc: 실패시 콜백 함수 ==> 공통함수로 처리 예정
 * customParam : 콜백함수에 넘겨줄 데이터
 * */
-function customAjax(method, url, data, submitFunc,customParam) {
+function customAjax(method, url, data, submitFunc) {
     const ajaxOptions = {
         url: url,
         method: method,
         success: function(result) {
             if (submitFunc != null) {
-                submitFunc(result, customParam);
+                submitFunc(result);
             }
         },
         error: function(request, status, error) {
@@ -64,6 +64,8 @@ function customAjax(method, url, data, submitFunc,customParam) {
 
     $.ajax(ajaxOptions);
 }
+
+
 
 
 export {customAjax}; //ajax 함수를 외부에서 사용할 수 있도록 export
