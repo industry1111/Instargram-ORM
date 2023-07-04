@@ -30,4 +30,6 @@ public class PrincipalDetail extends User implements OAuth2User {
     public String getName() {
         return (String) attributes.get("name");
     }
+
+
 }

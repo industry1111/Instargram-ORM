@@ -1,26 +1,22 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
-import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.service.FileAttachService;
 import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.PostService;
-import com.travel.web_oasis.web.dto.FileAttachDTO;
-import com.travel.web_oasis.web.dto.MemberDTO;
-import com.travel.web_oasis.web.dto.PostDTO;
+import com.travel.web_oasis.web.dto.*;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -94,8 +90,8 @@ public class PostController {
     public String findAllPost(@PathVariable Long memberId, Model model) {
 
         logger.info("findAllPost Controller Start \n id={}", memberId);
-        List<PostDTO> resultList = postService.findAllPost();
-        model.addAttribute("posts",resultList);
+//        List<PostDTO> resultList = postService.findAllPost();
+//        model.addAttribute("posts",resultList);
 
         return "/layouts/layout1" ;
     }
@@ -115,19 +111,26 @@ public class PostController {
 
 
     @ResponseBody
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> downloadImage(@PathVariable String fileName) throws MalformedURLException {
-        logger.info("downloadImage start \n fileName={}", fileName);
-        Resource resource = new UrlResource("file:" + fileAttachService.getFullPath(fileName));
-
+    @GetMapping("/download/{fileStoreName}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable String fileStoreName) throws MalformedURLException {
+        logger.info("downloadImage start \n fileStoreName={}", fileStoreName);
+        Resource resource = new UrlResource("file:" + fileAttachService.getFullPath(fileStoreName));
         if (resource.exists()) {
-            String contentType = fileAttachService.getFileType(fileName);
-            logger.info("fileName={}",fileName);
+            String contentType = fileAttachService.getFileType(fileStoreName);
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ResponseBody
+    @GetMapping("/list/{id}")
+    public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO, @PathVariable Long id) {
+        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, id);
+
+        return postService.getList(pageRequestDTO,id);
+
     }
 }

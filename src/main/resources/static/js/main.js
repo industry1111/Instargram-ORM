@@ -1,10 +1,14 @@
 import {customAjax} from "./common.js";
 
+const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
+
 window.onload = function () {
 
     const modal = document.getElementById("modal_add_feed");
     const btnCreatePost = document.getElementById("btn-create_post");
     let files;
+
+    findAllPost();
 
     btnCreatePost.addEventListener("click", e => {
 
@@ -140,78 +144,105 @@ window.onload = function () {
 
     const btnHome = document.getElementById("btn-home");
     btnHome.addEventListener("click", e => {
-        // findAllPost();
-        location.href="/post/findAll/1";
+        findAllPost();
     });
 
 
     function findAllPost () {
 
+        let id = 1;
+        let page = 1;
+        let size = 3;
+
         let data = {
-            pathParams:{
-                id: '1'
+            pathParams : {
+                id : id
+            },
+            queryParams : {
+                page : page,
+                size : size
             }
         }
-        customAjax("GET","/post/{id}",data,findAllPostCallBack);
+        customAjax("GET","/post/list/{id}",data,findAllPostCallBack);
     }
 
 
     function findAllPostCallBack(result) {
+        let html = "";
 
-        let downLpadFiles = result.files;
+        result.dtoList.forEach(function(data) {
+            html += createPosGrid(data);
+        });
 
-        let data = {
-            pathParams:{
-                fileName: ''
-            }
-        }
+        document.querySelector('.post-grid').innerHTML = html;
 
-        for (const downLpadFile of downLpadFiles) {
-            data.pathParams.fileName = downLpadFile.fileStoreName;
-            createPosGrid();
-            customAjax("GET","/post/download/{fileName}",data, downloadImage);
-        }
+
+        downloadImages(result);
     }
 
-    function downloadImage(data) {
-        const img = document.getElementById('post-image');
+    function downloadImages(result) {
+        result.dtoList.forEach(function(data) {
 
-        var blob = new Blob([data]);
+            data.fileStoreNames.forEach(function (fileStoreName) {
+                downloadImage(fileStoreName);
+            })
+
+        });
+    }
+
+
+    //단일 이미지
+    function downloadImage(fileStoreName) {
+
+        let data = {
+            pathParams: {
+                fileStoreName: fileStoreName
+            },
+            queryParams: {}
+        };
+
+        return customAjax("GET","/post/download/{fileStoreName}", data, urlConvertBlob,fileStoreName);
+    }
+
+    function urlConvertBlob(data,customParam) {
+        const img = document.getElementById(customParam);
+        let blob = new Blob([data]);
+        URL.createObjectURL(blob);
         img.src = URL.createObjectURL(blob);
     }
 
 
-    function createPosGrid() {
-
-        const html = '<div class="post">\n' +
+    function createPosGrid(data) {
+        const innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
-            '                            <div class="profile-pic"><img th:src="@{/img/main/cover 1.png}" alt=""></div>\n' +
-            '                            <p class="username">modern_web_channel</p>\n' +
+            '                            <div class="profile-pic"><img src="/img/main/cover 1.png" alt=""></div>\n' +
+            '                            <p class="username">' + data.name + '</p>\n' +
             '                        </div>\n' +
-            '                        <img th:src="@{/img/main/option.png}" class="options" alt="">\n' +
+            '                        <img src="/img/main/option.png" class="options" alt="">\n' +
             '                    </div>\n' +
-            '                    <img th:src="@{/img/main/cover 1.png}" id="post-image"class="post-image" alt="">\n' +
+            '                    <img src="" class="post-image" id="'+data.fileStoreNames[0]+'" alt="">\n' +
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
-            '                            <img th:src="@{/img/main/like.png}" class="icon" alt="">\n' +
-            '                            <img th:src="@{/img/main/comment.png}" class="icon" alt="">\n' +
-            '                            <img th:src="@{/img/main/send.png}" class="icon" alt="">\n' +
-            '                            <img th:src="@{/img/main/save.png}" class="save icon" alt="">\n' +
+            '                            <img src="/img/main/like.png" class="icon" alt="">\n' +
+            '                            <img src="/img/main/comment.png" class="icon" alt="">\n' +
+            '                            <img src="/img/main/send.png" class="icon" alt="">\n' +
+            '                            <img src="/img/main/save.png" class="save icon" alt="">\n' +
             '                        </div>\n' +
             '                        <p class="likes">1,012 likes</p>\n' +
-            '                        <p class="description"><span>username </span> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Pariatur tenetur veritatis placeat, molestiae impedit aut provident eum quo natus molestias?</p>\n' +
+            '                        <p class="description"><span>' + data.name + ' </span>' + data.content + '</p>\n' +
             '                        <p class="post-time">2 minutes ago</p>\n' +
             '                    </div>\n' +
             '                    <div class="comment-wrapper">\n' +
-            '                        <img th:src="@{/img/main/smile.png}" class="icon" alt="">\n' +
+            '                        <img src="/img/main/smile.png" class="icon" alt="">\n' +
             '                        <input type="text" class="comment-box" placeholder="Add a comment">\n' +
             '                        <button class="comment-btn">post</button>\n' +
             '                    </div>\n' +
             '                </div>'
 
 
-        document.querySelector('.post-grid').innerHTML = html;
+        return innerHtml;
+
     }
 
 

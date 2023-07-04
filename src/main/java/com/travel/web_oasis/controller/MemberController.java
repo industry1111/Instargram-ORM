@@ -59,7 +59,7 @@ public class MemberController {
      * */
     @ResponseBody
     @PostMapping("/register")
-    public Long registerForm(@ModelAttribute MemberDTO memberDTO) {
+    public Long registerForm(@RequestBody MemberDTO memberDTO) {
         System.out.println("memberDTO = " + memberDTO);
         Long result = memberService.saveMember(memberDTO);
         return result;

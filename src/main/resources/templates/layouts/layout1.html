@@ -43,34 +43,6 @@
                     </div>
                 </div>
 
-                <div class="post" th:each="post : ${posts}">
-                    <div class="info">
-                        <div class="user">
-                            <div class="profile-pic"><img th:src="@{/img/main/cover 1.png}" alt=""></div>
-                            <p class="username" th:text="${post.memberDTO.getName()}">modern_web_channel</p>
-                        </div>
-                        <img th:src="@{/img/main/option.png}" class="options" alt="">
-                    </div>
-                    <img th:src="|/post/download/${post.files[0].fileStoreName}|"  class="post-image" alt="">
-
-                    <div class="post-content">
-                        <div class="reaction-wrapper">
-                            <img th:src="@{/img/main/like.png}" class="icon" alt="">
-                            <img th:src="@{/img/main/comment.png}" class="icon" alt="">
-                            <img th:src="@{/img/main/send.png}" class="icon" alt="">
-                            <img th:src="@{/img/main/save.png}" class="save icon" alt="">
-                        </div>
-                        <p class="likes" th:text="${post.id}+likes">7777 likes</p>
-                        <p class="description"><span th:text="${post.id}"></span> <span th:text="${post.content}"></span></p>
-                        <p class="post-time" th:text="${post.createdDate}">2 minutes ago</p>
-                    </div>
-                    <div class="comment-wrapper">
-                        <img th:src="@{/img/main/smile.png}" class="icon" alt="">
-                        <input type="text" class="comment-box" placeholder="Add a comment">
-                        <button class="comment-btn">post</button>
-                    </div>
-                </div>
-
                 <!--POST 생성 영역-->
                 <div class="post-grid">
                 </div>
@@ -84,7 +56,7 @@
                         <img th:src="@{/img/main/profile-pic.png}" alt="">
                     </div>
                     <div>
-                        <a th:href="@{member/profile}"><p class="username">modern_web_channel</p></a>
+                        <a th:href="@{/member/profile}"><p class="username">modern_web_channel</p></a>
                         <p class="sub-text">kunaal kumar</p>
                     </div>
                     <button class="action-btn">switch</button>

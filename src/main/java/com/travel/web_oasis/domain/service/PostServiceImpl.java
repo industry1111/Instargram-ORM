@@ -5,17 +5,24 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,7 +58,7 @@ public class PostServiceImpl implements PostService{
             return null;
         }
 
-        return entityToDto(post);
+        return entityToDto(post.getId(), post.getContent(), post.getMember(), post.getFileAttachList());
 
     }
 
@@ -73,22 +80,19 @@ public class PostServiceImpl implements PostService{
 //        postRepository.deleteById(id);
     }
 
+
     @Override
-    public List<PostDTO> findAllPost() {
+    public PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO, Long id) {
 
-        List<Post> findList = postRepository.findAll();
+        Pageable pageable = requestDTO.getPageable(Sort.by("id"));
 
-        List<PostDTO> resultList = new ArrayList<>();
+        Page<Post> result = postRepository.findAll(pageable);
 
-        for (Post post : findList) {
-            logger.info(post.toString());
-            resultList.add(entityToDto(post));
-        }
+        result.stream().forEach(post -> System.out.println("post = " + post));
 
-        return resultList;
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
+
+        return new PageResultDTO<>(result, fn);
     }
-
-
-
 
 }

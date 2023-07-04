@@ -1,8 +1,11 @@
 package com.travel.web_oasis.domain.service;
 
 
+import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 
 import java.util.List;
@@ -12,7 +15,7 @@ public abstract interface PostService {
     Long createPost(PostDTO postDTO, Member member);
     PostDTO findPost(Long id);
 
-    List<PostDTO> findAllPost();
+    PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO, Long id);
     void deletePost(Long id);
 
     default Post dtoToEntity(PostDTO postDto) {
@@ -22,14 +25,24 @@ public abstract interface PostService {
                 .build();
     }
 
-    default PostDTO entityToDto(Post post) {
+    default PostDTO entityToDto(Long id, String content, Member member, List<FileAttach> fileAttachList) {
+
+        // `fileAttachList`의 각 요소의 `fileName`을 `fileNames` 배열에 추가
+        String[] fileNames = fileAttachList.stream().map(FileAttach::getFileName).toArray(String[]::new);
+
+        // `fileAttachList`의 각 요소의 `fileStoreName`을 `fileStoreNames` 배열에 추가
+        String[] fileStoreNames = fileAttachList.stream().map(FileAttach::getFileStoreName).toArray(String[]::new);
+
         return PostDTO.builder()
-                .id(post.getId())
-                .content(post.getContent())
-                .memberId(post.getMember().getId())
-                .files(FileAttachServiceImpl.entitiesToDtos(post.getFileAttachList()))
-                .createdDate(post.getCreatedDate().toString())
-                .modifiedDate(post.getModifiedDate().toString())
+                .id(id)
+                .content(content)
+                .fileNames(fileNames)
+                .fileStoreNames(fileStoreNames)
+                .memberId(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .provider(member.getProvider())
+                .picture(member.getPicture())
                 .build();
     }
 }
