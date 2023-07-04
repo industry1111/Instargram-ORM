@@ -26,10 +26,10 @@ public class SecurityConfig {
         http.userDetailsService(principalDetailsService);
 
         http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/member/**","/member/profile").permitAll()
+            request.requestMatchers("/member/**","/error").permitAll()
                     .requestMatchers("/","/post/**").hasRole("USER")
                     .requestMatchers("/member/login").anonymous()
-                    .requestMatchers("/member/logout").authenticated()
+                    .requestMatchers("/member/logout","/member/profile/**").authenticated()
                     .requestMatchers("/img/**", "/css/**", "/webjars/**","/js/**").permitAll();
         });
 
@@ -38,7 +38,6 @@ public class SecurityConfig {
             formLogin.loginPage("/member/login")
                     .usernameParameter("email")
                     .defaultSuccessUrl("/")
-                    .failureUrl("/member/login/error")
                     .permitAll();
         });
         http.logout(logout ->{

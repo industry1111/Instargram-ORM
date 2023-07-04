@@ -5,7 +5,6 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,9 @@ class MemberServiceTest {
                 .build();
     }
 
-    MemberDTO update() {
+    MemberDTO update(Long id) {
         return MemberDTO.builder()
+                .id(id)
                 .name("테스트2")
                 .password("123")
                 .status(Status.PRIVATE)
@@ -52,8 +52,7 @@ class MemberServiceTest {
 
         Long id = memberService.saveMember(newMember());
 
-        Member member = memberRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+        Member member = memberService.findByIdAndProvider(id, "local");
 
         memberRepository.deleteById(member.getId());
 
@@ -62,16 +61,14 @@ class MemberServiceTest {
     @Test
     void updateMember() {
         Long id = memberService.saveMember(newMember());
-        MemberDTO memberDTO = update();
-        memberDTO.setId(id);
-        memberService.updateMember(memberDTO);
+        MemberDTO memberDTO = update(id);
+        memberService.updateMember(memberDTO, null);
 
-        Member member = memberRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+        Member member = memberService.findByIdAndProvider(id, "local");
 
         System.out.println(member.getId());
 
-        Assertions.assertEquals(member.getName(), "테스트2");
+        Assertions.assertEquals("테스트2", member.getName());
 
     }
 }

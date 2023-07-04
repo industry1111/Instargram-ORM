@@ -2,14 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
-<th:block layout:fragment="script"></th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/Member/editProfile.js}" type="module"></script>
+</th:block>
 <th:block layout:fragment="css">
-    <style>
-        body {
-            margin-top: 20px;
-            background: #f8f8f8
-        }
-    </style>
+    <link th:href="@{/css/Member/editProfile.css}" rel="stylesheet"/>
 </th:block>
 
 <div layout:fragment="content">
@@ -28,14 +25,14 @@
                     </div>
                     <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                         <div class="text-center text-sm-left mb-2 mb-sm-0">
-                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">John Smith</h4>
+                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap" th:text="${member.name}">John Smith</h4>
                             <p class="mb-0">@johnny.s</p>
                             <div class="text-muted"><small>Last seen 2 hours ago</small></div>
                             <div class="mt-2">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fa fa-fw fa-camera"></i>
-                                    <span>Change Photo</span>
-                                </button>
+                                <div class="filebox">
+                                    <label for="ex_file">업로드</label>
+                                    <input type="file" id="ex_file">
+                                </div>
                             </div>
                         </div>
                         <div class="text-center text-sm-right">
@@ -45,42 +42,44 @@
                 </div>
                 <div class="tab-content pt-3">
                     <div class="tab-pane active">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label>Username</label>
-                                                <input class="form-control" type="text" name="username"
-                                                       th:placeholder="${member.name}">
-                                            </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input class="form-control" type="text" id="name"
+                                                   th:placeholder="${member.name}">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label>Email</label>
-                                                <input class="form-control" type="text" th:placeholder="${member.email}">
-                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input class="form-control" type="text" id="email"
+                                                   th:placeholder="${member.email}" disabled>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <div class="form-group">
-                                                <label>Introduction</label>
-                                                <textarea class="form-control" rows="5" placeholder="My Bio"></textarea>
-                                            </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <div class="form-group">
+                                            <label>Introduction</label>
+                                            <textarea class="form-control" rows="5" id="bio"
+                                                      th:placeholder="${member.bio}"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col d-flex justify-content-end">
-                                    <button class="btn btn-primary" id="btn-update" type="submit">Save Changes</button>
-                                    <input type="hidden" id="id" th:value="${member.id}">
-                                    <input type="hidden" id="provider" th:value="${member.provider}">
-                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <button class="btn btn-primary" id="btn_update">Save Changes</button>
+                                <input type="hidden" id="id" th:value="${member.id}">
+                                <input type="hidden" id="provider" th:value="${member.provider}">
                             </div>
+                        </div>
                     </div>
                 </div>
 

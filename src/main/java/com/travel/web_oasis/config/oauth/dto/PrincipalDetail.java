@@ -1,7 +1,8 @@
 package com.travel.web_oasis.config.oauth.dto;
 
 import com.travel.web_oasis.domain.member.Member;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -9,7 +10,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 public class PrincipalDetail extends User implements OAuth2User {
 
     private Member member;

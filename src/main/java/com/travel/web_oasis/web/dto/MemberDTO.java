@@ -1,6 +1,5 @@
 package com.travel.web_oasis.web.dto;
 
-import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import lombok.*;
@@ -19,19 +18,9 @@ public class MemberDTO {
     private String password;
     private Role role;
     private Status status;
-    private String introduction;
+    private String bio;
     private String picture;
+    private String provider;
 
-    public MemberDTO entityToDto(Member member) {
-        return MemberDTO.builder()
-                .id(member.getId())
-                .name(member.getName())
-                .email(member.getEmail())
-                .password(member.getPassword())
-                .role(member.getRole())
-                .status(member.getStatus())
-                .introduction(member.getIntroduction())
-                .picture(member.getPicture())
-                .build();
-    }
+
 }

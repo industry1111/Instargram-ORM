@@ -1,17 +1,28 @@
-import {customAjax} from "../common";
+import {customAjax} from "../common.js";
 
-$('btn-update').on('click', function () {
-    var name = $('#name').val();
-    var Introduction = $('#Introduction').val();
-    var id = $('#id').val();
-    var provider = $('#provider').val();
+$('#btn_update').on('click', function () {
+    let name = $('#name').val();
+    let bio = $('#bio').val();
+    let id = $('#id').val();
+    let provider = $('#provider').val();
 
-    let fd = new FormData();
-    fd.append('name', name);
-    fd.append('Introduction', Introduction);
-    fd.append('id', id);
-    fd.append('provider', provider);
+    let data = {
+        name: name,
+        bio: bio,
+        id: id,
+        provider: provider
+    };
+    console.log(data);
 
-    customAjax("POST", "/member/edit", fd, successCallback, failCallback);
+
+    customAjax("PUT", "/member/profile/edit", data, successCallback, failCallback);
 });
 
+function successCallback(data) {
+    console.log(data);
+    location.href = "/member/profile";
+}
+
+function failCallback(data) {
+
+}
