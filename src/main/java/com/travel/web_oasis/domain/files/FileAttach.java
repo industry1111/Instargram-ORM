@@ -40,11 +40,11 @@ public class FileAttach extends BaseEntity {
     }
 
     @Builder
-    public FileAttach(String fileName, String fileStoreName, String fileUrl,String FileType,Long fileSize ) {
+    public FileAttach(String fileName, String fileStoreName, String fileUrl,String fileType,Long fileSize ) {
         this.fileName = fileName;
         this.fileStoreName = fileStoreName;
         this.fileUrl = fileUrl;
-        this.fileType = FileType;
+        this.fileType = fileType;
         this.fileSize = fileSize;
     }
 

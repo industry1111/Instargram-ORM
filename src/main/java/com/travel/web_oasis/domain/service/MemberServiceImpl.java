@@ -35,6 +35,7 @@ public class MemberServiceImpl implements MemberService{
             return -1L;
         }
         Member member = dtoToEntity(memberDTO);
+
         return memberRepository.save(member).getId();
     }
 
@@ -85,6 +86,11 @@ public class MemberServiceImpl implements MemberService{
                 .picture(member.getPicture())
                 .provider(member.getProvider())
                 .build();
+
     }
+
+
+
+
 
 }

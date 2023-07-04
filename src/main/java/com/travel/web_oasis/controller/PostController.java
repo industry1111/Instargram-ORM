@@ -1,18 +1,26 @@
 package com.travel.web_oasis.controller;
 
+import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.service.FileAttachService;
+import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.PostService;
+import com.travel.web_oasis.web.dto.FileAttachDTO;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,26 +40,35 @@ public class PostController {
     @Autowired
     FileAttachService fileAttachService;
 
+    @Autowired
+    MemberService memberService;
+
     private final static Logger logger = LoggerFactory.getLogger(PostController.class);
+
+
+
     /*
     * @Param
     *   postDTO : 게시글 내용과 파일 정보를 담은 DTO
     *   files : 파일 정보를 담은 MultipartFile 배열
+    *   principalDetail :
     * @Description : 게시글 생성
     *
     * @Return : 게시글 생성 후 메인 페이지로 이동
     * */
     @ResponseBody
     @PostMapping("/create")
-    public Long createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files) {
+    public Long createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files, @AuthenticationPrincipal PrincipalDetail principalDetail) {
 
         logger.info("createPost Method  Start \n PostDTO : {}, files : {}", postDTO, files);
 
-        List<FileAttach> fileAttachList = fileAttachService.upload(files);
+        Member member = principalDetail.getMember();
 
-        postDTO.setFiles(fileAttachList);
+        List<FileAttachDTO> fileAttachDTOList = fileAttachService.upload(files);
 
-        return postService.createPost(postDTO, files);
+        postDTO.setFiles(fileAttachDTOList);
+
+        return postService.createPost(postDTO, member);
     }
 
     /*
@@ -82,7 +99,6 @@ public class PostController {
 
         return "/layouts/layout1" ;
     }
-
 
     /*
      * @Param
@@ -115,4 +131,3 @@ public class PostController {
         }
     }
 }
-

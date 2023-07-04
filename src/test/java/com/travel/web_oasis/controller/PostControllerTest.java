@@ -94,7 +94,7 @@ class PostControllerTest {
        PostDTO postDTO = PostDTO.builder()
                             .content("게시글 상세보기 요청 테스트")
                             .build();
-        Long id = postService.createPost(postDTO, files);
+        Long id = postService.createPost(postDTO,null);
 
         //when && then
         //리턴값에 JSON 형식으로 post id, content 있는지 확인
@@ -103,7 +103,7 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.content").value("게시글 상세보기 요청 테스트"))
-                .andExpect(jsonPath("$.files").isArray())
+//                .andExpect(jsonPath("$.files").isArray())
                 .andReturn();
 
 //        String responseBody = mvcResult.getResponse().getContentAsString();

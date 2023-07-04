@@ -2,6 +2,7 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.repository.FileAttachRepository;
+import com.travel.web_oasis.web.dto.FileAttachDTO;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,33 +33,33 @@ public class FileAttachServiceImpl implements FileAttachService {
     private static final Logger logger = LoggerFactory.getLogger(FileAttachServiceImpl.class);
 
     @Override
-    public List<FileAttach> upload(List<MultipartFile> multipartFiles) {
-        List<FileAttach> fileAttachments = new ArrayList<>();
+    public List<FileAttachDTO> upload(List<MultipartFile> multipartFiles) {
+        List<FileAttachDTO> fileAttachDTOList = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
-            FileAttach fileAttach = uploadSingleFile(multipartFile);
-            fileAttachments.add(fileAttach);
+            FileAttachDTO fileAttachDTO = uploadSingleFile(multipartFile);
+            fileAttachDTOList.add(fileAttachDTO);
         }
 
-        return fileAttachments;
+        return fileAttachDTOList;
     }
 
 
     /* 단일 파일 업로드
     *Param
     * */
-    private FileAttach uploadSingleFile(MultipartFile multipartFile) {
+    private FileAttachDTO uploadSingleFile(MultipartFile multipartFile) {
         String fileUrl = "http://localhost:8080/files/"; // 파일 URL 설정 -> 환경변수로 설정 예정
         String fileName = multipartFile.getOriginalFilename();
         String fileContentType = multipartFile.getContentType();
 
         String fileStorageName = saveFileToStorage(multipartFile);
         logger.info("fileName : {} , fileContentType : {}", fileName, fileContentType);
-        return FileAttach.builder()
+        return FileAttachDTO.builder()
                 .fileName(fileName)
                 .fileStoreName(fileStorageName)
                 .fileUrl(fileUrl + fileName)
-                .FileType(fileContentType)
+                .fileType(fileContentType)
                 .fileSize(multipartFile.getSize())
                 .build();
     }
@@ -146,6 +147,46 @@ public class FileAttachServiceImpl implements FileAttachService {
     public String getFileType(String fileName) {
 
         return fileAttachRepository.findByFileStoreName(fileName).getFileType();
+    }
+
+    public static List<FileAttach> dtosToEntities(List<FileAttachDTO> fileAttachDTOS) {
+        List<FileAttach> fileAttachList = new ArrayList<>();
+        if (fileAttachDTOS != null) {
+            for (FileAttachDTO fileAttachDTO : fileAttachDTOS) {
+                fileAttachList.add(dtoToEntity(fileAttachDTO));
+            }
+        }
+        return fileAttachList;
+    }
+
+    private static FileAttach dtoToEntity(FileAttachDTO fileAttachDTO) {
+        return FileAttach.builder()
+                .fileName(fileAttachDTO.getFileName())
+                .fileUrl(fileAttachDTO.getFileUrl())
+                .fileStoreName(fileAttachDTO.getFileStoreName())
+                .fileSize(fileAttachDTO.getFileSize())
+                .fileType(fileAttachDTO.getFileType())
+                .build();
+    }
+
+    public static List<FileAttachDTO> entitiesToDtos(List<FileAttach> fileAttachList) {
+        List<FileAttachDTO> fileAttachDTOList = new ArrayList<>();
+
+        for (FileAttach fileAttach : fileAttachList) {
+            fileAttachDTOList.add(entityToDto(fileAttach));
+        }
+
+        return fileAttachDTOList;
+    }
+
+    private static FileAttachDTO entityToDto(FileAttach fileAttach) {
+        return FileAttachDTO.builder()
+                .fileName(fileAttach.getFileName())
+                .fileUrl(fileAttach.getFileUrl())
+                .fileStoreName(fileAttach.getFileStoreName())
+                .fileSize(fileAttach.getFileSize())
+                .fileType(fileAttach.getFileType())
+                .build();
     }
 }
 

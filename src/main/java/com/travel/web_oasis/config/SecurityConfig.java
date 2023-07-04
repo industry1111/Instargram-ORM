@@ -57,6 +57,15 @@ public class SecurityConfig {
 
         });
 
+        http.sessionManagement(session -> {
+                    session.maximumSessions(1)
+                            .maxSessionsPreventsLogin(true)
+                            .expiredUrl("/");
+                }
+
+        );
+
+
         return http.build();
     }
 //    @Bean

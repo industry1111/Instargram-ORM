@@ -58,6 +58,7 @@ public class Member extends BaseEntity {
 
     public void update(MemberDTO memberDto) {
         this.name = memberDto.getName();
+        this.password = memberDto.getPassword();
         this.status = memberDto.getStatus();
         this.picture = memberDto.getPicture();
         this.bio = memberDto.getBio();

@@ -1,8 +1,10 @@
 package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,18 @@ public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
 
+    private final MemberService memberService;
+
     private final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
     @Override
     @Transactional
-    public Long createPost(PostDTO postDTO, List<MultipartFile> files) {
+    public Long createPost(PostDTO postDTO, Member member) {
 
-        logger.info("createPost() called   PostDTO : {}", postDTO);
+        logger.info("createPost() called   PostDTO : {}, member : {}", postDTO, member);
 
         Post post = dtoToEntity(postDTO);
+        post.setMember(member);
 
         Long id = postRepository.save(post).getId();
 
@@ -76,28 +81,14 @@ public class PostServiceImpl implements PostService{
         List<PostDTO> resultList = new ArrayList<>();
 
         for (Post post : findList) {
+            logger.info(post.toString());
             resultList.add(entityToDto(post));
         }
 
         return resultList;
     }
 
-    public Post dtoToEntity(PostDTO postDto) {
-        return Post.builder()
-                .content(postDto.getContent())
-                .fileAttachList(postDto.getFiles())
-                .build();
-    }
 
-    public PostDTO entityToDto(Post post) {
-        return PostDTO.builder()
-                .id(post.getId())
-                .content(post.getContent())
-                .files(post.getFileAttachList())
-                .createdDate(post.getCreatedDate().toString())
-                .modifiedDate(post.getModifiedDate().toString())
-                .build();
-    }
 
 
 }

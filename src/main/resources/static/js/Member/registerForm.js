@@ -4,8 +4,8 @@ const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()-_=+]{8,16}$/;
 const namePattern = /^[a-zA-Z0-9-_]{4,20}$/;
 
-$("#btn_register").on("click",function() {
 
+$('#btn_register').on("click",function() {
         let email = $('#email');
         let password = $('#password');
         let name = $('#name');
@@ -13,6 +13,7 @@ $("#btn_register").on("click",function() {
         let status = "PUBLIC";
         let provider = "LOCAL";
         let is_Auth = "N";
+        let picture = "";
 
         if (!emailPattern.test(email.val())) {
             alert("이메일 형식이 올바르지 않습니다.");
@@ -38,8 +39,9 @@ $("#btn_register").on("click",function() {
             role: role,
             status: status,
             provider: provider,
-            is_Auth: is_Auth
-        };
+            is_Auth: is_Auth,
+            picture: picture
+        }
 
 
         customAjax("POST", "/member/register", data, successCallback, failCallback);

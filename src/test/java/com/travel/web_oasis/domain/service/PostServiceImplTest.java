@@ -1,6 +1,11 @@
 package com.travel.web_oasis.domain.service;
 
+import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.member.Role;
+import com.travel.web_oasis.domain.member.Status;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,21 @@ class PostServiceImplTest {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private MemberService memberService;
+
+    MemberDTO memberDTO;
+
+    @BeforeEach
+    void setUp() {
+           memberDTO = MemberDTO.builder()
+                   .name("테스트")
+                   .email("test@mail.com")
+                   .password("1234")
+                   .role(Role.USER)
+                   .status(Status.PUBLIC)
+                   .build();
+    }
 
     @Test
     @DisplayName("게시글 생성")
@@ -29,8 +49,12 @@ class PostServiceImplTest {
 
         List<MultipartFile> files = new ArrayList<>();
 
+        Long id = memberService.saveMember(memberDTO);
+
+        Member member = memberService.findMember(id);
+
         //when
-        Long actual = postService.createPost(postDto, files);
+        Long actual = postService.createPost(postDto, member);
 
         //then
         assertThat(actual).isEqualTo(expected);
@@ -44,12 +68,15 @@ class PostServiceImplTest {
         PostDTO postDto = new PostDTO();
         postDto.setContent(expected);
 
-        List<MultipartFile> files = new ArrayList<>();
+        Long id = memberService.saveMember(memberDTO);
+
+        Member member = memberService.findMember(id);
+
 
         //when
-        Long id = postService.createPost(postDto, files);
+        Long postId = postService.createPost(postDto, member);
 
-        PostDTO findPostDTO = postService.findPost(id);
+        PostDTO findPostDTO = postService.findPost(postId);
         String actual = findPostDTO.getContent();
 
         //then
@@ -64,8 +91,13 @@ class PostServiceImplTest {
                 .content("삭제용 게시글")
                 .build();
 
-        List<MultipartFile> files = new ArrayList<>();
-        Long savePostId = postService.createPost(postDTO, files);
+        Long id = memberService.saveMember(memberDTO);
+
+        Member member = memberService.findMember(id);
+
+        //when
+        Long postId = postService.createPost(postDTO, member);
+        Long savePostId = postService.createPost(postDTO, member);
         String expected = "해당 게시글이 없습니다. id : "+savePostId;
 
         try {

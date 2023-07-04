@@ -27,6 +27,10 @@ public class Post extends BaseEntity {
     @Column(nullable = false, length = 3000)
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<FileAttach> fileAttachList = new ArrayList<>();
 
@@ -40,13 +44,25 @@ public class Post extends BaseEntity {
     }
 
     @Builder
-    public Post(Long id, String content,List<FileAttach> fileAttachList) {
+    public Post(Long id, String content, Member member, List<FileAttach> fileAttachList) {
         this.id = id;
         this.content = content;
-        for (FileAttach file : fileAttachList) {
-            this.addFile(file);
+        setMember(member);
+        if (fileAttachList != null) {
+            for (FileAttach file : fileAttachList) {
+                this.addFile(file);
+            }
         }
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void chaneContent(String updateContent) {
+        this.content = updateContent;
+    }
+
 
     @Override
     public String toString() {
@@ -54,8 +70,7 @@ public class Post extends BaseEntity {
                 "id=" + id +
                 ", content='" + content + '\'' +
                 ", filesAttachList=" + fileAttachList +
+                ", member=" + member +
                 '}';
     }
-
-
 }
