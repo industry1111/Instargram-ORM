@@ -15,14 +15,14 @@
       <div class="profile">
 
         <div class="profile-image">
-          <img style="width: 152px; height: 152px;" th:src="@{/img/profile/330d71f6ccb8480ca1f55794525a5afb.JPG}" alt="">
+          <img style="width: 152px; height: 152px;" th:src="|/member/download/profile/${member.id}|" alt="">
 
 
         </div>
 
         <div class="profile-user-settings">
 
-          <h1 class="profile-user-name" sec:authorize="isAuthenticated()" sec:authentication="principal.member.name">janedoe_</h1>
+          <h1 class="profile-user-name" th:text="${member.name}">janedoe_</h1>
 
           <button class="btn profile-edit-btn" onclick="location.href='/member/profile/edit'">Edit Profile</button>
 
@@ -42,7 +42,7 @@
 
         <div class="profile-introduction">
 
-          <p  sec:authorize="isAuthenticated()" sec:authentication="principal.member.introduction"><p>
+          <p th:text="${member.introduction}"><p>
 
         </div>
 

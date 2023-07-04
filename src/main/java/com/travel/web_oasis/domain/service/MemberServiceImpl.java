@@ -106,4 +106,9 @@ public class MemberServiceImpl implements MemberService{
         return passwordEncoder.encode(password);
     }
 
+    @Override
+    public String getFullPath(Long id) {
+        Member member = findById(id);
+        return storagePath + member.getPicture();
+    }
 }

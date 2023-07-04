@@ -7,11 +7,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public interface MemberService {
-    public Long saveMember(MemberDTO memberDTO);
-    public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file);
-    public Boolean validateDuplicateMember(MemberDTO memberDTO);
+    Long saveMember(MemberDTO memberDTO);
+    MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file);
+    Boolean validateDuplicateMember(MemberDTO memberDTO);
 
-    public Member findById(Long id);
+    Member findById(Long id);
+
+    String getFullPath(Long id);
+
 
     default Member dtoToEntity(MemberDTO memberDTO) {
 

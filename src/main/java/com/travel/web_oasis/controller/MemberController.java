@@ -1,16 +1,21 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
+import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.MalformedURLException;
 
 @Controller
 @RequestMapping("/member")
@@ -117,5 +122,11 @@ public class MemberController {
         log.info("editProfile");
         log.info("MemberDTO : " + memberDTO.toString());
         return memberService.updateMember(memberDTO, principalDetail,file);
+    }
+
+    @ResponseBody
+    @GetMapping("/download/profile/{id}")
+    public Resource downloadProfile(@PathVariable Long id) throws MalformedURLException {
+        return new UrlResource("file:" + memberService.getFullPath(id));
     }
 }
