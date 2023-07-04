@@ -119,8 +119,8 @@ public class FileAttachServiceImpl implements FileAttachService {
     * return : 저장경로
     * */
     @Override
-    public String getFullPath(String fileName) {
-        return storagePath + fileName;
+    public String getFullPath(String fileStoreName) {
+        return storagePath + fileStoreName;
     }
 
     @Override

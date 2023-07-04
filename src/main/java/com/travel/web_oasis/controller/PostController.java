@@ -115,8 +115,11 @@ public class PostController {
     public ResponseEntity<Resource> downloadImage(@PathVariable String fileStoreName) throws MalformedURLException {
         logger.info("downloadImage start \n fileStoreName={}", fileStoreName);
         Resource resource = new UrlResource("file:" + fileAttachService.getFullPath(fileStoreName));
+
         if (resource.exists()) {
+
             String contentType = fileAttachService.getFileType(fileStoreName);
+
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource);

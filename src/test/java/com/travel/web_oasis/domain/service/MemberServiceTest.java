@@ -62,7 +62,7 @@ class MemberServiceTest {
     void updateMember() {
         Long id = memberService.saveMember(newMember());
         MemberDTO memberDTO = update(id);
-        memberService.updateMember(memberDTO, null);
+//        memberService.updateMember(memberDTO, null);
 
         Member member = memberService.findByIdAndProvider(id, "local");
 

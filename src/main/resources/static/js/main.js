@@ -4,6 +4,8 @@ const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
 
 window.onload = function () {
 
+
+
     const modal = document.getElementById("modal_add_feed");
     const btnCreatePost = document.getElementById("btn-create_post");
     let files;
@@ -152,7 +154,7 @@ window.onload = function () {
 
         let id = 1;
         let page = 1;
-        let size = 3;
+        let size = 10;
 
         let data = {
             pathParams : {
@@ -165,7 +167,6 @@ window.onload = function () {
         }
         customAjax("GET","/post/list/{id}",data,findAllPostCallBack);
     }
-
 
     function findAllPostCallBack(result) {
         let html = "";
@@ -205,10 +206,15 @@ window.onload = function () {
     }
 
     function urlConvertBlob(data,customParam) {
+
         const img = document.getElementById(customParam);
+
         let blob = new Blob([data]);
+
         URL.createObjectURL(blob);
+
         img.src = URL.createObjectURL(blob);
+
     }
 
 
@@ -244,9 +250,6 @@ window.onload = function () {
         return innerHtml;
 
     }
-
-
-
 
 }
 

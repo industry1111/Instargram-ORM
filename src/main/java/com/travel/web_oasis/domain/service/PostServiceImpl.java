@@ -1,5 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
+import com.querydsl.core.BooleanBuilder;
 import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
@@ -84,7 +85,7 @@ public class PostServiceImpl implements PostService{
     @Override
     public PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO, Long id) {
 
-        Pageable pageable = requestDTO.getPageable(Sort.by("id"));
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
         Page<Post> result = postRepository.findAll(pageable);
 

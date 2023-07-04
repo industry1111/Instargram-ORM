@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file) {
         log.info("updateMember() start");
-        Member member = findByIdAndProvider(memberDto.getId(), memberDto.getProvider());
+        Member member = principalDetail.getMember();
         memberDto.setPicture(pictureUpload(file));
         member.update(memberDto);
         Member updateMember = memberRepository.save(member);
@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService{
         }catch (Exception e){
             e.printStackTrace();
         }
-        return storagePath+storeFileName;
+        return storeFileName;
     }
 
     public Member dtoToEntity(MemberDTO memberDTO) {

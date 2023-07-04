@@ -26,29 +26,10 @@
         <div class="wrapper">
             <div class="left-col">
 
-                <div class="status-wrapper">
-                    <div class="status-card">
-                        <div class="profile-pic" ><img th:src="@{/img/main/cover 1.png}" alt=""></div>
-                        <p class="username" th:if="${member}!=null" th:text="${member.name}"></p>
-                    </div>
-                    <div class="status-card">
-                        <div class="profile-pic"><img th:src="@{/img/main/cover 2.png}" alt=""></div>
-                        <p class="username">user_name_2</p>
-                    </div>
-                    <div class="status-card">
-                        <div class="profile-pic"><img th:src="@{/img/main/cover 3.png}" alt=""></div>
-                        <p class="username">user_name_3</p>
-                    </div>
-                    <div sec:authorize="isAuthenticated()">
-                    </div>
-                </div>
-
                 <!--POST 생성 영역-->
                 <div class="post-grid">
                 </div>
 
-
-                // +5 more post elements
             </div>
             <div class="right-col">
                 <div class="profile-card">

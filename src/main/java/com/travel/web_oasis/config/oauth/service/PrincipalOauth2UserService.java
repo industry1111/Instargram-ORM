@@ -49,6 +49,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             System.out.println("깃허브 로그인 요청");
             Map<String,Object> attributes =  oAuth2User.getAttributes();
             oAuth2UserInfo = new GithubUserInfo(attributes);
+            for (String s : attributes.keySet()) {
+                System.out.println(s + " : " + attributes.get(s));
+            }
         } else if (registrationId.equals("kakao")) {
             System.out.println("카카오 로그인 요청");
             Map<String, Object> kakaoAccount = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
@@ -57,6 +60,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else {
             System.out.println("우리는 구글과 네이버만 지원해요 ㅎㅎ");
         }
+
 
         String email = oAuth2UserInfo.getEmail();
         String username = oAuth2UserInfo.getName();

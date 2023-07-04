@@ -15,6 +15,7 @@
  }
 * submitFunc: 성공시 콜백 함수
 * errorFunc: 실패시 콜백 함수 ==> 공통함수로 처리 예정
+* customParam : 콜백함수에 넘겨줄 데이터
 * */
 function customAjax(method, url, data, submitFunc,customParam) {
     const ajaxOptions = {
