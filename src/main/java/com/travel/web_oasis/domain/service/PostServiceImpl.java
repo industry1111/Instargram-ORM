@@ -1,11 +1,8 @@
 package com.travel.web_oasis.domain.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
-import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
@@ -18,11 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 @Slf4j
@@ -83,7 +76,7 @@ public class PostServiceImpl implements PostService{
 
 
     @Override
-    public PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO, Long id) {
+    public PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO) {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 

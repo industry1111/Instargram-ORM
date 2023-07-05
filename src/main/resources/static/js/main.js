@@ -4,6 +4,9 @@ const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
 
 window.onload = function () {
 
+    let page = 1;
+    let size = 3;
+    let totalPage;
 
 
     const modal = document.getElementById("modal_add_feed");
@@ -11,6 +14,15 @@ window.onload = function () {
     let files;
 
     findAllPost();
+
+    if ($(window).scroll(function () {
+        if (page <= totalPage) {
+            if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+                findAllPost();
+            }
+        }
+    })) ;
+
 
     btnCreatePost.addEventListener("click", e => {
 
@@ -33,8 +45,7 @@ window.onload = function () {
     });
 
 
-
-    function closeModal(e){
+    function closeModal(e) {
         //첫번째 모달창 안보이게
         $('#modal_add_feed').css({
             display: 'none'
@@ -42,7 +53,7 @@ window.onload = function () {
 
         //2번째 모달창 안보이게
         $('#modal_add_feed_content').css({
-            display : 'none'
+            display: 'none'
         });
 
         document.body.style.overflowY = "scroll"; // 스크롤 보이게
@@ -55,7 +66,7 @@ window.onload = function () {
         .on("dragleave", dragOver)
         .on("drop", uploadFiles);
 
-    function dragOver(e){
+    function dragOver(e) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -73,7 +84,7 @@ window.onload = function () {
     }
 
 
-    function uploadFiles(e){
+    function uploadFiles(e) {
         e.stopPropagation();
         e.preventDefault();
         console.log(e.dataTransfer)
@@ -89,25 +100,25 @@ window.onload = function () {
 
         if (files[0].type.match(/image.*/)) {
             $('#modal_add_feed_content').css({
-                display : 'flex'
+                display: 'flex'
             });
             $('.modal_image_upload_content').css({
                 "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
                 "outline": "none",
                 "background-size": "contain",
-                "background-repeat" : "no-repeat",
-                "background-position" : "center"
+                "background-repeat": "no-repeat",
+                "background-position": "center"
             });
             $('#modal_add_feed').css({
                 display: 'none'
             })
-        }else{
+        } else {
             alert('이미지가 아닙니다.');
             return;
         }
     };
 
-    $('#button_write_feed').on('click', ()=>{
+    $('#button_write_feed').on('click', () => {
         const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
         const content = $('#input_content').val();
         const profile_image = $('#input_profile_image').attr('src');
@@ -123,24 +134,16 @@ window.onload = function () {
         fd.append('profile_image', profile_image);
         fd.append('user_id', user_id);
 
-        if(image.length <= 0)
-        {
+        if (image.length <= 0) {
             alert("이미지가 비어있습니다.");
-        }
-        else if(content.length <= 0)
-        {
+        } else if (content.length <= 0) {
             alert("설명을 입력하세요");
-        }
-        else if(profile_image.length <= 0)
-        {
+        } else if (profile_image.length <= 0) {
             alert("프로필 이미지가 비어있습니다.");
-        }
-        else if(user_id.length <= 0)
-        {
+        } else if (user_id.length <= 0) {
             alert("사용자 id가 없습니다.");
-        }
-        else{
-            customAjax("POST", "/post/create", fd,closeModal);
+        } else {
+            customAjax("POST", "/post/create", fd, closeModal);
         }
     });
 
@@ -150,35 +153,37 @@ window.onload = function () {
     });
 
 
-    function findAllPost () {
-
-        let id = 1;
-        let page = 1;
-        let size = 10;
+    function findAllPost() {
 
         let data = {
-            pathParams : {
-                id : id
-            },
-            queryParams : {
-                page : page,
-                size : size
+            queryParams: {
+                page: page,
+                size: size
             }
         }
-        customAjax("GET","/post/list/{id}",data,findAllPostCallBack);
+        customAjax("GET", "/post/list", data, findAllPastCallBack);
     }
 
-    function findAllPostCallBack(result) {
-        let html = "";
-
-        result.dtoList.forEach(function(data) {
-            html += createPosGrid(data);
-        });
-
-        document.querySelector('.post-grid').innerHTML = html;
-
-        downloadImage(result);
+    function findAllPastCallBack(result) {
+        totalPage = result.totalPage;
+        result.dtoList.forEach((data) => {
+            $(".post-grid").append(createPosGrid(data));
+        })
+        page++;
+        downloadImage(result)
     }
+
+    // function findAllPostCallBack(result) {
+    //     let html = "";
+    //
+    //     result.dtoList.forEach(function(data) {
+    //         html += createPosGrid(data);
+    //     });
+    //
+    //     document.querySelector('.post-grid').innerHTML = html;
+    //
+    //     downloadImage(result);
+    // }
 
     function downloadImage(result) {
         result.dtoList.forEach((data) => {
@@ -190,7 +195,7 @@ window.onload = function () {
                     queryParams: {}
                 };
 
-                customAjax("GET", "/post/download/{fileStoreName}", data, function(data) {
+                customAjax("GET", "/post/download/{fileStoreName}", data, function (data) {
                     const img = document.getElementById(fileStoreName);
 
                     let blob = new Blob([data]);
@@ -213,7 +218,7 @@ window.onload = function () {
             '                        </div>\n' +
             '                        <img src="/img/main/option.png" class="options" alt="">\n' +
             '                    </div>\n' +
-            '                    <img src="" class="post-image" id="'+data.fileStoreNames[0]+'" alt="">\n' +
+            '                    <img src="" class="post-image" id="' + data.fileStoreNames[0] + '" alt="">\n' +
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
             '                            <img src="/img/main/like.png" class="icon" alt="">\n' +
@@ -238,5 +243,3 @@ window.onload = function () {
     }
 
 }
-
-

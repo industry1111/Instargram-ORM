@@ -11,7 +11,7 @@ $('#btn_register').on("click",function() {
         let name = $('#name');
         let role = "USER";
         let status = "PUBLIC";
-        let provider = "LOCAL";
+        let provider = "local";
         let is_Auth = "N";
         let picture = "";
 

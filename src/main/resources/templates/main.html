@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/layout1}">
+>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/main.js}" type="module"></script>
+</th:block>
+
+<th:block layout:fragment="css"></th:block>
+
+
+<div layout:fragment="content">
+    <section class="main">
+        <div class="wrapper">
+            <div class="left-col">
+
+                <!--POST 생성 영역-->
+                <div class="post-grid">
+                </div>
+
+            </div>
+            <div class="right-col">
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/profile-pic.png}" alt="">
+                    </div>
+                    <div>
+                        <a th:href="@{/member/profile}"><p class="username">modern_web_channel</p></a>
+                        <p class="sub-text">kunaal kumar</p>
+                    </div>
+                    <button class="action-btn">switch</button>
+                </div>
+                <p class="suggestion-text">Suggestions for you</p>
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/cover 9.png}" alt="">
+                    </div>
+                    <div>
+                        <p class="username">modern_web_channel</p>
+                        <p class="sub-text">followed bu user</p>
+                    </div>
+                    <button class="action-btn">follow</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/cover 10.png}" alt="">
+                    </div>
+                    <div>
+                        <p class="username">modern_web_channel</p>
+                        <p class="sub-text">followed bu user</p>
+                    </div>
+                    <button class="action-btn">follow</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/cover 11.png}" alt="">
+                    </div>
+                    <div>
+                        <p class="username">modern_web_channel</p>
+                        <p class="sub-text">followed bu user</p>
+                    </div>
+                    <button class="action-btn">follow</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/cover 12.png}" alt="">
+                    </div>
+                    <div>
+                        <p class="username">modern_web_channel</p>
+                        <p class="sub-text">followed bu user</p>
+                    </div>
+                    <button class="action-btn">follow</button>
+                </div>
+                <div class="profile-card">
+                    <div class="profile-pic">
+                        <img th:src="@{/img/main/cover 13.png}" alt="">
+                    </div>
+                    <div>
+                        <p class="username">modern_web_channel</p>
+                        <p class="sub-text">followed bu user</p>
+                    </div>
+                    <button class="action-btn">follow</button>
+                </div>
+            </div>
+    </section>
+</div>
+
+
+<div id="modal_add_feed" class="modal modal_overlay">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_upload">
+            <span style="text-align: center"> 사진을 여기에 끌어다 놓으세요. </span>
+
+        </div>
+    </div>
+</div>
+
+
+<!--이미지 업로드시 보여줄 모달창-->
+<div id="modal_add_feed_content" class="modal modal_overlay_content">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div style="margin: 5px"> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal2" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_content">
+            <div id="input_image" class="modal_image_upload_content">
+
+            </div>
+            <div class="modal_content_write">
+                <div class="feed_name">
+                    <div class="profile_box">
+                        <img id="input_profile_image" class="profile_img" src="https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/s1080x2048/165180104_277246477102900_6106347261862438192_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=730e14&_nc_ohc=1sN4d8i7rn8AX-7aKYN&_nc_ht=scontent-ssn1-1.xx&oh=5049b7cd176848e330b0f5ea95f28172&oe=615A08D1">
+                    </div>
+                    <span id="input_user_id" class="feed_name_txt"> jin.99 </span>
+                </div>
+                <div style="height: 440px">
+                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

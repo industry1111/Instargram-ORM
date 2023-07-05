@@ -6,12 +6,14 @@ import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.service.FileAttachService;
 import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.PostService;
-import com.travel.web_oasis.web.dto.*;
+import com.travel.web_oasis.web.dto.FileAttachDTO;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
+import com.travel.web_oasis.web.dto.PostDTO;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -129,11 +131,14 @@ public class PostController {
     }
 
     @ResponseBody
-    @GetMapping("/list/{id}")
-    public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO, @PathVariable Long id) {
-        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, id);
-
-        return postService.getList(pageRequestDTO,id);
+    @GetMapping("/list")
+    public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO) {
+        logger.info("postController list start \n pageRequestDTO={}",pageRequestDTO);
+        for (PostDTO dto: postService.getList(pageRequestDTO).getDtoList()
+             ) {
+            logger.info("postDTO={}",dto);
+        }
+        return postService.getList(pageRequestDTO);
 
     }
 }

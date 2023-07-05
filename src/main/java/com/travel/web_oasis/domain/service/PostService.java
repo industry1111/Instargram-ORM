@@ -15,7 +15,7 @@ public abstract interface PostService {
     Long createPost(PostDTO postDTO, Member member);
     PostDTO findPost(Long id);
 
-    PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO, Long id);
+    PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO);
     void deletePost(Long id);
 
     default Post dtoToEntity(PostDTO postDto) {

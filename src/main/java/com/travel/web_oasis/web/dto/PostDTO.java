@@ -1,10 +1,11 @@
 package com.travel.web_oasis.web.dto;
 
-import com.travel.web_oasis.domain.files.FileAttach;
-import com.travel.web_oasis.domain.member.Member;
-import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -30,6 +31,6 @@ public class PostDTO {
     private String picture;
 
 
-    private String createdDate;
-    private String modifiedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 }
