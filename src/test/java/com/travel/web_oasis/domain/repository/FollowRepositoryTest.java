@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.repository;
 
-import com.travel.web_oasis.domain.member.Follow;
+import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class FollowRepositoryTest {

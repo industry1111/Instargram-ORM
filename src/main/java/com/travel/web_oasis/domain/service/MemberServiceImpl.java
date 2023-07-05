@@ -82,6 +82,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     private static void updateAuthentication(Member member) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {

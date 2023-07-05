@@ -1,7 +1,8 @@
 package com.travel.web_oasis.domain.member;
 
-import com.travel.web_oasis.domain.BaseEntity;
-import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.domain.entity.BaseEntity;
+import com.travel.web_oasis.domain.entity.Follow;
+import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Builder;

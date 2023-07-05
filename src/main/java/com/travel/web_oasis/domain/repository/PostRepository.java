@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.repository;
 
-import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.domain.entity.Post;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;

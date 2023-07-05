@@ -2,7 +2,7 @@ package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.service.FileAttachService;
 import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.PostService;
@@ -20,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

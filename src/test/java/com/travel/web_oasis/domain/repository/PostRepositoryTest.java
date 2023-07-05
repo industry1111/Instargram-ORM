@@ -2,7 +2,7 @@ package com.travel.web_oasis.domain.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.posts.QPost;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
-package com.travel.web_oasis.domain.comment;
+package com.travel.web_oasis.domain.entity;
 
-import com.travel.web_oasis.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

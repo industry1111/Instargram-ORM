@@ -3,7 +3,7 @@ package com.travel.web_oasis.domain.service;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
-import com.travel.web_oasis.domain.posts.Post;
+import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;

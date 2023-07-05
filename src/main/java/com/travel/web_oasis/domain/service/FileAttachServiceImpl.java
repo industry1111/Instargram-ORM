@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.domain.entity.FileAttach;
 import com.travel.web_oasis.domain.repository.FileAttachRepository;
 import com.travel.web_oasis.web.dto.FileAttachDTO;
 import groovy.util.logging.Slf4j;
@@ -19,7 +19,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service

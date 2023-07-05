@@ -1,8 +1,6 @@
-package com.travel.web_oasis.domain.posts;
+package com.travel.web_oasis.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.travel.web_oasis.domain.BaseEntity;
-import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.Builder;

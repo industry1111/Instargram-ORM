@@ -1,11 +1,11 @@
-package com.travel.web_oasis.domain.member;
+package com.travel.web_oasis.domain.entity;
 
-import com.travel.web_oasis.domain.BaseEntity;
+import com.travel.web_oasis.domain.entity.BaseEntity;
+import com.travel.web_oasis.domain.member.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @NoArgsConstructor

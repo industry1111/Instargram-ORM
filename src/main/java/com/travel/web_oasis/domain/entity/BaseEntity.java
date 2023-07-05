@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain;
+package com.travel.web_oasis.domain.entity;
 
 
 import jakarta.persistence.EntityListeners;

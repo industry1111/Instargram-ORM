@@ -1,6 +1,6 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.files.FileAttach;
+import com.travel.web_oasis.domain.entity.FileAttach;
 import com.travel.web_oasis.web.dto.FileAttachDTO;
 import org.springframework.web.multipart.MultipartFile;
 
