@@ -223,15 +223,25 @@ window.onload = function () {
                 queryParams: {}
             };
 
-            customAjax("GET", "/member/download/profile/{memberId}", data, function (data) {
-                const img = document.getElementById(profileStoreName);
+            const profileImg = document.getElementById(profileStoreName);
 
-                let blob = new Blob([data]);
+            if (!profileStoreName.startsWith("http")) {
 
-                URL.createObjectURL(blob);
+                customAjax("GET", "/member/download/profile/{memberId}", data, function (data) {
 
-                img.src = profileStoreName.startsWith("http") ? profileStoreName : URL.createObjectURL(blob);
-            });
+
+                    let blob = new Blob([data]);
+
+                    URL.createObjectURL(blob);
+
+                    profileImg.src =  URL.createObjectURL(blob);
+                });
+            } else {
+                profileImg.src = profileStoreName;
+            }
+
+
+
         });
     }
 
@@ -240,7 +250,7 @@ window.onload = function () {
         const innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
-            '                            <div class="profile-pic"><img src="" id="'+data.picture+'" alt=""></div>\n' +
+            '                            <div class="profile-pic"> <img src="" id="'+data.picture+'" alt=""> </div>\n' +
             '                            <p class="username">' + data.name + '</p>\n' +
             '                        </div>\n' +
             '                        <img src="/img/main/option.png" class="options" alt="">\n' +
