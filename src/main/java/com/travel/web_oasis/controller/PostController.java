@@ -131,13 +131,9 @@ public class PostController {
     }
 
     @ResponseBody
-    @GetMapping("/list")
-    public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO) {
+    @GetMapping("/list/{id}")
+    public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO, @PathVariable Long id) {
         logger.info("postController list start \n pageRequestDTO={}",pageRequestDTO);
-        for (PostDTO dto: postService.getList(pageRequestDTO).getDtoList()
-             ) {
-            logger.info("postDTO={}",dto);
-        }
         return postService.getList(pageRequestDTO);
 
     }

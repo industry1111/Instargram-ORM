@@ -156,22 +156,28 @@ window.onload = function () {
     function findAllPost() {
 
         let data = {
+            pathParams: {
+                id: 1
+            },
             queryParams: {
                 page: page,
                 size: size
             }
         }
-        customAjax("GET", "/post/list", data, findAllPastCallBack);
+        customAjax("GET", "/post/list/{id}", data, findAllPostCallBack);
     }
 
-    function findAllPastCallBack(result) {
+    function findAllPostCallBack(result) {
         totalPage = result.totalPage;
         result.dtoList.forEach((data) => {
             $(".post-grid").append(createPosGrid(data));
         })
         page++;
-        downloadImage(result)
+
+        downloadPostFile(result);
+        downloadProfile(result);
     }
+
 
     // function findAllPostCallBack(result) {
     //     let html = "";
@@ -180,12 +186,12 @@ window.onload = function () {
     //         html += createPosGrid(data);
     //     });
     //
-    //     document.querySelector('.post-grid').innerHTML = html;
+    //     document.querySelector('.post-grid').append() = html;
     //
     //     downloadImage(result);
     // }
 
-    function downloadImage(result) {
+    function downloadPostFile(result) {
         result.dtoList.forEach((data) => {
             data.fileStoreNames.forEach((fileStoreName) => {
                 let data = {
@@ -201,9 +207,30 @@ window.onload = function () {
                     let blob = new Blob([data]);
 
                     URL.createObjectURL(blob);
-
                     img.src = URL.createObjectURL(blob);
                 });
+            });
+        });
+    }
+
+    function downloadProfile(result) {
+        result.dtoList.forEach((dto) => {
+            let profileStoreName = dto.picture;
+            let data = {
+                pathParams: {
+                    memberId : dto.memberId,
+                },
+                queryParams: {}
+            };
+
+            customAjax("GET", "/member/download/profile/{memberId}", data, function (data) {
+                const img = document.getElementById(profileStoreName);
+
+                let blob = new Blob([data]);
+
+                URL.createObjectURL(blob);
+
+                img.src = profileStoreName.startsWith("http") ? profileStoreName : URL.createObjectURL(blob);
             });
         });
     }
@@ -213,7 +240,7 @@ window.onload = function () {
         const innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
-            '                            <div class="profile-pic"><img src="/img/main/cover 1.png" alt=""></div>\n' +
+            '                            <div class="profile-pic"><img src="" id="'+data.picture+'" alt=""></div>\n' +
             '                            <p class="username">' + data.name + '</p>\n' +
             '                        </div>\n' +
             '                        <img src="/img/main/option.png" class="options" alt="">\n' +

@@ -1,7 +1,6 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
-import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,8 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,8 +126,18 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/download/profile/{id}")
-    public Resource downloadProfile(@PathVariable Long id) throws MalformedURLException {
-        return new UrlResource("file:" + memberService.getFullPath(id));
+    @GetMapping("/download/profile/{memberId}")
+    public ResponseEntity<Resource> downloadProfile(@PathVariable Long memberId) throws MalformedURLException {
+        log.info("downloadImage start \n ");
+        Resource resource = new UrlResource("file:" + memberService.getFullPath(memberId));
+
+        if (resource.exists()) {
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("image/png"))
+                    .body(resource);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
