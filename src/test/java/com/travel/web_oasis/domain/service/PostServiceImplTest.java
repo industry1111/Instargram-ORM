@@ -124,7 +124,7 @@ class PostServiceImplTest {
                                                     .build();
 
 
-        PageResultDTO<PostDTO, Post> resultDTO = postService.getList(pageRequestDTO,1L);
+        PageResultDTO<PostDTO, Post> resultDTO = postService.getPostList(pageRequestDTO,1L);
 
         System.out.println("resultDTO = " + resultDTO.getPrev());
         System.out.println("resultDTO.getNext() = " + resultDTO.getNext());
@@ -134,7 +134,5 @@ class PostServiceImplTest {
         }
 
         System.out.println("resultDTO.getPage() = " + resultDTO.getPageList());
-
-
     }
 }

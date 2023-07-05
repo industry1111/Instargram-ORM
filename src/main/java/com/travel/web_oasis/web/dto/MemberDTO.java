@@ -4,6 +4,8 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Builder
 @Setter
@@ -22,5 +24,7 @@ public class MemberDTO {
     private String picture;
     private String provider;
 
+    private int followersSize;
+    private int followingSize;
 
 }

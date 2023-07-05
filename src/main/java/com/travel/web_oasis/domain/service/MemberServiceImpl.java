@@ -7,13 +7,20 @@ import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.Authentication;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -52,12 +59,13 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file) {
+    public MemberDTO updateMember(MemberDTO memberDto, Long memberId, MultipartFile file) {
         log.info("updateMember() start");
 
-        Member member = principalDetail.getMember();
+        Member member = findById(memberId);
 
         if (file != null) {
+            deleteProfileFromStorage(memberId);
             String profileStoreName = pictureUpload(file);
 
             memberDto.setPicture(profileStoreName);
@@ -66,10 +74,29 @@ public class MemberServiceImpl implements MemberService{
 
         Member updateMember = memberRepository.save(member);
 
-        principalDetail.setMember(updateMember);
+        // 현재 사용자의 인증 정보 업데이트
+        updateAuthentication(updateMember);
 
         return entityToDto(updateMember);
 
+    }
+
+    private static void updateAuthentication(Member member) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+
+            // 인증 정보에서 Principal 개체를 가져오기
+            PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
+
+            // Principal 개체에서 회원 정보를 수정된 멤버로 업데이트
+            principalDetail.setMember(member);
+
+            // 업데이트된 Principal 개체를 저장
+            authentication.setAuthenticated(true);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        }
     }
 
     public Member findByEmailAndProvider(String email,String provider) {
@@ -102,6 +129,20 @@ public class MemberServiceImpl implements MemberService{
         return storeFileName;
     }
 
+    private void deleteProfileFromStorage(Long memberId) {
+
+        Path storePath = Paths.get(getFullPath(memberId));
+        //파일이 존재할 때만 삭제
+        try {
+            if (Files.exists(storePath)) {
+                Files.delete(storePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }
@@ -111,4 +152,5 @@ public class MemberServiceImpl implements MemberService{
         Member member = findById(id);
         return storagePath + member.getPicture();
     }
+
 }

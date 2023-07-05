@@ -27,6 +27,7 @@ public class MemberController {
     private MemberServiceImpl memberService;
 
     Logger log = org.slf4j.LoggerFactory.getLogger(MemberController.class);
+
     /*
      * @Param
      *
@@ -122,7 +123,8 @@ public class MemberController {
     public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart(value = "file", required = false)  MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
         log.info("editProfile");
         log.info("MemberDTO : " + memberDTO.toString());
-        return memberService.updateMember(memberDTO, principalDetail,file);
+        Long memberId = principalDetail.getMember().getId();
+        return memberService.updateMember(memberDTO, memberId, file);
     }
 
     @ResponseBody

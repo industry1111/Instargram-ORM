@@ -2,13 +2,17 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
+import com.travel.web_oasis.web.dto.PostDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 
 public interface MemberService {
     Long saveMember(MemberDTO memberDTO);
-    MemberDTO updateMember(MemberDTO memberDto, PrincipalDetail principalDetail, MultipartFile file);
+    MemberDTO updateMember(MemberDTO memberDto, Long memberId, MultipartFile file);
     Boolean validateDuplicateMember(MemberDTO memberDTO);
 
     Member findById(Long id);

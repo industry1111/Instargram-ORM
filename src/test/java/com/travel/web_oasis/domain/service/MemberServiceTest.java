@@ -9,7 +9,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @SpringBootTest
 class MemberServiceTest {
@@ -69,6 +75,24 @@ class MemberServiceTest {
         System.out.println(member.getId());
 
         Assertions.assertEquals("테스트2", member.getName());
+    }
+
+    @Test
+    void updateProfile() throws IOException {
+        MemberDTO memberDTO = newMember();
+
+        Long memberId = memberService.saveMember(memberDTO);
+
+        String imagePath = "/Users/gohyeong-gyu/Downloads/logo.png";
+        byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+
+        MultipartFile profileImg = new MockMultipartFile(
+                "file",
+                "image.jpg",
+                "image/jpeg",
+                imageBytes
+        );
+        memberService.updateMember(memberDTO,memberId,profileImg);
 
     }
 }

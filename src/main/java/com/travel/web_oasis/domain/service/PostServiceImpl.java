@@ -1,8 +1,14 @@
 package com.travel.web_oasis.domain.service;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
+import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.posts.Post;
 import com.travel.web_oasis.domain.repository.PostRepository;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
@@ -15,7 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 @Slf4j
@@ -76,7 +86,7 @@ public class PostServiceImpl implements PostService{
 
 
     @Override
-    public PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO) {
+    public PageResultDTO<PostDTO, Post> getPostList(PageRequestDTO requestDTO, Long id) {
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
@@ -89,4 +99,25 @@ public class PostServiceImpl implements PostService{
         return new PageResultDTO<>(result, fn);
     }
 
+    @Override
+    public PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId) {
+
+        QMember qMember = QMember.member;
+
+        Pageable pageable = requestDTO.getPageable(Sort.by("id"));
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        BooleanExpression exMemberId = qMember.id.eq(memberId);
+
+        builder.and(exMemberId);
+
+        Page<Post> result = postRepository.findAll(builder,pageable);
+
+        result.stream().forEach(post -> System.out.println("post = " + post));
+
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
+
+        return new PageResultDTO<>(result,fn);
+    }
 }

@@ -1,6 +1,7 @@
 package com.travel.web_oasis.domain.service;
 
 
+import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.files.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.posts.Post;
@@ -15,7 +16,9 @@ public abstract interface PostService {
     Long createPost(PostDTO postDTO, Member member);
     PostDTO findPost(Long id);
 
-    PageResultDTO<PostDTO, Post> getList(PageRequestDTO requestDTO);
+    PageResultDTO<PostDTO, Post> getPostList(PageRequestDTO requestDTO, Long id);
+
+    PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId);
     void deletePost(Long id);
 
     default Post dtoToEntity(PostDTO postDto) {

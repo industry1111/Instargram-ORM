@@ -87,17 +87,6 @@ public class PostController {
 
         return postDTO;
     }
-
-    @GetMapping("/findAll/{memberId}")
-    public String findAllPost(@PathVariable Long memberId, Model model) {
-
-        logger.info("findAllPost Controller Start \n id={}", memberId);
-//        List<PostDTO> resultList = postService.findAllPost();
-//        model.addAttribute("posts",resultList);
-
-        return "/layouts/layout1" ;
-    }
-
     /*
      * @Param
      *  id : 게시글 id
@@ -133,8 +122,17 @@ public class PostController {
     @ResponseBody
     @GetMapping("/list/{id}")
     public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO, @PathVariable Long id) {
-        logger.info("postController list start \n pageRequestDTO={}",pageRequestDTO);
-        return postService.getList(pageRequestDTO);
+        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, id);
 
+        return postService.getPostList(pageRequestDTO,id);
+
+    }
+
+    @ResponseBody
+    @GetMapping("/member/PostList/{memberId}")
+    public PageResultDTO<PostDTO, Post> findMemberPostList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId) {
+        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, memberId);
+
+        return postService.getMemberPostList(pageRequestDTO, memberId);
     }
 }

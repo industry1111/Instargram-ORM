@@ -62,10 +62,18 @@ public class Member extends BaseEntity {
     }
 
     public void update(MemberDTO memberDto) {
-        this.name = memberDto.getName();
-        this.status = memberDto.getStatus();
-        this.picture = memberDto.getPicture();
-        this.introduction = memberDto.getIntroduction();
+        if (memberDto.getName() != null) {
+            this.name = memberDto.getName();
+        }
+        if (memberDto.getStatus() != null) {
+            this.status = memberDto.getStatus();
+        }
+        if (memberDto.getPicture() != null) {
+            this.picture = memberDto.getPicture();
+        }
+        if (memberDto.getIntroduction() != null) {
+            this.introduction = memberDto.getIntroduction();
+        }
     }
 
 

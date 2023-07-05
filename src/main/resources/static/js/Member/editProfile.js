@@ -32,3 +32,34 @@ function successCallback(data) {
     console.log(data);
     location.href = "/member/profile";
 }
+
+window.onload = function (){
+
+    let lastSeenText = document.getElementById('lastSeenText')
+    let modify = new Date(lastSeenText.textContent);
+    let now = new Date();
+    let duration = now - modify;
+
+    let years = Math.floor(duration / (1000 * 60 * 60 * 24 * 365));
+    if (years >= 1) {
+        lastSeenText.textContent = years + ' years ago';
+    } else {
+        let months = Math.floor(duration / (1000 * 60 * 60 * 24 * 30));
+        if (months >= 1) {
+            lastSeenText.textContent = months + ' months ago';
+        } else {
+            let days = Math.floor(duration / (1000 * 60 * 60 * 24));
+            if (days >= 1) {
+                lastSeenText.textContent = days + ' days ago';
+            } else {
+                let hours = Math.floor(duration / (1000 * 60 * 60));
+                if (hours >= 1) {
+                    lastSeenText.textContent = hours + ' hours ago';
+                } else {
+                    let minutes = Math.floor(duration / (1000 * 60));
+                    lastSeenText.textContent = minutes + ' minutes ago';
+                }
+            }
+        }
+    }
+}
