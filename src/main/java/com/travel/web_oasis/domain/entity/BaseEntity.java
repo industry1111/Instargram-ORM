@@ -3,6 +3,7 @@ package com.travel.web_oasis.domain.entity;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.val;
@@ -34,4 +35,6 @@ public class BaseEntity {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime modifiedDate;
+
+
 }

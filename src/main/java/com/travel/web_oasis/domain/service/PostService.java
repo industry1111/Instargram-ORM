@@ -20,6 +20,8 @@ public interface PostService {
     PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId);
     void deletePost(Long id);
 
+    Post findById(Long id);
+
     default Post dtoToEntity(PostDTO postDto) {
         return Post.builder()
                 .content(postDto.getContent())

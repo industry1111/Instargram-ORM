@@ -5,7 +5,7 @@ const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
 window.onload = function () {
 
     let page = 1;
-    let size = 3;
+    let size = 2;
     let totalPage;
 
 
@@ -165,12 +165,14 @@ window.onload = function () {
             }
         }
         customAjax("GET", "/post/list/{id}", data, findAllPostCallBack);
+
+
     }
 
     function findAllPostCallBack(result) {
         totalPage = result.totalPage;
-        result.dtoList.forEach((data) => {
-            $(".post-grid").append(createPosGrid(data));
+        result.dtoList.forEach((findData) => {
+            $(".post-grid").append(createPosGrid(findData));
         })
         page++;
 
@@ -178,18 +180,12 @@ window.onload = function () {
         downloadProfile(result);
     }
 
-
-    // function findAllPostCallBack(result) {
-    //     let html = "";
-    //
-    //     result.dtoList.forEach(function(data) {
-    //         html += createPosGrid(data);
-    //     });
-    //
-    //     document.querySelector('.post-grid').append() = html;
-    //
-    //     downloadImage(result);
-    // }
+    customAjax("get","/post/api/duplicate",data,duplicateLikeBoard)
+    function duplicateLikeBoard(result) {
+        result.post.forEach((duplicateData)=>{
+            duplicateData.id
+        })
+    }
 
     function downloadPostFile(result) {
         result.dtoList.forEach((data) => {
@@ -215,10 +211,11 @@ window.onload = function () {
 
     function downloadProfile(result) {
         result.dtoList.forEach((dto) => {
-            let profileStoreName = dto.picture;
+            let profileStoreName = null;
+            profileStoreName = dto.picture;
             let data = {
                 pathParams: {
-                    memberId : dto.memberId,
+                    memberId: dto.memberId,
                 },
                 queryParams: {}
             };
@@ -234,12 +231,11 @@ window.onload = function () {
 
                     URL.createObjectURL(blob);
 
-                    profileImg.src =  URL.createObjectURL(blob);
+                    profileImg.src = URL.createObjectURL(blob);
                 });
             } else {
                 profileImg.src = profileStoreName;
             }
-
 
 
         });
@@ -250,15 +246,17 @@ window.onload = function () {
         const innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
-            '                            <div class="profile-pic"> <img src="" id="'+data.picture+'" alt=""> </div>\n' +
+            '                            <div class="profile-pic"> <img src="" id="' + data.picture + '" alt=""> </div>\n' +
             '                            <p class="username">' + data.name + '</p>\n' +
             '                        </div>\n' +
             '                        <img src="/img/main/option.png" class="options" alt="">\n' +
             '                    </div>\n' +
-            '                    <img src="" class="post-image" id="' + data.fileStoreNames[0] + '" alt="">\n' +
+            '                    <img src="" class="post-image"' + data.fileStoreNames[0] + '" alt="">\n' +
+
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
-            '                            <img src="/img/main/like.png" class="icon" alt="">\n' +
+            '                            <img src="/img/main/like.png" name="post" class="icon" alt="">\n' +
+            '                            <input type="hidden" name = "post" value="' + data.id + '" >' +
             '                            <img src="/img/main/comment.png" class="icon" alt="">\n' +
             '                            <img src="/img/main/send.png" class="icon" alt="">\n' +
             '                            <img src="/img/main/save.png" class="save icon" alt="">\n' +
@@ -273,10 +271,21 @@ window.onload = function () {
             '                        <button class="comment-btn">post</button>\n' +
             '                    </div>\n' +
             '                </div>'
-
-
         return innerHtml;
 
     }
-
 }
+
+
+
+
+
+/*
+           * for(data : data){
+           *   if(duplicate의 postid == find의 postid){
+           *       빨간하트
+           *   }else{
+           *       검은하트
+           *   }
+           * }
+           * */

@@ -40,6 +40,6 @@ public class IndexController {
 //            System.out.println("postDTO = " + postDTO.toString());
 //        }
 
-        return "/main";
+        return "main";
     }
 }

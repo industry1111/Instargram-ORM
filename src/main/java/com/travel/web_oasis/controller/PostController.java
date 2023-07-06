@@ -1,15 +1,14 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
+import com.travel.web_oasis.domain.entity.LikeBoard;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.service.FileAttachService;
+import com.travel.web_oasis.domain.service.LikeBoardService;
 import com.travel.web_oasis.domain.service.MemberService;
 import com.travel.web_oasis.domain.service.PostService;
-import com.travel.web_oasis.web.dto.FileAttachDTO;
-import com.travel.web_oasis.web.dto.PageRequestDTO;
-import com.travel.web_oasis.web.dto.PageResultDTO;
-import com.travel.web_oasis.web.dto.PostDTO;
+import com.travel.web_oasis.web.dto.*;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,19 +39,21 @@ public class PostController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    LikeBoardService likeBoardService;
+
     private final static Logger logger = LoggerFactory.getLogger(PostController.class);
 
 
-
     /*
-    * @Param
-    *   postDTO : 게시글 내용과 파일 정보를 담은 DTO
-    *   files : 파일 정보를 담은 MultipartFile 배열
-    *   principalDetail :
-    * @Description : 게시글 생성
-    *
-    * @Return : 게시글 생성 후 메인 페이지로 이동
-    * */
+     * @Param
+     *   postDTO : 게시글 내용과 파일 정보를 담은 DTO
+     *   files : 파일 정보를 담은 MultipartFile 배열
+     *   principalDetail :
+     * @Description : 게시글 생성
+     *
+     * @Return : 게시글 생성 후 메인 페이지로 이동
+     * */
     @ResponseBody
     @PostMapping("/create")
     public Long createPost(@ModelAttribute PostDTO postDTO, @RequestParam("file") List<MultipartFile> files, @AuthenticationPrincipal PrincipalDetail principalDetail) {
@@ -86,6 +87,7 @@ public class PostController {
 
         return postDTO;
     }
+
     /*
      * @Param
      *  id : 게시글 id
@@ -121,17 +123,32 @@ public class PostController {
     @ResponseBody
     @GetMapping("/list/{id}")
     public PageResultDTO<PostDTO, Post> list(PageRequestDTO pageRequestDTO, @PathVariable Long id) {
-        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, id);
+        logger.info("postController list start \n pageRequestDTO={}, id={}", pageRequestDTO, id);
 
-        return postService.getPostList(pageRequestDTO,id);
+        return postService.getPostList(pageRequestDTO, id);
 
     }
 
     @ResponseBody
     @GetMapping("/member/PostList/{memberId}")
     public PageResultDTO<PostDTO, Post> findMemberPostList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId) {
-        logger.info("postController list start \n pageRequestDTO={}, id={}",pageRequestDTO, memberId);
+        logger.info("postController list start \n pageRequestDTO={}, id={}", pageRequestDTO, memberId);
 
         return postService.getMemberPostList(pageRequestDTO, memberId);
+    }
+
+    @ResponseBody
+    @GetMapping("/api/addLike")
+    public Long addLikeBoard(@ModelAttribute Long postId, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+
+
+        return likeBoardService.addLikeBoard(postId, principalDetail.getMember().getId());
+
+    }
+
+    @ResponseBody
+    @GetMapping("/api/duplicate")
+    public List<LikeBoard> duplicateLikeBoard(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+        return likeBoardService.findByMember(principalDetail.getMember().getId());
     }
 }

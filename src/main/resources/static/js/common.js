@@ -67,5 +67,4 @@ function customAjax(method, url, data, submitFunc) {
 
 
 
-
 export {customAjax}; //ajax 함수를 외부에서 사용할 수 있도록 export

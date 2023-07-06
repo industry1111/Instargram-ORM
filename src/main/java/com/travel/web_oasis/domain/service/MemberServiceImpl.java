@@ -154,4 +154,8 @@ public class MemberServiceImpl implements MemberService{
         return storagePath + member.getPicture();
     }
 
+    Member findByEmail(String mail) {
+        return memberRepository.findByEmail(mail);
+    }
+
 }

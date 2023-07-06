@@ -43,6 +43,7 @@ public class MemberController {
         model.addAttribute("memberDTO", new MemberDTO());
         return "/member/loginForm";
     }
+
     /*
      * @Param : error
      *
@@ -86,6 +87,7 @@ public class MemberController {
         Long result = memberService.saveMember(memberDTO);
         return result;
     }
+
     /*
      * @Param :
      *
@@ -98,6 +100,7 @@ public class MemberController {
         model.addAttribute("member", principalDetail.getMember());
         return "member/profile";
     }
+
     /*
      * @Param :
      *
@@ -120,7 +123,7 @@ public class MemberController {
      * */
     @ResponseBody
     @PutMapping("/profile/edit")
-    public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart(value = "file", required = false)  MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
+    public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart(value = "file", required = false) MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
         log.info("editProfile");
         log.info("MemberDTO : " + memberDTO.toString());
         Long memberId = principalDetail.getMember().getId();
@@ -142,4 +145,6 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 }

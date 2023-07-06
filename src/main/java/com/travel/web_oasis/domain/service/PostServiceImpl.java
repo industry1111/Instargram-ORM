@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.entity.Post;
+import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import java.util.function.Function;
 
@@ -112,5 +114,11 @@ public class PostServiceImpl implements PostService{
         Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
 
         return new PageResultDTO<>(result,fn);
+    }
+
+    @Override
+    public Post findById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다. id =" + id));
     }
 }
