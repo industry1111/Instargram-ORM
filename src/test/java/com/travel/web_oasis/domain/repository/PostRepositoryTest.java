@@ -3,7 +3,7 @@ package com.travel.web_oasis.domain.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.posts.QPost;
+import com.travel.web_oasis.domain.entity.QPost;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,6 +59,7 @@ class PostRepositoryTest {
 
         //동적으로 처리하기 위해서 Q도메인 클래스를 얻어온다.
         QPost qPost = QPost.post;
+
 
         //QueryDSL에서 사용할 조건으로 여기선 위세어 바꾼 update로 설정
         String keyword = "update";

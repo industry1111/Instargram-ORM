@@ -10,7 +10,7 @@ import com.travel.web_oasis.web.dto.PostDTO;
 
 import java.util.List;
 
-public abstract interface PostService {
+public interface PostService {
 
     Long createPost(PostDTO postDTO, Member member);
     PostDTO findPost(Long id);
