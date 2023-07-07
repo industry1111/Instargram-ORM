@@ -43,9 +43,10 @@ public class MemberDTO {
     }
 
     @QueryProjection
-    public MemberDTO(Long id, String name, String picture) {
+    public MemberDTO(Long id, String name, String picture, String introduction) {
         this.id = id;
         this.name = name;
         this.picture = picture;
+        this.introduction = introduction;
     }
 }

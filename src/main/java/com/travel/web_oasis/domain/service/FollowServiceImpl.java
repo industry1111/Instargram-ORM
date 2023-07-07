@@ -20,7 +20,7 @@ public class FollowServiceImpl implements FollowService{
 
     private final FollowRepository followRepository;
     private final MemberService memberService;
-    private final EntityManagerFactory emf;
+
     @Override
     public Long followMember(Long toMemberId, Long fromMemberId) {
 
