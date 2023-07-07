@@ -7,7 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class LikeBoardDTO {
+
     private Long memberId;
+
     private Long postId;
 
 }

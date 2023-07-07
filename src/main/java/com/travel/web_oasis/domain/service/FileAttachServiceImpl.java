@@ -123,15 +123,14 @@ public class FileAttachServiceImpl implements FileAttachService {
     }
 
     @Override
-    public void deleteFiles(List<FileAttach> fileAttachList) {
-        for (FileAttach fileAttach : fileAttachList) {
-            deleteFileFromStorage(fileAttach);
+    public void deleteFiles(String[] fileStoreNames) {
+        for (String fileStoreName : fileStoreNames) {
+            deleteFileFromStorage(fileStoreName);
         }
     }
 
-    private void deleteFileFromStorage(FileAttach fileAttach) {
-        Path storePath = Paths.get(fileAttach.getFileStoreName());
-        logger.info("deleteFileFromStorage() called : {}", storePath);
+    private void deleteFileFromStorage(String fileStoreName) {
+        Path storePath = Paths.get(getFullPath(fileStoreName));
         //파일이 존재할 때만 삭제
         try {
             if (Files.exists(storePath)) {

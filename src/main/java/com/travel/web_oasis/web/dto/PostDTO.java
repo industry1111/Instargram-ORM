@@ -30,6 +30,11 @@ public class PostDTO {
     private String provider;
     private String picture;
 
+    //like
+    private boolean like;
+
+
+
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

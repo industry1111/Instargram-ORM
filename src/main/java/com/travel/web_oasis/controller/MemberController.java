@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/member")
@@ -97,7 +98,10 @@ public class MemberController {
      * */
     @GetMapping("/profile")
     public String profile(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model) {
-        model.addAttribute("member", principalDetail.getMember());
+
+        MemberDTO memberDTO = memberService.getMemberInfoWithFollow(principalDetail.getMember().getId());
+
+        model.addAttribute("member", memberDTO);
         return "member/profile";
     }
 
@@ -145,6 +149,22 @@ public class MemberController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    /*
+    * @Param
+    *
+    *@Description :
+    *
+    * */
+    @ResponseBody
+    @GetMapping("/suggest/members")
+    public List<MemberDTO> getSuggestMembers(@RequestParam(value = "membersIds",required = false) List<Long> membersIds, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+        log.info("getSuggestMembers start \n ");
+
+        Long myId = principalDetail.getMember().getId();
+        return memberService.getSuggestMembers(membersIds, myId);
+    }
+
 
 
 }

@@ -4,6 +4,8 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 public interface MemberService {
     Long saveMember(MemberDTO memberDTO);
@@ -14,6 +16,9 @@ public interface MemberService {
 
     String getFullPath(Long id);
 
+    MemberDTO getMemberInfoWithFollow(Long id);
+
+    List<MemberDTO> getSuggestMembers(List<Long> membersIds, Long myId);
 
     default Member dtoToEntity(MemberDTO memberDTO) {
 
@@ -34,7 +39,6 @@ public interface MemberService {
                 .id(member.getId())
                 .name(member.getName())
                 .email(member.getEmail())
-                .password(member.getPassword())
                 .role(member.getRole())
                 .status(member.getStatus())
                 .introduction(member.getIntroduction())
@@ -43,6 +47,5 @@ public interface MemberService {
                 .build();
 
     }
-
 
 }

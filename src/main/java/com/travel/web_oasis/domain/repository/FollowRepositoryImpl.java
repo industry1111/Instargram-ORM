@@ -1,9 +1,6 @@
 package com.travel.web_oasis.domain.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.travel.web_oasis.domain.entity.Follow;
@@ -40,26 +37,26 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
     }
 
     @Override
-    public Long getFollowingCnt(Long toMemberId) {
+    public List<Long> getFollower(Long toMemberId) {
         QFollow follow = QFollow.follow;
 
         return queryFactory
-                .select(follow.count())
+                .select(follow.fromMember.id)
                 .from(follow)
                 .where(follow.toMember.id.eq(toMemberId))
-                .fetchFirst();
+                .fetch();
     }
 
 
     @Override
-    public Long getFollowerCnt(Long fromMemberId) {
+    public List<Long> getFollowing(Long fromMemberId) {
         QFollow follow = QFollow.follow;
 
         return queryFactory
-                .select(follow.count())
+                .select(follow.toMember.id)
                 .from(follow)
                 .where(follow.fromMember.id.eq(fromMemberId))
-                .fetchFirst();
+                .fetch();
 
 
     }

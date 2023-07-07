@@ -165,26 +165,17 @@ window.onload = function () {
             }
         }
         customAjax("GET", "/post/list/{id}", data, findAllPostCallBack);
-
-
     }
 
     function findAllPostCallBack(result) {
         totalPage = result.totalPage;
         result.dtoList.forEach((findData) => {
-            $(".post-grid").append(createPosGrid(findData));
+            $(".post-grid").append(createPostGrid(findData));
         })
         page++;
 
         downloadPostFile(result);
         downloadProfile(result);
-    }
-
-    customAjax("get","/post/api/duplicate",data,duplicateLikeBoard)
-    function duplicateLikeBoard(result) {
-        result.post.forEach((duplicateData)=>{
-            duplicateData.id
-        })
     }
 
     function downloadPostFile(result) {
@@ -211,8 +202,7 @@ window.onload = function () {
 
     function downloadProfile(result) {
         result.dtoList.forEach((dto) => {
-            let profileStoreName = null;
-            profileStoreName = dto.picture;
+            let profileStoreName = dto.picture;
             let data = {
                 pathParams: {
                     memberId: dto.memberId,
@@ -242,7 +232,7 @@ window.onload = function () {
     }
 
 
-    function createPosGrid(data) {
+    function createPostGrid(data) {
         const innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
@@ -251,8 +241,7 @@ window.onload = function () {
             '                        </div>\n' +
             '                        <img src="/img/main/option.png" class="options" alt="">\n' +
             '                    </div>\n' +
-            '                    <img src="" class="post-image"' + data.fileStoreNames[0] + '" alt="">\n' +
-
+            '                    <img src="" class="post-image" id="' + data.fileStoreNames[0] + '" alt="">\n' +
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
             '                            <img src="/img/main/like.png" name="post" class="icon" alt="">\n' +
@@ -271,21 +260,41 @@ window.onload = function () {
             '                        <button class="comment-btn">post</button>\n' +
             '                    </div>\n' +
             '                </div>'
+
+
         return innerHtml;
-
     }
+
+    function getSuggestMembers(membersIds) {
+
+        let data = {
+            pathParams : {
+
+            },
+            queryParams : {
+                membersIds : membersIds
+            }
+        }
+        customAjax("GET","/member/suggest/members",data, createSuggestMemberGrid);
+    }
+
+    function createSuggestMemberGrid(data) {
+        let innerHtml;
+        data.forEach((memberDTO) => {
+            innerHtml += ""+
+                "<div class=\"profile-card\">\n" +
+                "                    <div class=\"profile-pic\">\n" +
+                "                        <img src=\"\" alt=\"\">\n" +
+                "                    </div>\n" +
+                "                    <div>\n" +
+                "                        <p class=\"username\">modern_web_channel</p>\n" +
+                "                        <p class=\"sub-text\">followed bu user</p>\n" +
+                "                    </div>\n" +
+                "                    <button class=\"action-btn\">follow</button>\n" +
+                "                </div>";
+        })
+        $(".suggest-member-grid").append(innerHtml);
+    }
+
+    getSuggestMembers();
 }
-
-
-
-
-
-/*
-           * for(data : data){
-           *   if(duplicate의 postid == find의 postid){
-           *       빨간하트
-           *   }else{
-           *       검은하트
-           *   }
-           * }
-           * */

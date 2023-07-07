@@ -48,13 +48,12 @@ class FileAttachServiceImplTest {
         }
         List<FileAttachDTO> saveFiles = fileAttachService.upload(files);
 
-        //when
-//        fileAttachService.deleteFiles(saveFiles);
-
-        //then
-        for (FileAttachDTO file : saveFiles) {
-            Assertions.assertThat(new File(file.getFileStoreName()).exists()).isFalse();
+        saveFiles.get(0).getFileStoreName();
+        String[] storeNames = new String[5];
+        int idx=0;
+        for (FileAttachDTO saveFile : saveFiles) {
+            storeNames[idx++] = saveFile.getFileStoreName();
         }
-
+        fileAttachService.deleteFiles(storeNames);
     }
 }

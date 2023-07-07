@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.repository.MemberRepository;
 import com.travel.web_oasis.domain.repository.PostRepository;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
@@ -62,21 +61,16 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public void deletePost(Long id) {
+    public String[] deletePost(Long id) {
+
+        //포스트 삭제
+        postRepository.deleteById(id);
+
         //삭제할 포스트
-//        PostDTO removePostDTO = getPost(id);
+        PostDTO removePostDTO = findPost(id);
+
         //삭제할 포스트의 첨부파일들
-//        List<FileAttach> files = removePostDTO.getFiles();
-//        System.out.println("files = " + files);
-//        for (FileAttach file : files) {
-//
-//            log.info("deletePost() called   file : {}", file.toString());
-//
-//        }
-//        //저장소에서 첨부파일들 삭제
-//        fileAttachService.deleteFiles(files);
-//        //포스트 삭제
-//        postRepository.deleteById(id);
+        return removePostDTO.getFileStoreNames();
     }
 
 

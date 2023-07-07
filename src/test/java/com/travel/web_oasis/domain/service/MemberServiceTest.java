@@ -3,7 +3,7 @@ package com.travel.web_oasis.domain.service;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
-import com.travel.web_oasis.domain.repository.MemberRepository;
+import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 class MemberServiceTest {
@@ -93,6 +97,23 @@ class MemberServiceTest {
                 imageBytes
         );
         memberService.updateMember(memberDTO,memberId,profileImg);
+    }
+
+    @Test
+    void getMemberList() {
+        //given
+        ArrayList<Long> membersIds = new ArrayList<>();
+//        membersIds.add(1L);
+//        membersIds.add(2L);
+
+        //when
+        List<MemberDTO> memberList = memberService.getSuggestMembers(membersIds, 52L);
+
+        //then
+        for (MemberDTO memberDTO : memberList) {
+            System.out.println("memberDTO.getId() = " + memberDTO.getId());
+            assertThat(memberDTO.getId()).isNotIn(membersIds);
+        }
 
     }
 }

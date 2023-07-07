@@ -97,7 +97,8 @@ public class PostController {
      * */
     @DeleteMapping("/{id}")
     public String deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+        String[] storeNames = postService.deletePost(id);
+        fileAttachService.deleteFiles(storeNames);
         return "redirect:/";
     }
 

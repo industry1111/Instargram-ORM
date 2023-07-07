@@ -1,9 +1,11 @@
 package com.travel.web_oasis.domain.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -18,13 +20,14 @@ class FollowRepositoryImplTest {
     void getFollowingCnt() {
         //given
         Long toMemberId = 1L;
-        Long expected = 0L;
+
+        List<Long> expected = new ArrayList<>();
 
         //when
-        Long actual = followRepository.getFollowingCnt(toMemberId);
+        List<Long> actual = followRepository.getFollowing(toMemberId);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isIn(expected);
     }
 
 
@@ -33,12 +36,12 @@ class FollowRepositoryImplTest {
     void getFollowerCnt() {
         //given
         Long fromMemberId = 1L;
-        Long expected = 0L;
+        List<Long> expected = new ArrayList<>();
 
         //when
-        Long actual = followRepository.getFollowerCnt(fromMemberId);
+        List<Long> actual = followRepository.getFollower(fromMemberId);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isIn(expected);
     }
 }

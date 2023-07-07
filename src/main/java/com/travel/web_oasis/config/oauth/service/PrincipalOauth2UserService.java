@@ -5,7 +5,7 @@ import com.travel.web_oasis.config.oauth.provider.*;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
-import com.travel.web_oasis.domain.repository.MemberRepository;
+import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

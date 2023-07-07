@@ -2,7 +2,8 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.repository.MemberRepository;
+import com.travel.web_oasis.domain.repository.FollowRepository;
+import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,14 +19,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
+    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     Logger log = org.slf4j.LoggerFactory.getLogger(MemberServiceImpl.class);
 
@@ -156,6 +159,24 @@ public class MemberServiceImpl implements MemberService{
 
     Member findByEmail(String mail) {
         return memberRepository.findByEmail(mail);
+    }
+
+    @Override
+    public MemberDTO getMemberInfoWithFollow(Long id) {
+        MemberDTO memberDTO = entityToDto(findById(id));
+        memberDTO.setFollowersSize(followRepository.getFollower(id).size());
+        memberDTO.setFollowingSize(followRepository.getFollowing(id).size());
+        return memberDTO;
+    }
+
+    @Override
+    public List<MemberDTO> getSuggestMembers(List<Long> membersIds, Long myId) {
+        if ( membersIds == null) {
+            membersIds = new ArrayList<>();
+        }
+        membersIds.add(myId);
+        return memberRepository.getMemberList(membersIds, myId);
+
     }
 
 }

@@ -18,7 +18,7 @@ public interface PostService {
     PageResultDTO<PostDTO, Post> getPostList(PageRequestDTO requestDTO, Long id);
 
     PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId);
-    void deletePost(Long id);
+    String[] deletePost(Long id);
 
     Post findById(Long id);
 

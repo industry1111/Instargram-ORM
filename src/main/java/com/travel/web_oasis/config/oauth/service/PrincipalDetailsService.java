@@ -2,7 +2,7 @@ package com.travel.web_oasis.config.oauth.service;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.repository.MemberRepository;
+import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
