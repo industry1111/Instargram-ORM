@@ -96,12 +96,13 @@ public class MemberController {
      *
      * @Return : url > member/profile
      * */
-    @GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model) {
+    @GetMapping("/profile/{memberId}")
+    public String profile(@PathVariable Long memberId, Model model,@AuthenticationPrincipal PrincipalDetail principalDetail) {
 
-        MemberDTO memberDTO = memberService.getMemberInfoWithFollow(principalDetail.getMember().getId());
+        MemberDTO memberDTO = memberService.getMemberInfoWithFollow(memberId);
 
         model.addAttribute("member", memberDTO);
+        model.addAttribute("profileMemberId", principalDetail.getMember().getId());
         return "member/profile";
     }
 

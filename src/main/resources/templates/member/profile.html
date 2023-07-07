@@ -28,7 +28,7 @@
 
           <h1 class="profile-user-name" th:text="${member.name}">janedoe_</h1>
 
-          <button class="btn profile-edit-btn" onclick="location.href='/member/profile/edit'">Edit Profile</button>
+          <button th:if="${member.id == profileMemberId}" class="btn profile-edit-btn" onclick="location.href='/member/profile/edit'">Edit Profile</button>
 
           <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
 

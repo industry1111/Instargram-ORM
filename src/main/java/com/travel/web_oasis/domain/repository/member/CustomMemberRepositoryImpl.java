@@ -31,7 +31,8 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
         return queryFactory
                 .select(new QMemberDTO(member.id,
                         member.name,
-                        member.picture))
+                        member.picture,
+                        member.introduction))
                 .from(member)
                 .where(member.id.notIn(membersIds)
                         .and(member.id.notIn(

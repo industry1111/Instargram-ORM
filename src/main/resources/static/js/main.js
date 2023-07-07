@@ -244,6 +244,37 @@ window.onload = function () {
         });
     }
 
+    function downloadProfile2(memberId, profileStoreName) {
+
+        if (profileStoreName == null) {
+            return;
+        }
+
+        let data = {
+            pathParams: {
+                memberId: memberId,
+            },
+            queryParams: {}
+        };
+
+        const profileImg = document.getElementById(profileStoreName);
+
+        if (!profileStoreName.startsWith("http")) {
+
+            customAjax("GET", "/member/download/profile/{memberId}", data, function (data) {
+
+
+                let blob = new Blob([data]);
+
+                URL.createObjectURL(blob);
+
+                profileImg.src = URL.createObjectURL(blob);
+            });
+        } else {
+            profileImg.src = profileStoreName;
+        }
+    }
+
 
     function createPosGrid(data) {
         let innerHtml = '<div class="post">\n' +
@@ -328,21 +359,28 @@ window.onload = function () {
     }
 
     function createSuggestMemberGrid(data) {
-        let innerHtml;
+        let innerHtml = "";
         data.forEach((memberDTO) => {
-            innerHtml += ""+
-                "<div class=\"profile-card\">\n" +
-                "                    <div class=\"profile-pic\">\n" +
-                "                        <img src=\"\" alt=\"\">\n" +
-                "                    </div>\n" +
-                "                    <div>\n" +
-                "                        <p class=\"username\">modern_web_channel</p>\n" +
-                "                        <p class=\"sub-text\">followed bu user</p>\n" +
-                "                    </div>\n" +
-                "                    <button class=\"action-btn\">follow</button>\n" +
-                "                </div>";
+            innerHtml +=
+                '<div class=\"profile-card\">\n' +
+                '                    <div class=\"profile-pic\">\n' +
+                '                        <img src=\"\" alt=\"\" id="' + memberDTO.picture + '">\n' +
+                '                    </div>\n' +
+                '                    <div>\n' +
+                '                       <a href="/member/profile/' + memberDTO.id + '">\n' +
+                '                        <p class=\"username\">'+memberDTO.name + '</p>\n' +
+                '                      </a> \n' +
+                '                        <p class=\"sub-text\">'+memberDTO.introduction +'</p>\n' +
+                '                    </div>\n' +
+                '                    <div><button class=\"action-btn\">follow</button></div>\n' +
+                '                </div>';
         })
         $(".suggest-member-grid").append(innerHtml);
+
+
+        data.forEach((memberDTO) => {
+            downloadProfile2(memberDTO.id, memberDTO.picture);
+        })
     }
 
     getSuggestMembers();

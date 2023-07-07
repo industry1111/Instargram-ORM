@@ -37,7 +37,7 @@
                         <a th:href="@{/member/profile/{memberId}(memberId = ${member.id})}"><p class="username">modern_web_channel</p></a>
                         <p class="sub-text">kunaal kumar</p>
                     </div>
-                    <button class="action-btn" onclick="location.href='/member/profile'">switch</button>
+                    <a th:href="${'/member/profile/' + member.id}"><button class="action-btn">switch</button></a>
                 </div>
 
                 <p class="suggestion-text">Suggestions for you</p>
