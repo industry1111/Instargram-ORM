@@ -31,10 +31,10 @@
             <div class="right-col">
                 <div class="profile-card">
                     <div class="profile-pic">
-                        <img th:if="${member.picture != null}"th:src="${member.picture.startsWith('http') ? member.picture : '/member/download/profile/' + member.id}" alt="">
+                        <img th:if="${member.picture != null}" th:src="${member.picture.startsWith('http') ? member.picture : '/member/download/profile/' + member.id}" alt="">
                     </div>
                     <div>
-                        <a th:href="@{/member/profile/{memberId}(memberId = ${member.id})}"><p class="username">modern_web_channel</p></a>
+                        <p class="username" th:text="${member.name}">modern_web_channel</p>
                         <p class="sub-text">kunaal kumar</p>
                     </div>
                     <a th:href="${'/member/profile/' + member.id}"><button class="action-btn">switch</button></a>

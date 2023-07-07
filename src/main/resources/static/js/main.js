@@ -257,7 +257,7 @@ window.onload = function () {
             queryParams: {}
         };
 
-        const profileImg = document.getElementById(profileStoreName);
+        const profileImg = document.getElementByName(profileStoreName);
 
         if (!profileStoreName.startsWith("http")) {
 
@@ -293,15 +293,6 @@ window.onload = function () {
 
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
-            /*
-                       * for(data : data){
-                       *   if(duplicate의 postid == find의 postid){
-                       *       빨간하트
-                       *   }else{
-                       *       검은하트
-                       *   }
-                       * }
-                       * */
             '                            <img src="/img/main/like.png" name="post" class="icon" alt="">\n' +
             '                            <input type="hidden" name = "post" value="' + data.id + '" >' +
             '                            <img src="/img/main/comment.png" class="icon" alt="">\n' +

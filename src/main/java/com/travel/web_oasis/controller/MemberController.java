@@ -165,14 +165,4 @@ public class MemberController {
         Long myId = principalDetail.getMember().getId();
         return memberService.getSuggestMembers(membersIds, myId);
     }
-
-
-
-    @GetMapping("/profile/{memberId}")
-    public String profile2(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model,@PathVariable Long memberId) {
-        model.addAttribute("member", principalDetail.getMember());
-        model.addAttribute("memberId", memberId);
-        log.info("여기로 탐");
-        return "member/profile";
-    }
 }
