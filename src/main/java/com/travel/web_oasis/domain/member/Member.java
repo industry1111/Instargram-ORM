@@ -2,6 +2,7 @@ package com.travel.web_oasis.domain.member;
 
 import com.travel.web_oasis.domain.entity.BaseEntity;
 import com.travel.web_oasis.domain.entity.Follow;
+import com.travel.web_oasis.domain.entity.LikeBoard;
 import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.persistence.*;
@@ -47,6 +48,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
     private List<Follow> toFollows = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<LikeBoard> LikeBoardList = new ArrayList<>();
 
     @Builder
     public Member(Long id, String name, String email, String password,Role role,

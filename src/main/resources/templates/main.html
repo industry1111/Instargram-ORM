@@ -7,7 +7,9 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/main.js}" type="module"></script>
-
+    <script th:inline="javascript">
+        var sessionId = [[${member.id}]]
+    </script>
 
 </th:block>
 
@@ -32,7 +34,7 @@
                         <img th:if="${member.picture != null}"th:src="${member.picture.startsWith('http') ? member.picture : '/member/download/profile/' + member.id}" alt="">
                     </div>
                     <div>
-                        <p class="username" th:text="${member.name}">modern_web_channel</p>
+                        <a th:href="@{/member/profile/{memberId}(memberId = ${member.id})}"><p class="username">modern_web_channel</p></a>
                         <p class="sub-text">kunaal kumar</p>
                     </div>
                     <button class="action-btn" onclick="location.href='/member/profile'">switch</button>

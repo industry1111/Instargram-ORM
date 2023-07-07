@@ -95,10 +95,10 @@ public class PostController {
      *
      * @Return : 메인 페이지로 이동
      * */
-    @DeleteMapping("/{id}")
+    @GetMapping("/delete/{id}")
     public String deletePost(@PathVariable Long id) {
-        String[] storeNames = postService.deletePost(id);
-        fileAttachService.deleteFiles(storeNames);
+        logger.info("deletePost start");
+        postService.deletePost(id);
         return "redirect:/";
     }
 
@@ -131,7 +131,7 @@ public class PostController {
     }
 
     @ResponseBody
-    @GetMapping("/member/PostList/{memberId}")
+    @GetMapping("/member/postList/{memberId}")
     public PageResultDTO<PostDTO, Post> findMemberPostList(PageRequestDTO pageRequestDTO, @PathVariable Long memberId) {
         logger.info("postController list start \n pageRequestDTO={}, id={}", pageRequestDTO, memberId);
 

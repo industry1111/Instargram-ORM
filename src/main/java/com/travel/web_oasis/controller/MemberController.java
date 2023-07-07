@@ -167,4 +167,11 @@ public class MemberController {
 
 
 
+    @GetMapping("/profile/{memberId}")
+    public String profile2(@AuthenticationPrincipal PrincipalDetail principalDetail, Model model,@PathVariable Long memberId) {
+        model.addAttribute("member", principalDetail.getMember());
+        model.addAttribute("memberId", memberId);
+        log.info("여기로 탐");
+        return "member/profile";
+    }
 }

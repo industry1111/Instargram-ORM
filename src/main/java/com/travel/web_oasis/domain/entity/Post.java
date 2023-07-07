@@ -33,7 +33,10 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<LikeBoard> LikeBoardList = new ArrayList<>();
     public void addFile(FileAttach fileAttach) {
+
         this.fileAttachList.add(fileAttach);
         fileAttach.setPost(this);
     }

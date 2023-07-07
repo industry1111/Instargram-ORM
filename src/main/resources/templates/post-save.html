@@ -8,6 +8,7 @@
             display: flex;
             gap: 10px;
         }
+
         .preview-image {
             max-width: 200px;
             max-height: 200px;
@@ -15,11 +16,11 @@
     </style>
     <script>
         function previewFiles() {
-            var previewContainer = document.getElementById('previewContainer');
+            var previewContainer = document.getElementById(previewContainer);
             previewContainer.innerHTML = '';
 
-            var files = document.getElementById('attachments').files;
-            for (var i = 0; i < files.length; i++) {
+            var files = document.getElementById(attachments).files;
+            for (var i = 0; i < files.length; i) {
                 var file = files[i];
                 var imageType = /^image\//;
 
@@ -27,8 +28,8 @@
                     continue;
                 }
 
-                var img = document.createElement('img');
-                img.classList.add('preview-image');
+                var img = document.createElement(img);
+                img.classList.add(preview - image);
                 img.file = file;
                 previewContainer.appendChild(img);
 
@@ -52,10 +53,47 @@
     </div>
     <div>
         <label for="attachments">첨부 파일</label>
-        <input type="file" multiple="multiple" id="attachments" name="attachments" onchange="previewFiles()" />
+        <input type="file" multiple="multiple" id="attachments" name="attachments" onchange="previewFiles()"/>
     </div>
     <div id="previewContainer" class="preview-container"></div>
     <button type="submit">게시글 저장</button>
+<!--=============================================================-->
+
+    <div class="post"> 
+        <div class="info"> 
+            <div class="user"> 
+                <div class="profile-pic"><img src="" id="  data.picture  " alt=""></div>
+                 
+                <p class="username">  data.name  </p> 
+            </div>
+            <img src="/img/main/option.png" name="removePost" class="options" alt="">
+        </div>
+         
+        <img src="" class="post-image" id="  data.fileStoreNames[0]  " alt=""> 
+
+        <div class="post-content"> 
+            <div class="reaction-wrapper"> 
+                <img src="/img/main/like.png" name="post" class="icon" alt=""> 
+                <input type="hidden" name="post" value="  data.id  "> 
+                <img src="/img/main/comment.png" class="icon" alt=""> 
+                <img src="/img/main/send.png" class="icon" alt=""> 
+                <img src="/img/main/save.png" class="save icon" alt=""> 
+            </div>
+             
+            <p class="likes">1,012 likes</p> 
+            <p class="description"><span>  data.name   </span>  data.content  </p> 
+            <p class="post-time">2 minutes ago</p> 
+        </div>
+         
+        <div class="comment-wrapper"> 
+            <img src="/img/main/smile.png" class="icon" alt=""> 
+            <input type="text" class="comment-box" placeholder="Add a comment"> 
+            <button class="comment-btn">post</button>
+             
+        </div>
+         
+    </div>
+    ;
 </form>
 </body>
 </html>

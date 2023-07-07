@@ -5,7 +5,7 @@ const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
 window.onload = function () {
 
     let page = 1;
-    let size = 2;
+    let size = 6;
     let totalPage;
 
 
@@ -16,9 +16,11 @@ window.onload = function () {
     findAllPost();
 
     if ($(window).scroll(function () {
-        if (page <= totalPage) {
-            if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+            if (page <= totalPage) {
+
                 findAllPost();
+
             }
         }
     })) ;
@@ -28,7 +30,7 @@ window.onload = function () {
 
         modal.style.top = window.scrollY + "px"; // 스크롤 위치에 따라 모달 위치 변경
         modal.style.display = "flex";
-        document.body.style.overflowY = "hidden"; // 스크롤 없애기
+        // document.body.style.overflowY = "hidden"; // 스크롤 없애기
 
 
     });
@@ -165,18 +167,29 @@ window.onload = function () {
             }
         }
         customAjax("GET", "/post/list/{id}", data, findAllPostCallBack);
+
+
     }
 
     function findAllPostCallBack(result) {
         totalPage = result.totalPage;
         result.dtoList.forEach((findData) => {
-            $(".post-grid").append(createPostGrid(findData));
+            $(".post-grid").append(createPosGrid(findData));
+
         })
         page++;
 
         downloadPostFile(result);
         downloadProfile(result);
     }
+
+    // customAjax("get", "/post/api/duplicate", data, duplicateLikeBoard)
+    //
+    // function duplicateLikeBoard(result) {
+    //     result.post.forEach((duplicateData) => {
+    //         duplicateData.
+    //     })
+    // }
 
     function downloadPostFile(result) {
         result.dtoList.forEach((data) => {
@@ -232,18 +245,32 @@ window.onload = function () {
     }
 
 
-    function createPostGrid(data) {
-        const innerHtml = '<div class="post">\n' +
+    function createPosGrid(data) {
+        let innerHtml = '<div class="post">\n' +
             '                    <div class="info">\n' +
             '                        <div class="user">\n' +
             '                            <div class="profile-pic"> <img src="" id="' + data.picture + '" alt=""> </div>\n' +
             '                            <p class="username">' + data.name + '</p>\n' +
-            '                        </div>\n' +
-            '                        <img src="/img/main/option.png" class="options" alt="">\n' +
-            '                    </div>\n' +
+            '                        </div>\n';
+        if (data.memberId === sessionId) {
+            innerHtml += '<img src="/img/main/option.png" name="removePost" class="options" alt="">\n';
+
+        }
+
+        innerHtml += '                    </div>\n' +
             '                    <img src="" class="post-image" id="' + data.fileStoreNames[0] + '" alt="">\n' +
+
             '                    <div class="post-content">\n' +
             '                        <div class="reaction-wrapper">\n' +
+            /*
+                       * for(data : data){
+                       *   if(duplicate의 postid == find의 postid){
+                       *       빨간하트
+                       *   }else{
+                       *       검은하트
+                       *   }
+                       * }
+                       * */
             '                            <img src="/img/main/like.png" name="post" class="icon" alt="">\n' +
             '                            <input type="hidden" name = "post" value="' + data.id + '" >' +
             '                            <img src="/img/main/comment.png" class="icon" alt="">\n' +
@@ -259,11 +286,33 @@ window.onload = function () {
             '                        <input type="text" class="comment-box" placeholder="Add a comment">\n' +
             '                        <button class="comment-btn">post</button>\n' +
             '                    </div>\n' +
-            '                </div>'
-
-
+            '                </div>';
         return innerHtml;
+
     }
+
+    $(Document).on("click", "img[name='post']", function () {
+        console.log($(this).next().val());
+
+        customAjax("get", "/post/api/addLike/{memberId}",)
+    });
+
+    $(Document).on("click", "img[name='removePost']", function () {
+        let result = confirm("정말로 삭제하시겠습니까?");
+        let postId = $(this).parent(".info").siblings(".post-content").find("input[type='hidden']").val();
+        console.log(postId);
+        if (result) {
+            let data = {
+                pathParams: {},
+                queryParams: {}
+            }
+            customAjax("get", '/post/delete/' + postId, postId, function () {
+                alert("삭제가 완료되었습니다.");
+            });
+        } else {
+            alert(result);
+        }
+    })
 
     function getSuggestMembers(membersIds) {
 

@@ -8,6 +8,7 @@ import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -125,6 +126,29 @@ class PostServiceImplTest {
 
 
         PageResultDTO<PostDTO, Post> resultDTO = postService.getPostList(pageRequestDTO,1L);
+
+        System.out.println("resultDTO = " + resultDTO.getPrev());
+        System.out.println("resultDTO.getNext() = " + resultDTO.getNext());
+        System.out.println("resultDTO = " + resultDTO.getTotalPage());
+        for (PostDTO postDTO : resultDTO.getDtoList()) {
+            System.out.println("postDTO = " + postDTO);
+        }
+
+        System.out.println("resultDTO.getPage() = " + resultDTO.getPageList());
+    }
+
+    @Test
+    @DisplayName("게시글 목록 가져오기(Paging)")
+    @Transactional
+    void getMemberPostList() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(3)
+                .build();
+
+
+        PageResultDTO<PostDTO, Post> resultDTO = postService.getMemberPostList(pageRequestDTO,1L);
 
         System.out.println("resultDTO = " + resultDTO.getPrev());
         System.out.println("resultDTO.getNext() = " + resultDTO.getNext());

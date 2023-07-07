@@ -5,7 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.repository.PostRepository;
+import com.travel.web_oasis.domain.repository.post.PostRepository;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 @Slf4j
@@ -30,6 +31,8 @@ public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
 
     private final MemberService memberService;
+
+    private final FileAttachService fileAttachService;
 
     private final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
 
@@ -61,17 +64,39 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public String[] deletePost(Long id) {
+    public void deletePost(Long id) {
+//    삭제할 포스트
+        PostDTO removePostDTO = findPost(id);
+//    삭제할 포스트의 첨부파일들
+        String[] fileStoreNames = removePostDTO.getFileStoreNames();
+        System.out.println("files = " + Arrays.toString(fileStoreNames));
+        for (String fileStoreName : fileStoreNames) {
 
+            logger.info("deletePost() called   file : {}", fileStoreName);
+
+        }
+        //저장소에서 첨부파일들 삭제
+        fileAttachService.deleteFiles(fileStoreNames);
         //포스트 삭제
         postRepository.deleteById(id);
-
-        //삭제할 포스트
-        PostDTO removePostDTO = findPost(id);
-
-        //삭제할 포스트의 첨부파일들
-        return removePostDTO.getFileStoreNames();
     }
+//    @Override
+//    public void deletePost(Long id) {
+        //삭제할 포스트
+//        PostDTO removePostDTO = getPost(id);
+        //삭제할 포스트의 첨부파일들
+//        List<FileAttach> files = removePostDTO.getFiles();
+//        System.out.println("files = " + files);
+//        for (FileAttach file : files) {
+//
+//            log.info("deletePost() called   file : {}", file.toString());
+//
+//        }
+//        //저장소에서 첨부파일들 삭제
+//        fileAttachService.deleteFiles(files);
+//        //포스트 삭제
+//        postRepository.deleteById(id);
+//    }
 
 
     @Override
@@ -90,8 +115,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId) {
-
-        QMember qMember = QMember.member;
+        QMember qMember = new QMember("member");
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id"));
 
