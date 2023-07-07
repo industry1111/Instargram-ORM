@@ -30,7 +30,7 @@ $('#btn_update').on('click', function () {
 
 function successCallback(data) {
     console.log(data);
-    location.href = "/member/profile";
+    location.href = "/member/profile/"+data.id;
 }
 
 window.onload = function (){
