@@ -115,19 +115,10 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId) {
-        QMember qMember = new QMember("member");
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id"));
 
-        BooleanBuilder builder = new BooleanBuilder();
-
-        BooleanExpression exMemberId = qMember.id.eq(memberId);
-
-        builder.and(exMemberId);
-
-        Page<Post> result = postRepository.findAll(builder,pageable);
-
-        result.stream().forEach(post -> System.out.println("post = " + post));
+        Page<Post> result = postRepository.getMemberPostList(pageable,memberId);
 
         Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
 
@@ -140,3 +131,4 @@ public class PostServiceImpl implements PostService{
                 .orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다. id =" + id));
     }
 }
+

@@ -39,7 +39,7 @@ public class MemberDTO {
         this.picture = picture;
         this.provider = provider;
         this.followersSize = followersSize;
-        this.followingSize = followingSize;
+        this.followingSize = followersSize;
     }
 
     @QueryProjection
