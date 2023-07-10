@@ -65,5 +65,55 @@ function customAjax(method, url, data, submitFunc) {
 }
 
 
+/* 시간 문자열 변환 함수 ( 분/시간/일/월/년 기준)
+* data : 변경할 부분의 HTML 태그 요소 및 시간 전달
+* */
+function timeToString(data) {
+    const textRegex = /^[A-Za-z]+$/;
+
+    let element;
+    let modify;
+    if (textRegex.test(data)){
+        element = document.getElementById(data);
+        modify = new Date(element.textContent);
+    } else {
+        modify = new Date(data);
+    }
+    let now = new Date();
+    let duration = now - modify;
+    let str = "";
+
+    let years = Math.floor(duration / (1000 * 60 * 60 * 24 * 365));
+    if (years >= 1) {
+        str = years + ' years ago';
+    } else {
+        let months = Math.floor(duration / (1000 * 60 * 60 * 24 * 30));
+        if (months >= 1) {
+            str = months + ' months ago';
+        } else {
+            let days = Math.floor(duration / (1000 * 60 * 60 * 24));
+            if (days >= 1) {
+                str = days + ' days ago';
+            } else {
+                let hours = Math.floor(duration / (1000 * 60 * 60));
+                if (hours >= 1) {
+                    str = hours + ' hours ago';
+                } else {
+                    let minutes = Math.floor(duration / (1000 * 60));
+                    str = minutes + ' minutes ago';
+                }
+            }
+        }
+    }
+
+    if (element instanceof HTMLElement) {
+        element.textContent = str;
+    } else {
+        return str;
+    }
+}
+
+
 
 export {customAjax}; //ajax 함수를 외부에서 사용할 수 있도록 export
+export {timeToString};

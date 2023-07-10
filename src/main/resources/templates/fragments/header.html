@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}"
+      layout:decorate="~{layouts/layout}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div th:fragment="header">
+    <script th:src="@{/js/header.js}" type="module"></script>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/modal.css}" />
     <header class="p-3 mb-3">
-        <nav class="navbar">
+        <nav class="navbar header">
             <div class="nav-wrapper">
                 <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
                 <input type="text" class="search-box" placeholder="search">
@@ -15,7 +18,6 @@
                     <img th:src="@{/img/main/messenger.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/add.PNG}" th:id="btn-create_post" class="icon" alt="">
                     <img th:src="@{/img/main/explore.PNG}" class="icon" alt="">
-                    <img th:src="@{/img/main/likeBoard.PNG}" class="icon" alt="">
 
                     <button class="btn-primary" sec:authorize="hasAnyRole('USER','ADMIN')" onclick="location.href='/member/logout'">Logout</button>
                 </div>
@@ -23,6 +25,5 @@
             </div>
         </nav>
     </header>
-    <script th:src="@{/js/header.js}" type="module"></script>
 </div>
 </html>

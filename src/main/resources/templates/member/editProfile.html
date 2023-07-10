@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="script">
     <script th:src="@{/js/member/editProfile.js}" type="module"></script>
 </th:block>
@@ -28,7 +28,7 @@
                     <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                         <div class="text-center text-sm-left mb-2 mb-sm-0">
                             <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap" th:text="${member.name}">John Smith</h4>
-                            <p class="mb-0">@johnny.s</p>
+                            <p class="mb-0" th:text="${member.email}"></p>
                             <div class="text-muted">
                                 <small id='lastSeenText' th:text="${member.modifiedDate}"></small>
                             </div>

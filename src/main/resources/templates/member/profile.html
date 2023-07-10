@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{layouts/layout}">
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/member/profile.css}">
 </th:block>
@@ -11,7 +11,9 @@
 </th:block>
 <body>
 <div layout:fragment="content">
+
   <header>
+      <div class="profile-root">
       <input type="hidden" id="memberId" th:value="${member.id}">
 
     <div class="container">
@@ -38,8 +40,8 @@
 
           <ul>
             <li><span class="profile-stat-count" sec:authorize="isAuthenticated()">164</span> posts</li>
-            <li><span class="profile-stat-count" th:text="${member.followersSize}">0</span> followers</li>
-            <li><span class="profile-stat-count" th:text="${member.followingSize}">0</span> following</li>
+            <li id="followers"><span class="profile-stat-count" th:text="${member.followersSize}">0</span> followers</li>
+            <li id="following"><span class="profile-stat-count" th:text="${member.followingSize}">0</span> following</li>
           </ul>
 
         </div>
@@ -55,6 +57,7 @@
 
     </div>
     <!-- End of container -->
+      </div>
   </header>
 
     <main>
@@ -71,6 +74,7 @@
 
     </main>
 </div>
+
 
 </body>
 </html>

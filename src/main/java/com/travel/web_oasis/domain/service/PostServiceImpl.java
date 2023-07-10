@@ -59,7 +59,7 @@ public class PostServiceImpl implements PostService{
             return null;
         }
 
-        return entityToDto(post.getId(), post.getContent(), post.getMember(), post.getFileAttachList());
+        return entityToDto(post.getId(), post.getContent(),post.getCreatedDate(), post.getMember(), post.getFileAttachList());
 
     }
 
@@ -108,7 +108,7 @@ public class PostServiceImpl implements PostService{
 
         result.stream().forEach(post -> System.out.println("post = " + post));
 
-        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList()));
 
         return new PageResultDTO<>(result, fn);
     }
@@ -120,7 +120,7 @@ public class PostServiceImpl implements PostService{
 
         Page<Post> result = postRepository.getMemberPostList(pageable,memberId);
 
-        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getMember(), entity.getFileAttachList()));
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(),entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList()));
 
         return new PageResultDTO<>(result,fn);
     }

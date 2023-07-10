@@ -89,4 +89,23 @@ window.onload = function () {
             '           </div>'
         return innerHtml;
     }
+
+
+
+    const followModal = document.getElementById("modal-follow");
+    const btnFollower = document.getElementById("followers")
+    btnFollower.addEventListener("click", e => {
+
+        followModal.style.display = "flex";
+
+
+    });
+
+
+    const btnCloseModal = document.getElementById("close_modal");
+    btnCloseModal.addEventListener("click", e => {
+        $('#followModal').css({
+            display: 'none'
+        });
+    });
 }

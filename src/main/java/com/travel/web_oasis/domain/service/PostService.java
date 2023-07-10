@@ -8,6 +8,7 @@ import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PostService {
@@ -29,7 +30,7 @@ public interface PostService {
                 .build();
     }
 
-    default PostDTO entityToDto(Long id, String content, Member member, List<FileAttach> fileAttachList) {
+    default PostDTO entityToDto(Long id, String content, LocalDateTime createDate, Member member, List<FileAttach> fileAttachList) {
 
         // `fileAttachList`의 각 요소의 `fileName`을 `fileNames` 배열에 추가
         String[] fileNames = fileAttachList.stream().map(FileAttach::getFileName).toArray(String[]::new);
@@ -40,6 +41,7 @@ public interface PostService {
         return PostDTO.builder()
                 .id(id)
                 .content(content)
+                .createdDate(createDate)
                 .fileNames(fileNames)
                 .fileStoreNames(fileStoreNames)
                 .memberId(member.getId())
