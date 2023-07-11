@@ -1,9 +1,7 @@
 package com.travel.web_oasis.domain.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.travel.web_oasis.domain.member.Member;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +17,27 @@ public class Comment extends BaseEntity {
 
     private String content;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Builder
-    public Comment(String content) {
+    public Comment(String content, Post post, Member member) {
         this.content = content;
+        this.post = post;
+        this.member = member;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", content=" + content  +
+                ", member=" + member +
+                '}';
     }
 }

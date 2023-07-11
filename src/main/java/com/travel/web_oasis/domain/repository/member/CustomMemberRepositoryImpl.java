@@ -3,8 +3,8 @@ package com.travel.web_oasis.domain.repository.member;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.entity.QFollow;
+import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.QMemberDTO;
@@ -18,7 +18,7 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
     private final JPQLQueryFactory queryFactory;
 
     public CustomMemberRepositoryImpl(EntityManager entityManager) {
-        super(Follow.class);
+        super(Member.class);
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 

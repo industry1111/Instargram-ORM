@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService{
         String encryptedPassword = encryptPassword(memberDTO.getPassword());
         memberDTO.setPassword(encryptedPassword);
         String profileImg = memberDTO.getPicture();
-        log.info(profileImg);
+
         if (profileImg == null || profileImg == "") {
             memberDTO.setPicture("profileImg.png");
         }

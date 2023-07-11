@@ -1,7 +1,7 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
-import com.travel.web_oasis.domain.service.PostService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    private final PostService postService;
-
+    private final HttpSession httpSession;
     @GetMapping("/")
     public String index(@AuthenticationPrincipal PrincipalDetail principal, Model model) {
+
         if (principal != null) {
             model.addAttribute("member", principal.getMember());
-            System.out.println("principal = " + principal.getMember().toString());
+            httpSession.setAttribute("member",principal.getMember());
         }
-        return "main";
+        return "/main";
     }
 }

@@ -123,12 +123,17 @@ window.onload = function () {
                 </div>
                 <p class="likes">1,012 likes</p>
                 <p class="description"><span>${data.name}</span>${data.content}</p>
-                <p class="post-time" >${timeToString.call(this, data.createdDate)}</p>
+                <p class="post-time" >${timeToString.call(this, data.createdDate)}</p> 
+               `;
+        if (data.commentDTOS[0] != null) {
+           innerHtml +=` <p class="description"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
+        }
+        innerHtml +=`
             </div>
             <div class="comment-wrapper">
                 <img src="/img/main/smile.png" class="icon" alt="">
                 <input type="text" class="comment-box" placeholder="댓글을 입력하세요">
-                <button class="comment-btn">게시</button>
+                <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>
             </div>
         </div>
     `;
@@ -148,14 +153,15 @@ window.onload = function () {
         console.log(postId);
         if (result) {
             let data = {
-                pathParams: {},
+                pathParams: {
+                    postId : postId
+                },
                 queryParams: {}
             }
-            customAjax("get", '/post/delete/' + postId, postId, function () {
+            customAjax("GET", '/post/delete/{postId}', data, function () {
                 alert("삭제가 완료되었습니다.");
+                location.href = "/";
             });
-        } else {
-            alert(result);
         }
     })
 
@@ -233,4 +239,7 @@ window.onload = function () {
 
     getSuggestMembers();
 
+    function aa(){
+        console.log('aa');
+    }
 }

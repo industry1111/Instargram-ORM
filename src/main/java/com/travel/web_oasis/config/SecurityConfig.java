@@ -27,7 +27,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/member/**","/error").permitAll()
-                    .requestMatchers("/","/post/**").hasRole("USER")
+                    .requestMatchers("/","/post/**","/comment/**").hasRole("USER")
                     .requestMatchers("/member/login").anonymous()
                     .requestMatchers("/member/logout","/member/profile/**").authenticated()
                     .requestMatchers("/img/**", "/css/**", "/webjars/**","/js/**","/images/**").permitAll();
@@ -41,9 +41,8 @@ public class SecurityConfig {
                     .permitAll();
         });
         http.logout(logout ->{
-           logout.logoutSuccessUrl("/")
+           logout.logoutSuccessUrl("/")// 로그아웃 후 이동할 페이지의 경로
                    .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                   .logoutSuccessUrl("/") // 로그아웃 후 이동할 페이지의 경로
                    .invalidateHttpSession(true) // 세션 무효화
                    .deleteCookies("JSESSIONID"); // 쿠키 삭제
 
@@ -52,24 +51,20 @@ public class SecurityConfig {
             oauth.userInfoEndpoint(userInfoEndpointConfig -> {
                 userInfoEndpointConfig.userService(principalOauth2UserService);
             });
-            oauth.defaultSuccessUrl("/");
+            oauth.defaultSuccessUrl("/", true);
             oauth.failureUrl("/member/login/error");
 
         });
-
-        http.sessionManagement(session -> {
-                    session.maximumSessions(1)
-                            .maxSessionsPreventsLogin(true)
-                            .expiredUrl("/");
-                }
-
-        );
+//
+//        http.sessionManagement(session -> {
+//                    session.maximumSessions(1)
+//                            .maxSessionsPreventsLogin(true)
+//                            .expiredUrl("/");
+//                }
+//
+//        );
 
 
         return http.build();
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

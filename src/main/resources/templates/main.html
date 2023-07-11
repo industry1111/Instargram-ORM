@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layouts/layout}">
->
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/main.js}" type="module"></script>
-    <script th:inline="javascript">
-        var sessionId = [[${member.id}]]
+
+    <script th:inline="javascript" >
+        let sessionId = [[${member.id}]];
+
+        function addComment(element,postId) {
+            const content = element.previousElementSibling.value;
+            console.log(content);
+            let data = {
+                content: content,
+                memberId: sessionId,
+                postId: postId
+            }
+
+            $.ajax({
+                url: "/comment/add",
+                method: "POST",
+                data : JSON.stringify(data),
+                contentType : "application/json",
+                success: function(response) {
+
+                },
+                error: function(error) {
+
+                }
+            });
+        }
     </script>
 
 </th:block>
@@ -40,18 +62,18 @@
                     <a th:href="${'/member/profile/' + member.id}"><button class="action-btn">switch</button></a>
                 </div>
 
+
                 <p class="suggestion-text">Suggestions for you</p>
 
                 <!--Member 추천 생성 영역 -->
                 <div class="suggest-member-grid">
 
                 </div>
+            </div>
+        </div>
     </section>
-
-
-
+    <div th:include="~{fragments/modal::modal}"></div>
 </div>
-
 
 
 

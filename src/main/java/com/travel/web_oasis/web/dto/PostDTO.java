@@ -1,5 +1,6 @@
 package com.travel.web_oasis.web.dto;
 
+import com.travel.web_oasis.domain.service.Commnet.CommentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,9 @@ public class PostDTO {
 
     //like
     private boolean like;
+
+    //comment
+    List<CommentDTO> commentDTOS;
 
 
 

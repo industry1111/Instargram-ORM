@@ -41,6 +41,7 @@ public class MemberController {
         if (error != null) {
             model.addAttribute("message", "로그인 정보를 확인해주세요.");
         }
+
         model.addAttribute("memberDTO", new MemberDTO());
         return "/member/loginForm";
     }

@@ -35,6 +35,10 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<LikeBoard> LikeBoardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Comment> commentList;
+
     public void addFile(FileAttach fileAttach) {
 
         this.fileAttachList.add(fileAttach);
@@ -69,6 +73,7 @@ public class Post extends BaseEntity {
                 ", content='" + content + '\'' +
                 ", filesAttachList=" + fileAttachList +
                 ", member=" + member +
+                ", comment=" + commentList+
                 '}';
     }
 }

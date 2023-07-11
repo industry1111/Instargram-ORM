@@ -22,6 +22,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.travel.web_oasis.domain.entity.QBaseEntity _super = new com.travel.web_oasis.domain.entity.QBaseEntity(this);
 
+    public final ListPath<com.travel.web_oasis.domain.entity.Comment, com.travel.web_oasis.domain.entity.QComment> commentList = this.<com.travel.web_oasis.domain.entity.Comment, com.travel.web_oasis.domain.entity.QComment>createList("commentList", com.travel.web_oasis.domain.entity.Comment.class, com.travel.web_oasis.domain.entity.QComment.class, PathInits.DIRECT2);
+
     //inherited
     public final StringPath createdBy = _super.createdBy;
 

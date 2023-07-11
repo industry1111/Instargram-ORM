@@ -30,8 +30,6 @@ public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
 
-    private final MemberService memberService;
-
     private final FileAttachService fileAttachService;
 
     private final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
@@ -59,7 +57,7 @@ public class PostServiceImpl implements PostService{
             return null;
         }
 
-        return entityToDto(post.getId(), post.getContent(),post.getCreatedDate(), post.getMember(), post.getFileAttachList());
+        return entityToDto(post.getId(), post.getContent(),post.getCreatedDate(), post.getMember(), post.getFileAttachList(), post.getCommentList());
 
     }
 
@@ -69,7 +67,7 @@ public class PostServiceImpl implements PostService{
         PostDTO removePostDTO = findPost(id);
 //    삭제할 포스트의 첨부파일들
         String[] fileStoreNames = removePostDTO.getFileStoreNames();
-        System.out.println("files = " + Arrays.toString(fileStoreNames));
+
         for (String fileStoreName : fileStoreNames) {
 
             logger.info("deletePost() called   file : {}", fileStoreName);
@@ -80,24 +78,6 @@ public class PostServiceImpl implements PostService{
         //포스트 삭제
         postRepository.deleteById(id);
     }
-//    @Override
-//    public void deletePost(Long id) {
-        //삭제할 포스트
-//        PostDTO removePostDTO = getPost(id);
-        //삭제할 포스트의 첨부파일들
-//        List<FileAttach> files = removePostDTO.getFiles();
-//        System.out.println("files = " + files);
-//        for (FileAttach file : files) {
-//
-//            log.info("deletePost() called   file : {}", file.toString());
-//
-//        }
-//        //저장소에서 첨부파일들 삭제
-//        fileAttachService.deleteFiles(files);
-//        //포스트 삭제
-//        postRepository.deleteById(id);
-//    }
-
 
     @Override
     public PageResultDTO<PostDTO, Post> getPostList(PageRequestDTO requestDTO, Long id) {
@@ -108,7 +88,7 @@ public class PostServiceImpl implements PostService{
 
         result.stream().forEach(post -> System.out.println("post = " + post));
 
-        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList()));
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList(), entity.getCommentList()));
 
         return new PageResultDTO<>(result, fn);
     }
@@ -120,7 +100,7 @@ public class PostServiceImpl implements PostService{
 
         Page<Post> result = postRepository.getMemberPostList(pageable,memberId);
 
-        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(),entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList()));
+        Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(),entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList(), entity.getCommentList()));
 
         return new PageResultDTO<>(result,fn);
     }
