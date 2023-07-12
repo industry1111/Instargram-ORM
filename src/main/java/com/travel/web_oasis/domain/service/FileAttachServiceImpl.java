@@ -134,20 +134,8 @@ public class FileAttachServiceImpl implements FileAttachService {
             deleteFileFromStorage(fileAttach);
         }
     }*/
-private void deleteFileFromStorage(String fileStoreName) {
-    Path storePath = Paths.get(storagePath+fileStoreName);
-    logger.info("deleteFileFromStorage() called : {}", storePath);
-    //파일이 존재할 때만 삭제
-    try {
-        if (Files.exists(storePath)) {
-            Files.delete(storePath);
-        }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-    /*private void deleteFileFromStorage(FileAttach fileAttach) {
-        Path storePath = Paths.get(fileAttach.getFileStoreName());
+    private void deleteFileFromStorage(String fileStoreName) {
+        Path storePath = Paths.get(storagePath+fileStoreName);
         logger.info("deleteFileFromStorage() called : {}", storePath);
         //파일이 존재할 때만 삭제
         try {
@@ -157,7 +145,7 @@ private void deleteFileFromStorage(String fileStoreName) {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     @Override
     public String getFileType(String fileName) {

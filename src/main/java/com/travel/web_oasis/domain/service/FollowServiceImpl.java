@@ -1,16 +1,9 @@
 package com.travel.web_oasis.domain.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.support.QueryBase;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.travel.web_oasis.domain.entity.Follow;
-import com.travel.web_oasis.domain.entity.QFollow;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.repository.FollowRepository;
+import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.web.dto.FollowDTO;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

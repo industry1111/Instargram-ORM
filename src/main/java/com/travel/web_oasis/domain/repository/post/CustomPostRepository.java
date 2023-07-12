@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CustomPostRepository {
-    Page<Post> getMemberPostList(Pageable pageable, Long memberId);
+
+    Page<Post> getPostList(Pageable pageable, Long memberId);
+    Page<Post> gePostsByMemberId(Pageable pageable, Long memberId);
 
 }

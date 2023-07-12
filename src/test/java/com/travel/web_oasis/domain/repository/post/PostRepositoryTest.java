@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.repository;
+package com.travel.web_oasis.domain.repository.post;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;

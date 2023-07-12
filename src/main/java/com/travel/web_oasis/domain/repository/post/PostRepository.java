@@ -6,8 +6,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 public interface PostRepository extends JpaRepository<Post, Long>, QuerydslPredicateExecutor<Post> , CustomPostRepository{
 
-
-
 }
 
 

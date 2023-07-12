@@ -1,10 +1,11 @@
-package com.travel.web_oasis.domain.repository;
+package com.travel.web_oasis.domain.repository.follow;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.entity.QFollow;
+import com.travel.web_oasis.domain.repository.follow.CustomFollowRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 

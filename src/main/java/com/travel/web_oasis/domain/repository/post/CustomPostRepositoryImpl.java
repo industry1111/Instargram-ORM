@@ -21,18 +21,24 @@ public class CustomPostRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Page<Post> getMemberPostList(Pageable pageable, Long memberId) {
+    public Page<Post> getPostList(Pageable pageable, Long memberId) {
         QPost post = new QPost("post");
-        List<Post> posts = queryFactory
+
+        return null;
+    }
+
+    @Override
+    public Page<Post> gePostsByMemberId(Pageable pageable, Long memberId) {
+        QPost post = new QPost("post");
+        QueryResults<Post> results = queryFactory
                 .selectFrom(post)
                 .where(post.member.id.eq(memberId))
-                .fetch();
+                .fetchResults();
 
-        long total = posts.size();
+        List<Post> content = results.getResults();
+        long total = results.getTotal();
 
-        Page<Post> page = new PageImpl<>(posts, pageable, total);
-
-        return page;
+        return  new PageImpl<>(content,pageable,total);
     }
 
 }

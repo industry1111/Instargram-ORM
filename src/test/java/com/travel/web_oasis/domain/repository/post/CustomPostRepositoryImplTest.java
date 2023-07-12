@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class CustomPostRepositoryImplTest {
 
@@ -20,13 +18,15 @@ class CustomPostRepositoryImplTest {
     @Test
     @Transactional
     void getMemberPostList() {
-
+        //given
         Long memberId = 2L;
 
         Pageable pageable = PageRequest.of(0,3);
 
-        Page<Post> result = postRepository.getMemberPostList(pageable,memberId);
+        //when
+        Page<Post> result = postRepository.gePostsByMemberId(pageable,memberId);
 
+        //then
         result.stream().forEach(post -> System.out.println("post = " + post));
     }
 }

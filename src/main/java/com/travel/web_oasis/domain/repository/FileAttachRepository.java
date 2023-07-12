@@ -9,5 +9,4 @@ public interface FileAttachRepository extends JpaRepository<FileAttach, Long> {
 
     FileAttach findByFileStoreName(String fileName);
 
-
 }

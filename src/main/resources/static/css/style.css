@@ -331,3 +331,29 @@ body{
 a {
     text-decoration: none;
 }
+
+.feed_name_txt {
+    font-weight: bold;
+}
+
+.feed_name {
+    margin-top: 5px;
+}
+
+.post-comment {
+    margin-top: 20px;
+}
+
+.post-comment-btn {
+    margin-top: 50px;
+}
+
+.detail_profile_img {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    background: none;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}

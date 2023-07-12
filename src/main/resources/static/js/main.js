@@ -3,7 +3,7 @@ import {timeToString} from "./common.js";
 
 // 이미지 URL을 관리하기 위한 맵 객체
 const imageCache = new Map();
-const filePath = "/Users/gohyeong-gyu/Downloads/upload/";
+const fileCache = new Map();
 
 window.onload = function () {
 
@@ -11,10 +11,7 @@ window.onload = function () {
     let size = 3;
     let totalPage;
 
-
-
     findAllPost();
-
 
     if ($(window).scroll(function () {
         if ($(window).scrollTop() === $(document).height() - $(window).height()) {
@@ -42,6 +39,7 @@ window.onload = function () {
     function findAllPostCallBack(result) {
         totalPage = result.totalPage;
         result.dtoList.forEach((postDTO) => {
+            fileCache.set(postDTO.id,postDTO);
             $(".post-grid").append(createPosGrid(postDTO));
         });
         page++;
@@ -77,11 +75,15 @@ window.onload = function () {
                 queryParams: {}
             };
             const profileImg = document.getElementById(`profile-${dto.id}`);
-            if (!imageUrl.startsWith("http")) {
-                // 이미지 URL이 이미 캐시에 있는지 확인
-                if (imageCache.has(imageUrl)) {
-                    // 이미지가 캐시에 있는 경우, 캐시에서 가져옴
-                    profileImg.src = imageCache.get(imageUrl);
+
+            // 이미지 URL이 이미 캐시에 있는지 확인
+            if (imageCache.has(imageUrl)) {
+                // 이미지가 캐시에 있는 경우, 캐시에서 가져옴
+                profileImg.src = imageCache.get(imageUrl);
+            } else {
+                if (imageUrl.startsWith("http")) {
+                    profileImg.src = imageUrl;
+                    imageCache.set(imageUrl,imageUrl);
                 } else {
                     customAjax("GET", "/member/download/profile/{memberId}", data, function (responseData) {
                         let blob = new Blob([responseData]);
@@ -90,9 +92,6 @@ window.onload = function () {
                         imageCache.set(imageUrl,url);
                     });
                 }
-
-            } else {
-                profileImg.src = imageUrl;
             }
         });
     }
@@ -115,8 +114,8 @@ window.onload = function () {
             <img src="" class="post-image" id="${data.fileStoreNames[0]}" alt="">
             <div class="post-content">
                 <div class="reaction-wrapper">
-                    <img src="/img/main/like.png" name="post" class="icon" alt="">
                     <input type="hidden" name="post" value="${postId}">
+                    <img src="/img/main/like.png" class="icon like" alt="">
                     <img src="/img/main/comment.png" class="icon" alt="">
                     <img src="/img/main/send.png" class="icon" alt="">
                     <img src="/img/main/save.png" class="save icon" alt="">
@@ -141,11 +140,7 @@ window.onload = function () {
     }
 
 
-    $(Document).on("click", "img[name='post']", function () {
-        console.log($(this).next().val());
 
-        customAjax("get", "/post/api/addLike/{memberId}",)
-    });
 
     $(Document).on("click", "img[name='removePost']", function () {
         let result = confirm("정말로 삭제하시겠습니까?");
@@ -239,7 +234,58 @@ window.onload = function () {
 
     getSuggestMembers();
 
-    function aa(){
-        console.log('aa');
+
+    function showdDetailPost(postId) {
+        const detailModal = document.getElementById("detail_modal_feed_content");
+        const btnCloseModal = document.getElementById("close_detail_modal");
+
+        detailModal.style.display = "flex";
+        document.body.style.overflowY = "hidden";
+
+        btnCloseModal.addEventListener("click", e => {
+            detailModal.style.display = "none";
+            document.body.style.overflowY = "scroll";
+        });
+
     }
+
+
+    $(Document).on("click", "img[class='icon like']", function () {
+        showdDetailPost();
+        let postId = parseInt($(this).parent().children(0).first().val());
+
+        let postDTO = fileCache.get(postId);
+
+        let detailPost = $(".detail_modal_content_write").html("");
+
+        let innerHTML = ` <div class="feed_name">
+                                    <div class="profile_box">
+                                        <img class="detail_profile_img" src="${imageCache.get(postDTO.picture)}" alt="">
+                                        <span  id="아이디 지정해야할 부분-이름" class="feed_name_txt" >${postDTO.name}</span>
+                                        <span>${postDTO.content}</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="height: 400px" class="post-comment">
+                                    <div class="feed_name">
+                                        <div class="profile_box">
+                                            <img style="width: 40px; height: 40px;" id="아이디 지정해야할 부분-프로필이미지" class="profile_img"  alt="">
+                                            <span  id="아이디 지정해야할 부분-이름" class="feed_name_txt" > jin.99 </span>
+                                            <span>sasdad</span>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <div class="comment-wrapper ">
+                                    <img src="/img/main/smile.png" class="icon" alt="">
+                                    <input type="text" class="comment-box" placeholder="댓글을 입력하세요">
+                                    <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>
+                                </div>`;
+
+        detailPost.append(innerHTML);
+
+
+
+    });
+
 }

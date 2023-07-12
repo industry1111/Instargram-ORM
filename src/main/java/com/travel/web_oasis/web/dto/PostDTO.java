@@ -23,7 +23,6 @@ public class PostDTO {
     private String[] fileNames;
     private String[] fileStoreNames;
 
-
     //Member 정보
     private Long memberId;
     private String name;
@@ -36,9 +35,6 @@ public class PostDTO {
 
     //comment
     List<CommentDTO> commentDTOS;
-
-
-
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

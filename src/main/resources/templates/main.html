@@ -31,6 +31,7 @@
                 }
             });
         }
+
     </script>
 
 </th:block>
@@ -72,6 +73,32 @@
             </div>
         </div>
     </section>
+
+    <div id="detail_modal_feed_content" class="modal modal_overlay_content">
+        <div class="modal_window">
+            <div class="modal_title">
+                <div class="modal_title_side"></div>
+                <div style="margin: 5px"> 새 게시물 </div>
+                <div class="modal_title_side">
+                        <span id="close_detail_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                            close
+                        </span>
+                </div>
+            </div>
+            <div class="modal_image_content">
+                <div id="detail_input_image" class="modal_image_upload_content">
+
+                </div>
+                <div class="detail_modal_content_write">
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
     <div th:include="~{fragments/modal::modal}"></div>
 </div>
 

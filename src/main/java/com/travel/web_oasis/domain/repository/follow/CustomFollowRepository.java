@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.repository;
+package com.travel.web_oasis.domain.repository.follow;
 
 import java.util.List;
 

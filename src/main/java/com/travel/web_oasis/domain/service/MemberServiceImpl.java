@@ -2,7 +2,7 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.repository.FollowRepository;
+import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;

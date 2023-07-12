@@ -49,7 +49,6 @@ public interface PostService {
 
             CommentDTO commentDTO = CommentDTO.builder()
                     .content(comment.getContent())
-                    .postId(comment.getPost().getId())
                     .memberId(commentMember.getId())
                     .memberName(commentMember.getName())
                     .memberProfileImg(commentMember.getPicture())

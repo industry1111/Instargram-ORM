@@ -1,10 +1,8 @@
 package com.travel.web_oasis.domain.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.travel.web_oasis.domain.member.Member;
-import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.entity.Post;
+import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 @Slf4j
@@ -98,7 +95,7 @@ public class PostServiceImpl implements PostService{
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id"));
 
-        Page<Post> result = postRepository.getMemberPostList(pageable,memberId);
+        Page<Post> result = postRepository.gePostsByMemberId(pageable,memberId);
 
         Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(),entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList(), entity.getCommentList()));
 

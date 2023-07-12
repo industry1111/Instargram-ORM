@@ -32,7 +32,13 @@ public class PageResultDTO<DTO,EN> {
     //페이지 번호 목록
     private List<Integer> pageList;
 
-    //
+
+    public PageResultDTO (Page<DTO> result) {
+        dtoList = result.stream().toList();
+        totalPage = result.getTotalPages();
+        makePageList(result.getPageable());
+    }
+
     public PageResultDTO (Page<EN> result, Function<EN,DTO> fn) {
 
         dtoList = result.stream().toList().stream().map(fn).collect(Collectors.toList());
@@ -41,7 +47,6 @@ public class PageResultDTO<DTO,EN> {
     }
 
     private void makePageList(Pageable pageable) {
-
         this.page = pageable.getPageNumber() +1;
         this.size = pageable.getPageSize();
 

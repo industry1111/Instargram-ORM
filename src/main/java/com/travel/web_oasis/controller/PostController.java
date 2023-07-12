@@ -78,12 +78,12 @@ public class PostController {
 
      */
     @ResponseBody
-    @GetMapping("/{id}")
-    public PostDTO findPost(@PathVariable Long id) {
+    @GetMapping("/{postId}")
+    public PostDTO findPost(@PathVariable Long postId) {
 
-        logger.info("findPost Controller Start \n id={}", id);
+        logger.info("findPost Controller Start \n id={}", postId);
 
-        PostDTO postDTO = postService.findPost(id);
+        PostDTO postDTO = postService.findPost(postId);
 
         return postDTO;
     }
