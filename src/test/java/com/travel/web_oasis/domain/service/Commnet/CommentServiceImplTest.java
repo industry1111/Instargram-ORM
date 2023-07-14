@@ -7,26 +7,17 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
-import com.travel.web_oasis.domain.service.PostService;
-import com.travel.web_oasis.web.dto.MemberDTO;
-import com.travel.web_oasis.web.dto.PageRequestDTO;
-import com.travel.web_oasis.web.dto.PageResultDTO;
-import com.travel.web_oasis.web.dto.PostDTO;
+import com.travel.web_oasis.web.dto.*;
 import jakarta.transaction.Transactional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest

@@ -8,30 +8,24 @@
 
     <script th:inline="javascript" >
         let sessionId = [[${member.id}]];
+        let seesionName = [[${member.name}]];
 
         function addComment(element,postId) {
             const content = element.previousElementSibling.value;
-
-
 
             let data = {
                 content: content,
                 memberId: sessionId,
                 postId: postId
             }
-
             $.ajax({
                 url: "/comment/add",
                 method: "POST",
                 data : JSON.stringify(data),
                 contentType : "application/json",
                 success: function(reuslt) {
-                    if ($("#comment"+postId).text() === '') {
-                        `<p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`
-                    }
                 },
                 error: function(error) {
-
                 }
             });
         }
@@ -90,7 +84,7 @@
                 </div>
             </div>
             <div class="modal_image_content">
-                <div id="detail_input_image" class="modal_image_upload_content">
+                <div id="detail_input_image" class="detail_modal_image_upload_content">
 
                 </div>
                 <div class="detail_modal_content_write">

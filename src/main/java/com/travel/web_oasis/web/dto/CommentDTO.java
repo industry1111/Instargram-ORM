@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.service.Commnet;
+package com.travel.web_oasis.web.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,10 @@
 import {customAjax} from "./common.js";
 import {timeToString} from "./common.js";
+import {downloadProfileImage} from "./common.js";
+import {downloadPostFile} from "./common.js";
 
 // 이미지 URL을 관리하기 위한 맵 객체
 const imageCache = new Map();
-const fileCache = new Map();
 
 window.onload = function () {
 
@@ -11,19 +12,176 @@ window.onload = function () {
     let size = 3;
     let totalPage;
 
-    findAllPost();
+    let files;
 
+    //게시글 가져오기
+    getPosts();
+
+    //추천 유저 가져오기
+    getSuggestMembers();
+
+    const modal = document.getElementById("modal_add_feed");
+    const btnCreatePost = document.getElementById("btn-create_post");
+
+    btnCreatePost.addEventListener("click", e => {
+
+        modal.style.display = "flex";
+        document.body.style.overflowY = "hidden"; // 스크롤 없애기
+
+    });
+
+    const btnCloseModal = document.getElementById("close_modal");
+    btnCloseModal.addEventListener("click", e => {
+        closeModal();
+    });
+
+    const btnCloseModal2 = document.getElementById("close_modal2");
+    btnCloseModal2.addEventListener("click", e => {
+        closeModal();
+    });
+
+    function closeModal(e) {
+        //첫번째 모달창 안보이게
+        $('#modal_add_feed').css({
+            display: 'none'
+        });
+
+        //2번째 모달창 안보이게
+        $('#modal_add_feed_content').css({
+            display: 'none'
+        });
+
+        document.body.style.overflowY = "scroll"; // 스크롤 보이게
+
+        if (typeof  e == "number") {
+            $(".post-grid").html("");
+            page = 1;
+            getPosts();
+        }
+    }
+
+    $('.modal_image_upload')
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
+
+    function dragOver(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.type == "dragover") {
+            $(e.target).css({
+                "background-color": "black",
+                "outline-offset": "-20px"
+            });
+        } else {
+            $(e.target).css({
+                "background-color": "white",
+                "outline-offset": "-10px"
+            });
+        }
+    }
+
+
+    function uploadFiles(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log(e.dataTransfer)
+        console.log(e.originalEvent.dataTransfer)
+
+        e.dataTransfer = e.originalEvent.dataTransfer;
+
+        files = e.dataTransfer.files;
+        if (files.length > 1) {
+            alert('하나만 올려라.');
+            return;
+        }
+
+        if (files[0].type.match(/image.*/)) {
+            $('#modal_add_feed_content').css({
+                display: 'flex'
+            });
+            $('.modal_image_upload_content').css({
+                "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+                "outline": "none",
+                "background-size": "contain",
+                "background-repeat": "no-repeat",
+                "background-position": "center"
+            });
+            $('#modal_add_feed').css({
+                display: 'none'
+            })
+        } else {
+            alert('이미지가 아닙니다.');
+            return;
+        }
+    };
+
+    $('#button_write_feed').on('click', () => {
+        const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+        const content = $('#input_content').val();
+        const profile_image = $('#input_profile_image').attr('src');
+        const user_id = $('#input_user_id').text();
+
+        const file = files[0];
+
+        let fd = new FormData();
+
+        fd.append('file', file);
+        fd.append('image', image);
+        fd.append('content', content);
+        fd.append('profile_image', profile_image);
+        fd.append('user_id', user_id);
+
+        if (image.length <= 0) {
+            alert("이미지가 비어있습니다.");
+        } else if (content.length <= 0) {
+            alert("설명을 입력하세요");
+        } else if (profile_image.length <= 0) {
+            alert("프로필 이미지가 비어있습니다.");
+        } else if (user_id.length <= 0) {
+            alert("사용자 id가 없습니다.");
+        } else {
+            customAjax("POST", "/post/create", fd, closeModal);
+        }
+    });
+
+    function addProfileImgToCache(imageUrl) {
+        return new Promise((resolve, reject) => {
+            if (imageUrl == null) {
+                resolve();
+                return;
+            }
+
+            // 이미지 URL이 이미 캐시에 있는지 확인
+            if (imageCache.has(imageUrl)) {
+                resolve();
+            } else {
+                if (!imageUrl.startsWith("http")) {
+                    downloadProfileImage(imageUrl, function (result) {
+                        let blob = new Blob([result]);
+                        let url = URL.createObjectURL(blob);
+                        imageCache.set(imageUrl, url); // 이미지 URL을 캐시에 저장
+                        resolve();
+                    })
+                } else {
+                    imageCache.set(imageUrl, imageUrl); // 이미지 URL을 캐시에 저장
+                    resolve();
+                }
+            }
+        });
+    }
+
+    //스크롤 페이징
     if ($(window).scroll(function () {
         if ($(window).scrollTop() === $(document).height() - $(window).height()) {
             if (page <= totalPage) {
-
-                findAllPost();
-
+                getPosts();
             }
         }
     })) ;
 
-    function findAllPost() {
+    function getPosts() {
         let data = {
             pathParams: {
                 id: sessionId
@@ -33,76 +191,40 @@ window.onload = function () {
                 size: size
             }
         };
-        customAjax("GET", "/post/list/{id}", data, findAllPostCallBack);
+        customAjax("GET", "/post/list/{id}", data, createPostGrid);
     }
 
-    function findAllPostCallBack(result) {
+    function createPostGrid(result) {
         totalPage = result.totalPage;
-        result.dtoList.forEach((postDTO) => {
-            fileCache.set(postDTO.id,postDTO);
-            $(".post-grid").append(createPosGrid(postDTO));
-        });
-        page++;
-        downloadPostFile(result);
-        downloadProfile(result);
-    }
 
-    function downloadPostFile(result) {
-        result.dtoList.forEach((data) => {
-            data.fileStoreNames.forEach((fileStoreName) => {
-                let data = {
-                    pathParams: {
-                        fileStoreName: fileStoreName
-                    },
-                    queryParams: {}
-                };
-                customAjax("GET", "/post/download/{fileStoreName}", data, function (responseData) {
-                    const img = document.getElementById(fileStoreName);
-                    let blob = new Blob([responseData]);
-                    img.src = URL.createObjectURL(blob);
+        result.dtoList.forEach((postDTO) => {
+            let fileStoreName = postDTO.fileStoreNames[0];
+
+            addProfileImgToCache(postDTO.picture)
+                .then(() => {
+                    $(".post-grid").append(appendPost(postDTO));
+                })
+                .catch((error) => {
+
                 });
+
+            downloadPostFile(fileStoreName, function (responseData) {
+                const img = document.getElementById(fileStoreName);
+                let blob = new Blob([responseData]);
+                img.src = URL.createObjectURL(blob);
+
             });
         });
+        page++;
     }
 
-    function downloadProfile(result) {
-        result.dtoList.forEach((dto) => {
-            let imageUrl = dto.picture;
-            let data = {
-                pathParams: {
-                    profileStoreName: imageUrl,
-                },
-                queryParams: {}
-            };
-            const profileImg = document.getElementById(`profile-${dto.id}`);
-
-            // 이미지 URL이 이미 캐시에 있는지 확인
-            if (imageCache.has(imageUrl)) {
-                // 이미지가 캐시에 있는 경우, 캐시에서 가져옴
-                profileImg.src = imageCache.get(imageUrl);
-            } else {
-                if (imageUrl.startsWith("http")) {
-                    profileImg.src = imageUrl;
-                    imageCache.set(imageUrl,imageUrl);
-                } else {
-                    customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (responseData) {
-                        let blob = new Blob([responseData]);
-                        let url = URL.createObjectURL(blob);
-                        profileImg.src = url;
-                        imageCache.set(imageUrl,url);
-                    });
-                }
-            }
-        });
-    }
-
-    function createPosGrid(data) {
+    function appendPost(data) {
         let postId = data.id; // 게시물 고유 아이디
         let innerHtml = `
         <div class="post">
             <div class="info">
                 <div class="user">
-                    <div class="profile-pic"> <img src="" id="profile-${postId}" alt=""> </div>
+                    <div class="profile-pic"> <img src="${imageCache.get(data.picture)}" alt=""> </div>
                     <p class="username">${data.name}</p>
                 </div>
     `;
@@ -116,7 +238,7 @@ window.onload = function () {
                 <div class="reaction-wrapper">
                     <input type="hidden" name="post" value="${postId}">
                     <img src="/img/main/like.png" class="icon like" alt="">
-                    <img src="/img/main/comment.png" class="icon" alt="">
+                    <img src="/img/main/comment.png" class="icon comment" alt="">
                     <img src="/img/main/send.png" class="icon" alt="">
                     <img src="/img/main/save.png" class="save icon" alt="">
                 </div>
@@ -124,10 +246,10 @@ window.onload = function () {
                 <p class="description"><span>${data.name}</span>${data.content}</p>
                 <p class="post-time" >${timeToString.call(this, data.createdDate)}</p> 
                `;
-        if (data.commentDTOS[0] != null) {
-           innerHtml +=` <p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
-        }
-        innerHtml +=`
+        // if (data.commentDTOS[0] != null) {
+        //     innerHtml += ` <p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
+        // }
+        innerHtml += `
             </div>
             <div class="comment-wrapper">
                 <img src="/img/main/smile.png" class="icon" alt="">
@@ -140,8 +262,6 @@ window.onload = function () {
     }
 
 
-
-
     $(Document).on("click", "img[name='removePost']", function () {
         let result = confirm("정말로 삭제하시겠습니까?");
         let postId = $(this).parent(".info").siblings(".post-content").find("input[type='hidden']").val();
@@ -149,17 +269,17 @@ window.onload = function () {
         if (result) {
             let data = {
                 pathParams: {
-                    postId : postId
+                    postId: postId
                 },
                 queryParams: {}
             }
             customAjax("GET", '/post/delete/{postId}', data, function () {
                 alert("삭제가 완료되었습니다.");
-                location.href = "/";
+                $(".post-grid").html("");
+                page = 1;
             });
         }
     })
-
 
     function getSuggestMembers(membersIds) {
         let data = {
@@ -171,46 +291,18 @@ window.onload = function () {
         customAjax("GET", "/member/suggest/members", data, createSuggestMemberGrid);
     }
 
+
     function createSuggestMemberGrid(data) {
         data.forEach((memberDTO) => {
-            let imageUrl = memberDTO.picture; // 이미지 URL 가져오기
-
-            // 이미지 URL이 이미 캐시에 있는지 확인
-            if (imageCache.has(imageUrl)) {
-                // 이미지가 캐시에 있는 경우, 캐시에서 가져옴
-                appendProfileCard(memberDTO, imageCache.get(imageUrl));
-            } else {
-                // 이미지가 캐시에 없는 경우, 다운로드하여 캐시에 저장
-                downloadProfileImage(memberDTO.id, imageUrl, function (url) {
-                    imageCache.set(imageUrl, url); // 이미지 URL을 캐시에 저장
-                    appendProfileCard(memberDTO, url);
+            let imageUrl = memberDTO.picture;
+            addProfileImgToCache(imageUrl)
+                .then(() => {
+                    appendProfileCard(memberDTO, imageCache.get(imageUrl));
+                })
+                .catch((error) => {
+                    // 에러 처리
                 });
-            }
         });
-    }
-
-    function downloadProfileImage(memberId, imageUrl, callback) {
-        if (imageUrl == null) {
-            callback('');
-            return;
-        }
-
-        let data = {
-            pathParams: {
-                profileStoreName: imageUrl,
-            },
-            queryParams: {},
-        };
-
-        if (!imageUrl.startsWith("http")) {
-            customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (data) {
-                let blob = new Blob([data]);
-                let url = URL.createObjectURL(blob);
-                callback(url);
-            });
-        } else {
-            callback(imageUrl);
-        }
     }
 
     function appendProfileCard(memberDTO, imageUrl) {
@@ -232,10 +324,7 @@ window.onload = function () {
         $(".suggest-member-grid").append(innerHtml);
     }
 
-    getSuggestMembers();
-
-
-    function showdDetailPost(postId) {
+    function showDetailPost(postId) {
         const detailModal = document.getElementById("detail_modal_feed_content");
         const btnCloseModal = document.getElementById("close_detail_modal");
 
@@ -243,29 +332,76 @@ window.onload = function () {
         document.body.style.overflowY = "hidden";
 
         btnCloseModal.addEventListener("click", e => {
-            detailModal.style.display = "none";3
+            detailModal.style.display = "none";
             document.body.style.overflowY = "scroll";
+            $('.detail_modal_image_upload_content').css({
+                "background-image": ""
+            });
         });
-
     }
 
+    /*
+    * 게시글의 말풍선 이미지 클릭시 상세보기 화면을 띄우기 위한 함수
+    * */
+    $(Document).on("click", "img[class='icon comment']", function () {
 
-    $(Document).on("click", "img[class='icon like']", function () {
-        showdDetailPost();
         let postId = parseInt($(this).parent().children(0).first().val());
 
-        let postDTO = fileCache.get(postId);
+        createDetailPost(postId);
+    });
 
-        let detailPost = $(".detail_modal_content_write").html("");
-        $('.modal_image_upload_content').css({
-            // "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
-            // "outline": "none",
-            // "background-size": "contain",
-            // "background-repeat": "no-repeat",
-            // "background-position": "center"
+    function appendComment(commentDTOS) {
+        let commentGrid = $(".post-comment");
+        let innerHTML = '';
+        commentDTOS.forEach(commentDTO => {
+            addProfileImgToCache(commentDTO.memberProfileImg)
+                .then(() => {
+                    innerHTML += `<div class="feed_name">
+                                        <div class="profile_box">
+                                            <img class="detail_profile_img"  src="${imageCache.get(commentDTO.memberProfileImg)}" alt="">
+                                            <span   class="feed_name_txt" > ${commentDTO.memberName} </span>
+                                            <span>${commentDTO.content}</span>
+                                        </div>
+                                    </div>`;
+
+                    commentGrid.html(innerHTML);
+                })
+                .catch((error) => {
+                });
         });
 
-        let innerHTML = ` <div class="feed_name">
+        showDetailPost();
+    }
+
+    function createDetailPost(postId) {
+
+        let data = {
+            pathParams : {
+                postId : postId
+            }
+        }
+
+        customAjax("GET","/post/{postId}", data, function (data) {
+
+            const postDTO = data;
+
+            postDTO.fileStoreNames.forEach(fileStoreName => {
+               downloadPostFile(fileStoreName, function (result) {
+                   $('.detail_modal_image_upload_content').css({
+                       "background-image": "url(" + window.URL.createObjectURL(result) + ")",
+                       "outline": "none",
+                       "background-size": "contain",
+                       "background-repeat": "no-repeat",
+                       "background-position": "center"
+                   });
+               }) ;
+            });
+
+
+
+            let detailPost = $(".detail_modal_content_write").html("");
+
+            let innerHTML = ` <div class="feed_name">
                                     <div class="profile_box">
                                         <img class="detail_profile_img" src="${imageCache.get(postDTO.picture)}" alt="">
                                         <span class="feed_name_txt" >${postDTO.name}</span>
@@ -280,58 +416,11 @@ window.onload = function () {
                                 <div class="comment-wrapper ">
                                     <img src="/img/main/smile.png" class="icon" alt="">
                                     <input type="text" class="comment-box" placeholder="댓글을 입력하세요">
-                                    <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>
+                                    <button class="comment-btn" onclick="addComment(this, ${postDTO.id})">게시</button>
                                 </div>`;
 
-        detailPost.append(innerHTML);
-        appendComment(postDTO.commentDTOS);
-    });
-
-    function appendComment(commentDTOS) {
-        let commentGrid = $(".post-comment").html("");
-        let innerHTML = '';
-        commentDTOS.forEach(commentDTO => {
-
-            downloadProfileImage2(commentDTO.memberProfileImg);
-
-            innerHTML += `<div class="feed_name">
-                                        <div class="profile_box">
-                                            <img class="detail_profile_img"  src="${imageCache.get(commentDTO.memberProfileImg)}" alt="">
-                                            <span   class="feed_name_txt" > ${commentDTO.memberName} </span>
-                                            <span>${commentDTO.content}</span>
-                                        </div>
-                                    </div>`;
-
+            detailPost.append(innerHTML);
+            appendComment(postDTO.commentDTOS);
         });
-
-        commentGrid.append(innerHTML);
-    }
-
-    function downloadProfileImage2(imageUrl) {
-
-        if (imageUrl == null) {
-            return;
-        }
-        let data = {
-            pathParams: {
-                profileStoreName: imageUrl,
-            },
-            queryParams: {},
-        };
-
-        // 이미지 URL이 이미 캐시에 있는지 확인
-        if (imageCache.has(imageUrl)) {
-            return;
-        } else {
-            if (!imageUrl.startsWith("http")) {
-                customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (data) {
-                    let blob = new Blob([data]);
-                    let url = URL.createObjectURL(blob);
-                    imageCache.set(imageUrl, url); // 이미지 URL을 캐시에 저장
-                });
-            } else {
-                imageCache.set(imageUrl, imageUrl); // 이미지 URL을 캐시에 저장
-            }
-        }
     }
 }

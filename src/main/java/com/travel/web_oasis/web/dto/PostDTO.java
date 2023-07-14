@@ -1,7 +1,6 @@
 package com.travel.web_oasis.web.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.travel.web_oasis.domain.service.Commnet.CommentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,8 +26,6 @@ public class PostDTO {
     //Member 정보
     private Long memberId;
     private String name;
-    private String email;
-    private String provider;
     private String picture;
     private MemberDTO memberDTO;
 

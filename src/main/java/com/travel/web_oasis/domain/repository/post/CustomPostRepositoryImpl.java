@@ -1,28 +1,16 @@
 package com.travel.web_oasis.domain.repository.post;
 
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.entity.QComment;
-import com.travel.web_oasis.domain.entity.QFileAttach;
 import com.travel.web_oasis.domain.entity.QPost;
-import com.travel.web_oasis.domain.member.QMember;
-import com.travel.web_oasis.domain.service.Commnet.CommentDTO;
-import com.travel.web_oasis.domain.service.Commnet.QCommentDTO;
 import com.travel.web_oasis.web.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CustomPostRepositoryImpl extends QuerydslRepositorySupport implements CustomPostRepository {
     private final JPQLQueryFactory queryFactory;

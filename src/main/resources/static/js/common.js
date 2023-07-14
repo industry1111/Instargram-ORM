@@ -113,7 +113,37 @@ function timeToString(data) {
     }
 }
 
+/*
+* 프로필 이미지 다운로드 함수
+* imageUrl   : 프로필 이미지 경로
+* submitFunc : 성공시 콜백 함수
+* */
+function downloadProfileImage(imageUrl,submitFunc) {
+    let data = {
+        pathParams: {
+            profileStoreName: imageUrl,
+        },
+        queryParams: {},
+    };
+    customAjax("GET", "/member/download/profile/{profileStoreName}", data, submitFunc);
+}
 
+/*
+* 게시글 첨부파일 다운로드 함수
+* imageUrl   : 첨부파일 경로
+* submitFunc : 성공시 콜백 함수
+* */
+function downloadPostFile(fileStoreName, submitFunc) {
+    let data = {
+        pathParams: {
+            fileStoreName: fileStoreName
+        },
+        queryParams: {}
+    };
+    customAjax("GET", "/post/download/{fileStoreName}", data, submitFunc);
+}
 
 export {customAjax}; //ajax 함수를 외부에서 사용할 수 있도록 export
 export {timeToString};
+export {downloadProfileImage};
+export {downloadPostFile};

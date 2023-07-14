@@ -5,7 +5,7 @@ import com.travel.web_oasis.domain.entity.Comment;
 import com.travel.web_oasis.domain.entity.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.service.Commnet.CommentDTO;
+import com.travel.web_oasis.web.dto.CommentDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
@@ -65,8 +65,6 @@ public interface PostService {
                 .fileStoreNames(fileStoreNames)
                 .memberId(member.getId())
                 .name(member.getName())
-                .email(member.getEmail())
-                .provider(member.getProvider())
                 .picture(member.getPicture())
                 .commentDTOS(commentDTOS)
                 .build();

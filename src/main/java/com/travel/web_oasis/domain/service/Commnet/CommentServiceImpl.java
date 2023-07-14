@@ -7,6 +7,7 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.comment.CommentRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
+import com.travel.web_oasis.web.dto.CommentDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import groovy.util.logging.Slf4j;
@@ -15,8 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor

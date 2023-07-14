@@ -74,3 +74,16 @@
     width: 294px;
     border: none;
 }
+
+.detail_modal_image_upload_content{
+    outline: 2px dashed black ;
+    outline-offset:-10px;
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width:500px;
+    height: 548px;
+    outline : none;
+    background-size : contain;
+    background-repeat: no-repeat;
+    background-position : center;
+}
