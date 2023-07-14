@@ -11,7 +11,9 @@
 
         function addComment(element,postId) {
             const content = element.previousElementSibling.value;
-            console.log(content);
+
+
+
             let data = {
                 content: content,
                 memberId: sessionId,
@@ -23,8 +25,10 @@
                 method: "POST",
                 data : JSON.stringify(data),
                 contentType : "application/json",
-                success: function(response) {
-
+                success: function(reuslt) {
+                    if ($("#comment"+postId).text() === '') {
+                        `<p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`
+                    }
                 },
                 error: function(error) {
 

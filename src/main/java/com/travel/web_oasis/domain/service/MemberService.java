@@ -14,7 +14,7 @@ public interface MemberService {
 
     Member findById(Long id);
 
-    String getFullPath(Long id);
+    String getFullPath(String picture);
 
     MemberDTO getMemberInfoWithFollow(Long id);
 

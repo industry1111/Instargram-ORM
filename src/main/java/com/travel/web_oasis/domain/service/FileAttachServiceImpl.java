@@ -57,7 +57,6 @@ public class FileAttachServiceImpl implements FileAttachService {
         return FileAttachDTO.builder()
                 .fileName(fileName)
                 .fileStoreName(fileStorageName)
-                .fileUrl(fileUrl + fileName)
                 .fileType(fileContentType)
                 .fileSize(multipartFile.getSize())
                 .build();
@@ -163,10 +162,9 @@ public class FileAttachServiceImpl implements FileAttachService {
         return fileAttachList;
     }
 
-    private static FileAttach dtoToEntity(FileAttachDTO fileAttachDTO) {
+    public static FileAttach dtoToEntity(FileAttachDTO fileAttachDTO) {
         return FileAttach.builder()
                 .fileName(fileAttachDTO.getFileName())
-                .fileUrl(fileAttachDTO.getFileUrl())
                 .fileStoreName(fileAttachDTO.getFileStoreName())
                 .fileSize(fileAttachDTO.getFileSize())
                 .fileType(fileAttachDTO.getFileType())
@@ -186,7 +184,6 @@ public class FileAttachServiceImpl implements FileAttachService {
     private static FileAttachDTO entityToDto(FileAttach fileAttach) {
         return FileAttachDTO.builder()
                 .fileName(fileAttach.getFileName())
-                .fileUrl(fileAttach.getFileUrl())
                 .fileStoreName(fileAttach.getFileStoreName())
                 .fileSize(fileAttach.getFileSize())
                 .fileType(fileAttach.getFileType())

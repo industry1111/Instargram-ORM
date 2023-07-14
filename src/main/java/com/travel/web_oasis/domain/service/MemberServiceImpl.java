@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = findById(memberId);
 
         if (file != null) {
-            deleteProfileFromStorage(memberId);
+            deleteProfileFromStorage(member.getPicture());
             String profileStoreName = pictureUpload(file);
 
             memberDto.setPicture(profileStoreName);
@@ -139,9 +139,9 @@ public class MemberServiceImpl implements MemberService{
         return storeFileName;
     }
 
-    private void deleteProfileFromStorage(Long memberId) {
+    private void deleteProfileFromStorage(String profileStoreName) {
 
-        Path storePath = Paths.get(getFullPath(memberId));
+        Path storePath = Paths.get(getFullPath(profileStoreName));
         //파일이 존재할 때만 삭제
         try {
             if (Files.exists(storePath)) {
@@ -158,9 +158,8 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public String getFullPath(Long id) {
-        Member member = findById(id);
-        return storagePath + member.getPicture();
+    public String getFullPath(String profileStoreName) {
+        return storagePath + profileStoreName;
     }
 
     Member findByEmail(String mail) {

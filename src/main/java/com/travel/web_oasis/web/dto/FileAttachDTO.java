@@ -1,5 +1,6 @@
 package com.travel.web_oasis.web.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,13 @@ public class FileAttachDTO {
 
     private String fileStoreName;
 
-    private String fileUrl;
-
     private String fileType;
 
     private Long fileSize;
+
+    @QueryProjection
+    public FileAttachDTO(String fileName, String fileStoreName) {
+        this.fileName = fileName;
+        this.fileStoreName = fileStoreName;
+    }
 }

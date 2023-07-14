@@ -10,7 +10,6 @@ import java.util.List;
 public interface FileAttachService {
     List<FileAttachDTO> upload(List<MultipartFile> multipartFiles);
 
-    //    void deleteFiles(List<FileAttach> fileAttachList);
     void deleteFiles(String[] fileStoreNames);
     String getFullPath(String fileName);
 

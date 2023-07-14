@@ -9,13 +9,11 @@ import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
-import com.travel.web_oasis.web.dto.PostDTO;
 import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

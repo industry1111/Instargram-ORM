@@ -26,7 +26,7 @@ window.onload = function () {
     function findAllPost() {
         let data = {
             pathParams: {
-                id: 1
+                id: sessionId
             },
             queryParams: {
                 page: page,
@@ -70,7 +70,7 @@ window.onload = function () {
             let imageUrl = dto.picture;
             let data = {
                 pathParams: {
-                    memberId: dto.memberId,
+                    profileStoreName: imageUrl,
                 },
                 queryParams: {}
             };
@@ -85,7 +85,7 @@ window.onload = function () {
                     profileImg.src = imageUrl;
                     imageCache.set(imageUrl,imageUrl);
                 } else {
-                    customAjax("GET", "/member/download/profile/{memberId}", data, function (responseData) {
+                    customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (responseData) {
                         let blob = new Blob([responseData]);
                         let url = URL.createObjectURL(blob);
                         profileImg.src = url;
@@ -112,7 +112,7 @@ window.onload = function () {
         innerHtml += `
             </div>
             <img src="" class="post-image" id="${data.fileStoreNames[0]}" alt="">
-            <div class="post-content">
+            <div class="post-content" id="postContent${postId}">
                 <div class="reaction-wrapper">
                     <input type="hidden" name="post" value="${postId}">
                     <img src="/img/main/like.png" class="icon like" alt="">
@@ -125,7 +125,7 @@ window.onload = function () {
                 <p class="post-time" >${timeToString.call(this, data.createdDate)}</p> 
                `;
         if (data.commentDTOS[0] != null) {
-           innerHtml +=` <p class="description"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
+           innerHtml +=` <p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
         }
         innerHtml +=`
             </div>
@@ -197,13 +197,13 @@ window.onload = function () {
 
         let data = {
             pathParams: {
-                memberId: memberId,
+                profileStoreName: imageUrl,
             },
             queryParams: {},
         };
 
         if (!imageUrl.startsWith("http")) {
-            customAjax("GET", "/member/download/profile/{memberId}", data, function (data) {
+            customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (data) {
                 let blob = new Blob([data]);
                 let url = URL.createObjectURL(blob);
                 callback(url);
@@ -243,7 +243,7 @@ window.onload = function () {
         document.body.style.overflowY = "hidden";
 
         btnCloseModal.addEventListener("click", e => {
-            detailModal.style.display = "none";
+            detailModal.style.display = "none";3
             document.body.style.overflowY = "scroll";
         });
 
@@ -257,23 +257,24 @@ window.onload = function () {
         let postDTO = fileCache.get(postId);
 
         let detailPost = $(".detail_modal_content_write").html("");
+        $('.modal_image_upload_content').css({
+            // "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+            // "outline": "none",
+            // "background-size": "contain",
+            // "background-repeat": "no-repeat",
+            // "background-position": "center"
+        });
 
         let innerHTML = ` <div class="feed_name">
                                     <div class="profile_box">
                                         <img class="detail_profile_img" src="${imageCache.get(postDTO.picture)}" alt="">
-                                        <span  id="아이디 지정해야할 부분-이름" class="feed_name_txt" >${postDTO.name}</span>
+                                        <span class="feed_name_txt" >${postDTO.name}</span>
                                         <span>${postDTO.content}</span>
                                     </div>
                                 </div>
                                 
                                 <div style="height: 400px" class="post-comment">
-                                    <div class="feed_name">
-                                        <div class="profile_box">
-                                            <img style="width: 40px; height: 40px;" id="아이디 지정해야할 부분-프로필이미지" class="profile_img"  alt="">
-                                            <span  id="아이디 지정해야할 부분-이름" class="feed_name_txt" > jin.99 </span>
-                                            <span>sasdad</span>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
             
                                 <div class="comment-wrapper ">
@@ -283,9 +284,54 @@ window.onload = function () {
                                 </div>`;
 
         detailPost.append(innerHTML);
-
-
-
+        appendComment(postDTO.commentDTOS);
     });
 
+    function appendComment(commentDTOS) {
+        let commentGrid = $(".post-comment").html("");
+        let innerHTML = '';
+        commentDTOS.forEach(commentDTO => {
+
+            downloadProfileImage2(commentDTO.memberProfileImg);
+
+            innerHTML += `<div class="feed_name">
+                                        <div class="profile_box">
+                                            <img class="detail_profile_img"  src="${imageCache.get(commentDTO.memberProfileImg)}" alt="">
+                                            <span   class="feed_name_txt" > ${commentDTO.memberName} </span>
+                                            <span>${commentDTO.content}</span>
+                                        </div>
+                                    </div>`;
+
+        });
+
+        commentGrid.append(innerHTML);
+    }
+
+    function downloadProfileImage2(imageUrl) {
+
+        if (imageUrl == null) {
+            return;
+        }
+        let data = {
+            pathParams: {
+                profileStoreName: imageUrl,
+            },
+            queryParams: {},
+        };
+
+        // 이미지 URL이 이미 캐시에 있는지 확인
+        if (imageCache.has(imageUrl)) {
+            return;
+        } else {
+            if (!imageUrl.startsWith("http")) {
+                customAjax("GET", "/member/download/profile/{profileStoreName}", data, function (data) {
+                    let blob = new Blob([data]);
+                    let url = URL.createObjectURL(blob);
+                    imageCache.set(imageUrl, url); // 이미지 URL을 캐시에 저장
+                });
+            } else {
+                imageCache.set(imageUrl, imageUrl); // 이미지 URL을 캐시에 저장
+            }
+        }
+    }
 }

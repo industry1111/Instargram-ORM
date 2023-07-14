@@ -9,13 +9,17 @@ import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
 import com.travel.web_oasis.domain.service.PostService;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import com.travel.web_oasis.web.dto.PageRequestDTO;
+import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -37,11 +41,8 @@ class CommentServiceImplTest {
     @Autowired
     private PostRepository postRepository;
 
-    @Test
-    @DisplayName("댓글 등록")
-//    @Transactional
-    void addComment() {
-        //given
+    @BeforeEach
+    void setUp() {
         Member member = Member.builder()
                 .name("테스트멤버")
                 .email("TestMail@test.com")
@@ -59,15 +60,49 @@ class CommentServiceImplTest {
                 .build();
 
         postRepository.save(post);
+    }
+    @Test
+    @DisplayName("댓글 등록")
+    @Transactional
+    void addComment() {
+        //given
+        Long memberId = 1L;
+        Long postId = 1L;
 
         CommentDTO commentDTO = CommentDTO.builder()
                 .content("댓글")
-                .memberId(member.getId())
-                .postId(post.getId())
+                .memberId(memberId)
+                .postId(postId)
                 .build();
 
         //when
         //then
         assertThatNoException().isThrownBy(() -> commentService.addComment(commentDTO));
+    }
+
+    @Test
+    @DisplayName("댓글 가져오기")
+    @Transactional
+    void getCommentList() {
+        //given
+        Long postId = 1L;
+        Long memberId = 1L;
+
+        CommentDTO commentDTO = CommentDTO.builder()
+                .content("댓글")
+                .memberId(memberId)
+                .postId(postId)
+                .build();
+
+        commentService.addComment(commentDTO);
+
+        PageRequestDTO pageRequestDTO =new PageRequestDTO();
+
+        //when
+        PageResultDTO<CommentDTO, Comment> result = commentService.getCommentList(postId, pageRequestDTO);
+
+        //then
+        String content = result.getDtoList().get(0).getContent();
+        assertThat(content).isEqualTo("댓글");
     }
 }

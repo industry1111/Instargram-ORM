@@ -40,7 +40,7 @@
                         <div class="feed_name">
                             <div class="profile_box">
                                 <img style="width: 25px; height: 25px;" id="input_profile_image" class="profile_img"
-                                     th:src="${(session.member.picture.startsWith('http') ? session.member.picture : '/member/download/profile/' + session.member.id)}"
+                                     th:src="${(session.member.picture.startsWith('http') ? session.member.picture : '/member/download/profile/' + session.member.picture)}"
                                      alt="">
                             </div>
                             <span id="input_user_id" class="feed_name_txt"  th:text="${session.member.name}" th:else> jin.99 </span>

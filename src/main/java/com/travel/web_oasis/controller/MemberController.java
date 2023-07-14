@@ -137,10 +137,10 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/download/profile/{memberId}")
-    public ResponseEntity<Resource> downloadProfile(@PathVariable Long memberId) throws MalformedURLException {
+    @GetMapping("/download/profile/{profileStoreName}")
+    public ResponseEntity<Resource> downloadProfile(@PathVariable String profileStoreName) throws MalformedURLException {
         log.info("downloadImage start \n ");
-        Resource resource = new UrlResource("file:" + memberService.getFullPath(memberId));
+        Resource resource = new UrlResource("file:" + memberService.getFullPath(profileStoreName));
 
         if (resource.exists()) {
 
