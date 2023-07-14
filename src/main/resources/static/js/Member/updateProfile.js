@@ -18,6 +18,8 @@ $('#btn_update').on('click', function () {
         return;
     }
 
+
+
     let data = new FormData();
     data.append('name', name.val());
     data.append('introduction', introduction);
@@ -25,7 +27,7 @@ $('#btn_update').on('click', function () {
     data.append('provider', provider);
     data.append('file', file);
     data.append('status', status);
-    console.log(data);
+
     customAjax("PUT", "/member/profile/edit", data, successCallback);
 });
 
@@ -35,3 +37,7 @@ function successCallback(data) {
 }
 
 timeToString("lastSeenText");
+
+$("#profile_image").on('change', function () {
+    document.getElementsByClassName("profile-content")[0].src =  window.URL.createObjectURL(  $('#profile_image')[0].files[0]);
+});

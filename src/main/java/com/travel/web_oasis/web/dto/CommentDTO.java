@@ -21,7 +21,6 @@ public class CommentDTO {
 
 
     @QueryProjection
-    @Builder
     public CommentDTO(String content, Long memberId, String memberProfileImg, String memberName) {
         this.content = content;
         this.memberId = memberId;

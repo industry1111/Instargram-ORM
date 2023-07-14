@@ -12,13 +12,10 @@ window.onload = function () {
             let windowHeight = $window.height();
             let documentHeight = $(document).height();
 
-            console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
-
             // scrollbar의 thumb가 바닥 전 30px까지 도달 하면 리스트를 가져온다.
             if( scrollTop + windowHeight + 30 > documentHeight ){
                 if(page <= totalPage){
                     page++
-                    console.log("page : " + page)
                     findMemberPost();
                 }
 
@@ -40,8 +37,6 @@ window.onload = function () {
             }
         }
         customAjax("GET", "/post/member/postList/"+memberId, data, findMemberPostCallBack);
-
-
     }
 
     function findMemberPostCallBack(result) {

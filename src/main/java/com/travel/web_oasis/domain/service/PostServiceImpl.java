@@ -83,8 +83,6 @@ public class PostServiceImpl implements PostService{
 
         Page<Post> result = postRepository.findAll(pageable);
 
-        result.stream().forEach(post -> System.out.println("post = " + post));
-
         Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList(), entity.getCommentList()));
 
         return new PageResultDTO<>(result, fn);
@@ -93,7 +91,7 @@ public class PostServiceImpl implements PostService{
     @Override
     public PageResultDTO<PostDTO, Post> getMemberPostList(PageRequestDTO requestDTO, Long memberId) {
 
-        Pageable pageable = requestDTO.getPageable(Sort.by("id"));
+        Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
         Page<Post> result = postRepository.gePostsByMemberId(pageable,memberId);
 

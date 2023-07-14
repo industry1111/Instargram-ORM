@@ -2,7 +2,7 @@ import {customAjax} from "../common.js";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()-_=+]{8,16}$/;
-const namePattern = /^[a-zA-Z0-9-_ㄱ-힣]{4,20}$/;
+const namePattern = /^[a-zA-Z0-9-_ㄱ-힣]{3,20}$/;
 
 
 

@@ -5,9 +5,11 @@ import com.travel.web_oasis.web.dto.CommentDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 
+import java.util.List;
+
 public interface CommentService {
 
     Long addComment(CommentDTO commentDTO);
 
-    PageResultDTO<CommentDTO, Comment> getCommentList(Long postId, PageRequestDTO pageRequestDTO);
+    List<CommentDTO> getCommentList(Long postId);
 }

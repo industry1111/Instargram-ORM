@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -40,13 +42,9 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public PageResultDTO<CommentDTO,Comment> getCommentList(Long postId, PageRequestDTO pageRequestDTO) {
+    public List<CommentDTO> getCommentList(Long postId) {
 
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id"));
-
-        Page<CommentDTO> result = commentRepository.getCommentsByPostId(pageable,postId);
-
-        return new PageResultDTO<>(result);
+        return commentRepository.getCommentsByPostId(postId);
     }
 
     private Post getPost(Long postId) {

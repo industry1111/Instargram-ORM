@@ -86,9 +86,6 @@ window.onload = function () {
     function uploadFiles(e) {
         e.stopPropagation();
         e.preventDefault();
-        console.log(e.dataTransfer)
-        console.log(e.originalEvent.dataTransfer)
-
         e.dataTransfer = e.originalEvent.dataTransfer;
 
         files = e.dataTransfer.files;
@@ -253,8 +250,9 @@ window.onload = function () {
             </div>
             <div class="comment-wrapper">
                 <img src="/img/main/smile.png" class="icon" alt="">
-                <input type="text" class="comment-box" placeholder="댓글을 입력하세요">
-                <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>
+                <input type="text" class="comment-box"  placeholder="댓글을 입력하세요">
+<!--                <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>-->
+                <button class="comment-btn" value="${postId}" >게시</button>
             </div>
         </div>
     `;
@@ -274,9 +272,7 @@ window.onload = function () {
                 queryParams: {}
             }
             customAjax("GET", '/post/delete/{postId}', data, function () {
-                alert("삭제가 완료되었습니다.");
-                $(".post-grid").html("");
-                page = 1;
+                location.href="/";
             });
         }
     })
@@ -350,6 +346,44 @@ window.onload = function () {
         createDetailPost(postId);
     });
 
+
+    function getComments(postId) {
+
+        let data = {
+            pathParams : {
+                postId : postId
+            },
+            queryParams : {}
+        }
+
+        customAjax("GET","/comment/{postId}", data, appendComment);
+
+    }
+
+    /*
+    * [게시] 버튼을 눌렀을 때
+    * */
+    $(Document).on("click", "button[class='comment-btn']", function () {
+
+        let postId = $(this).val();
+        let element = $(this).prev();
+        let content = element.val();
+
+        let screenFlag = $(this).attr('id');
+
+        let data = {
+            postId : postId,
+            memberId: sessionId,
+            content: content
+        }
+        customAjax("POST","/comment/add", data, function () {
+            element.val("");
+            if (screenFlag === "detailBtn") {
+                getComments(postId);
+            }
+        });
+    });
+
     function appendComment(commentDTOS) {
         let commentGrid = $(".post-comment");
         let innerHTML = '';
@@ -416,7 +450,7 @@ window.onload = function () {
                                 <div class="comment-wrapper ">
                                     <img src="/img/main/smile.png" class="icon" alt="">
                                     <input type="text" class="comment-box" placeholder="댓글을 입력하세요">
-                                    <button class="comment-btn" onclick="addComment(this, ${postDTO.id})">게시</button>
+                                    <button class="comment-btn" value="${postDTO.id}" id="detailBtn">게시</button>
                                 </div>`;
 
             detailPost.append(innerHTML);

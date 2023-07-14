@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping("/comment")
 @Controller
@@ -18,13 +20,14 @@ public class CommentController {
     @ResponseBody
     @PostMapping("/add")
     public Long addComment(@RequestBody CommentDTO commentDTO) {
+        System.out.println("commentDTO = " + commentDTO);
         return commentService.addComment(commentDTO);
     }
 
     @ResponseBody
     @GetMapping("/{postId}")
-    public PageResultDTO<CommentDTO, Comment> getComments(@PathVariable Long postId, PageRequestDTO pageRequestDTO) {
+    public List<CommentDTO> getComments(@PathVariable Long postId) {
 
-        return commentService.getCommentList(postId, pageRequestDTO);
+        return commentService.getCommentList(postId);
     }
 }

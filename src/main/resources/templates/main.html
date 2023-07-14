@@ -8,28 +8,6 @@
 
     <script th:inline="javascript" >
         let sessionId = [[${member.id}]];
-        let seesionName = [[${member.name}]];
-
-        function addComment(element,postId) {
-            const content = element.previousElementSibling.value;
-
-            let data = {
-                content: content,
-                memberId: sessionId,
-                postId: postId
-            }
-            $.ajax({
-                url: "/comment/add",
-                method: "POST",
-                data : JSON.stringify(data),
-                contentType : "application/json",
-                success: function(reuslt) {
-                },
-                error: function(error) {
-                }
-            });
-        }
-
     </script>
 
 </th:block>

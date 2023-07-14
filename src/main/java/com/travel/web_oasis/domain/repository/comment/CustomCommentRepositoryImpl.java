@@ -23,10 +23,10 @@ public class CustomCommentRepositoryImpl extends QuerydslRepositorySupport imple
     }
 
     @Override
-    public Page<CommentDTO> getCommentsByPostId(Pageable pageable, Long postId) {
+    public List<CommentDTO> getCommentsByPostId(Long postId) {
 
         QComment comment = QComment.comment;
-        QueryResults<CommentDTO> results = queryFactory
+        return queryFactory
                 .select(new QCommentDTO(
                         comment.content,
                         comment.member.id,
@@ -35,14 +35,7 @@ public class CustomCommentRepositoryImpl extends QuerydslRepositorySupport imple
                 ))
                 .from(comment)
                 .where(comment.post.id.eq(postId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetchResults();
-
-        List<CommentDTO> content = results.getResults();
-        long total = results.getTotal();
-
-        return new PageImpl<>(content, pageable, total);
+                .fetch();
     }
 
 

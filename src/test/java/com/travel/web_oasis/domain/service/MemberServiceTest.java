@@ -128,6 +128,6 @@ class MemberServiceTest {
         MemberDTO memberDTO = memberService.getMemberProfile(memberId);
 
         //then
-        System.out.println("memberDTO = " + memberDTO);
+
     }
 }
