@@ -16,7 +16,7 @@ public interface MemberService {
 
     String getFullPath(String picture);
 
-    MemberDTO getMemberInfoWithFollow(Long id);
+    MemberDTO getMemberProfile(Long memberId);
 
     List<MemberDTO> getSuggestMembers(List<Long> membersIds, Long myId);
 

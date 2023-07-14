@@ -71,6 +71,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             member = Member.builder()
                     .email(email)
                     .name(username)
+                    .introduction("")
                     .password(password)
                     .provider(registrationId)
                     .role((Role) role)

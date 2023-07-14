@@ -7,4 +7,6 @@ import java.util.List;
 public interface CustomMemberRepository {
 
     List<MemberDTO> getMemberList(List<Long> membersIds, Long myId);
+
+    MemberDTO getMemberProfile(Long memberId);
 }

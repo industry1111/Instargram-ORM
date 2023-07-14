@@ -2,18 +2,15 @@ import {customAjax} from "../common.js";
 
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordPattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()-_=+]{8,16}$/;
-const namePattern = /^[a-zA-Z0-9-_]{4,20}$/;
+const namePattern = /^[a-zA-Z0-9-_ㄱ-힣]{4,20}$/;
+
 
 
 $('#btn_register').on("click",function() {
+
         let email = $('#email');
         let password = $('#password');
         let name = $('#name');
-        let role = "USER";
-        let status = "PUBLIC";
-        let provider = "local";
-        let is_Auth = "N";
-        let picture = "";
 
         if (!emailPattern.test(email.val())) {
             alert("이메일 형식이 올바르지 않습니다.");
@@ -31,35 +28,21 @@ $('#btn_register').on("click",function() {
             return;
         }
 
-
         let data = {
             email: email.val(),
             password: password.val(),
-            name: name.val(),
-            role: role,
-            status: status,
-            provider: provider,
-            is_Auth: is_Auth,
-            picture: picture
+            name: name.val()
         }
 
-
-        customAjax("POST", "/member/register", data, successCallback, failCallback);
+        customAjax("POST", "/member/register", data, successCallback);
     });
 
 function successCallback(data) {
-    console.log(data);
-    if(data === 1){
-        alert("회원가입 성공");
+
+    if(data != -1){
         location.href = "/member/login";
-    }else if(data === -1){
+    }else {
         $('.form-signup div input').val('');
         alert("이미 존재하는 이메일입니다.");
     }
 }
-
-function failCallback() {
-    console.log(data);
-    alert("회원가입 실패");
-}
-

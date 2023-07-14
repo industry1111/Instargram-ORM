@@ -100,7 +100,7 @@ public class MemberController {
     @GetMapping("/profile/{memberId}")
     public String profile(@PathVariable Long memberId, Model model,@AuthenticationPrincipal PrincipalDetail principalDetail) {
 
-        MemberDTO memberDTO = memberService.getMemberInfoWithFollow(memberId);
+        MemberDTO memberDTO = memberService.getMemberProfile(memberId);
 
         model.addAttribute("member", memberDTO);
         model.addAttribute("profileMemberId", principalDetail.getMember().getId());

@@ -52,7 +52,7 @@
             <div class="right-col">
                 <div class="profile-card">
                     <div class="profile-pic">
-                        <img th:if="${member.picture != null}" th:src="${member.picture.startsWith('http') ? member.picture : '/member/download/profile/' + member.id}" alt="">
+                        <img th:if="${member.picture != null}" th:src="${member.picture.startsWith('http') ? member.picture : '/member/download/profile/' + member.picture}" alt="">
                     </div>
                     <div>
                         <p class="username" th:text="${member.name}">modern_web_channel</p>

@@ -39,7 +39,7 @@
         <div class="profile-stats">
 
           <ul>
-            <li><span class="profile-stat-count" sec:authorize="isAuthenticated()">164</span> posts</li>
+            <li><span class="profile-stat-count" th:text="${member.postSize}">0</span> posts</li>
             <li id="followers"><span class="profile-stat-count" th:text="${member.followersSize}">0</span> followers</li>
             <li id="following"><span class="profile-stat-count" th:text="${member.followingSize}">0</span> following</li>
           </ul>

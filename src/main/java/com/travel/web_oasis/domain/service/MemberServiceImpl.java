@@ -2,6 +2,8 @@ package com.travel.web_oasis.domain.service;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.member.Role;
+import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
@@ -53,16 +55,18 @@ public class MemberServiceImpl implements MemberService{
             return -1L;
         }
 
-        String encryptedPassword = encryptPassword(memberDTO.getPassword());
-        memberDTO.setPassword(encryptedPassword);
-        String profileImg = memberDTO.getPicture();
+        MemberDTO saveMemberDTO = MemberDTO.builder()
+                .email(memberDTO.getEmail())
+                .name(memberDTO.getName())
+                .password(encryptPassword(memberDTO.getPassword()))
+                .role(Role.USER)
+                .status(Status.PUBLIC)
+                .provider("N")
+                .picture("profileImg.png")
+                .build();
 
-        if (profileImg == null || profileImg == "") {
-            memberDTO.setPicture("profileImg.png");
-        }
 
-
-        Member member = dtoToEntity(memberDTO);
+        Member member = dtoToEntity(saveMemberDTO);
 
         return memberRepository.save(member).getId();
     }
@@ -167,11 +171,9 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDTO getMemberInfoWithFollow(Long id) {
-        MemberDTO memberDTO = entityToDto(findById(id));
-        memberDTO.setFollowersSize(followRepository.getFollower(id).size());
-        memberDTO.setFollowingSize(followRepository.getFollowing(id).size());
-        return memberDTO;
+    public MemberDTO getMemberProfile(Long memberId) {
+
+        return memberRepository.getMemberProfile(memberId);
     }
 
     @Override

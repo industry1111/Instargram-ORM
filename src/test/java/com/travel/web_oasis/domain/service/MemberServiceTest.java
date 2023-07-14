@@ -6,6 +6,7 @@ import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -115,5 +116,18 @@ class MemberServiceTest {
             assertThat(memberDTO.getId()).isNotIn(membersIds);
         }
 
+    }
+
+    @Test
+    @DisplayName("프로필 정보 가져오기")
+    void getMemberProfile() {
+        //given
+        Long memberId = 1L;
+
+        //when
+        MemberDTO memberDTO = memberService.getMemberProfile(memberId);
+
+        //then
+        System.out.println("memberDTO = " + memberDTO);
     }
 }

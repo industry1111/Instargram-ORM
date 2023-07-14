@@ -23,12 +23,14 @@ public class MemberDTO {
     private String picture;
     private String provider;
 
-    private int followersSize;
-    private int followingSize;
+    private Long followersSize;
+    private Long followingSize;
+
+    private Long postSize;
 
 
     @Builder
-    public MemberDTO(Long id, String name, String email, String password, Role role, Status status, String introduction, String picture, String provider, int followersSize, int followingSize) {
+    public MemberDTO(Long id, String name, String email, String password, Role role, Status status, String introduction, String picture, String provider, Long followersSize, Long followingSize, Long postSize) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -39,7 +41,8 @@ public class MemberDTO {
         this.picture = picture;
         this.provider = provider;
         this.followersSize = followersSize;
-        this.followingSize = followersSize;
+        this.followingSize = followingSize;
+        this.postSize = postSize;
     }
 
     @QueryProjection
