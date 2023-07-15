@@ -48,4 +48,31 @@
 - JQuery
 
 ## ERD 설계
+
+<img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/e9aceb87-25bb-4fc4-ba92-a66eda63f31e">
+
 ## 기능목록
+
+- Member
+  - 회원가입
+  - 로그인
+  - 프로필 정보 조회
+  - 프로필 업데이트
+- Post
+  - 게시물 등록
+  - 게시물 조회
+  - 게시물 목록 조회
+  - 게시물 삭제
+- Comment
+  - 댓글 등록
+  - 댓글 목록 조회
+- Follow
+- Like
+
+## API
+
+[API DOC](https://documenter.getpostman.com/view/28541536/2s946fcsGD)
+
+
+----
+[README.md 양식 참조](https://github.com/JunYoung-C/Instagram/blob/main/README.md)
