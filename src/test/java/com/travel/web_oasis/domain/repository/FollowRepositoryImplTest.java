@@ -6,9 +6,11 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,67 +28,72 @@ class FollowRepositoryImplTest {
     private MemberRepository memberRepository;
 
     @Test
+    @Transactional
     void followTest() {
 
-        Member member1 = Member.builder()
-                .email("industr1111@naver.com")
-                .name("고형규")
-                .password("1q2w3e4r")
-                .role(Role.USER)
-                .status(Status.PUBLIC)
-                .provider("local")
-                .build();
+        void addFollowTest() {
 
-        Member member2 = Member.builder()
-                .email("qawsedrfnnn@google.com")
-                .name("김민호")
-                .password("1q2w3e4r")
-                .role(Role.USER)
-                .status(Status.PUBLIC)
-                .provider("local")
-                .build();
+            Member member1 = Member.builder()
+                    .email("industr1111@naver.com")
+                    .name("고형규")
+                    .password("1q2w3e4r")
+                    .role(Role.USER)
+                    .status(Status.PUBLIC)
+                    .provider("local")
+                    .build();
 
-        memberRepository.save(member1);
-        memberRepository.save(member2);
+            Member member2 = Member.builder()
+                    .email("qawsedrfnnn@google.com")
+                    .name("김민호")
+                    .password("1q2w3e4r")
+                    .role(Role.USER)
+                    .status(Status.PUBLIC)
+                    .provider("local")
+                    .build();
 
-        Follow follow = Follow.builder()
-                .fromMember(member1)
-                .toMember(member2)
-                .build();
+            memberRepository.save(member1);
+            memberRepository.save(member2);
 
-        followRepository.save(follow);
+            Follow follow = Follow.builder()
+                    .fromMember(member1)
+                    .toMember(member2)
+                    .build();
+
+            followRepository.save(follow);
 
 //        Optional<Follow> result = followRepository.findById(1L);
 //
 //        System.out.println("result = " + result.get());
+        }
+
+        void getFollowers() {
+            //given
+            Long toMemberId = 1L;
+
+            List<MemberDTO> expected = new ArrayList<>();
+
+            //when
+            List<MemberDTO> actual = followRepository.getFollowers(toMemberId);
+
+            //then
+            assertThat(actual.getClass()).isInstanceOf(expected.getClass());
+        }
+
+
+
+
+        void getFollowerCnt() {
+            //given
+            Long fromMemberId = 1L;
+            List<Long> expected = new ArrayList<>();
+
+            //when
+            List<MemberDTO> actual = followRepository.getFollowings(fromMemberId);
+
+            //then
+            assertThat(actual).isIn(expected);
+        }
+
     }
 
-    @Test
-    void getFollowingCnt() {
-        //given
-        Long toMemberId = 1L;
-
-        List<Long> expected = new ArrayList<>();
-
-        //when
-        List<Long> actual = followRepository.getFollowing(toMemberId);
-
-        //then
-        assertThat(actual).isIn(expected);
-    }
-
-
-
-    @Test
-    void getFollowerCnt() {
-        //given
-        Long fromMemberId = 1L;
-        List<Long> expected = new ArrayList<>();
-
-        //when
-        List<Long> actual = followRepository.getFollower(fromMemberId);
-
-        //then
-        assertThat(actual).isIn(expected);
-    }
 }

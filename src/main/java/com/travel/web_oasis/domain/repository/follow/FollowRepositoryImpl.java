@@ -5,7 +5,10 @@ import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.entity.QFollow;
+import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.repository.follow.CustomFollowRepository;
+import com.travel.web_oasis.web.dto.MemberDTO;
+import com.travel.web_oasis.web.dto.QMemberDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
@@ -38,11 +41,17 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
     }
 
     @Override
-    public List<Long> getFollower(Long toMemberId) {
-        QFollow follow = QFollow.follow;
+    public List<MemberDTO> getFollowings(Long toMemberId) {
+        QFollow follow = new QFollow("follow");
+        QMember member = new QMember("member");
 
         return queryFactory
-                .select(follow.fromMember.id)
+                .select(new QMemberDTO(
+                        follow.toMember.id,
+                        follow.toMember.name,
+                        follow.toMember.picture,
+                        follow.toMember.introduction
+                ))
                 .from(follow)
                 .where(follow.toMember.id.eq(toMemberId))
                 .fetch();
@@ -50,15 +59,19 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
 
 
     @Override
-    public List<Long> getFollowing(Long fromMemberId) {
-        QFollow follow = QFollow.follow;
+    public List<MemberDTO> getFollowers(Long fromMemberId) {
+        QFollow follow = new QFollow("follow");
+        QMember member = new QMember("member");
 
         return queryFactory
-                .select(follow.toMember.id)
+                .select(new QMemberDTO(
+                        follow.fromMember.id,
+                        follow.fromMember.name,
+                        follow.fromMember.picture,
+                        follow.fromMember.introduction
+                ))
                 .from(follow)
                 .where(follow.fromMember.id.eq(fromMemberId))
                 .fetch();
-
-
     }
 }

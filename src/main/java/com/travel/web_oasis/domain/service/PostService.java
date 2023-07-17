@@ -43,19 +43,20 @@ public interface PostService {
 
         // Commet -> CommentDTO로 변환
         List<CommentDTO> commentDTOS = new ArrayList<>();
-        for (Comment comment : commentList) {
+        if ( commentList != null) {
+            for (Comment comment : commentList) {
 
-            Member commentMember = comment.getMember();
+                Member commentMember = comment.getMember();
 
-            CommentDTO commentDTO = CommentDTO.builder()
-                    .content(comment.getContent())
-                    .memberId(commentMember.getId())
-                    .memberName(commentMember.getName())
-                    .memberProfileImg(commentMember.getPicture())
-                    .build();
-            commentDTOS.add(commentDTO);
+                CommentDTO commentDTO = CommentDTO.builder()
+                        .content(comment.getContent())
+                        .memberId(commentMember.getId())
+                        .memberName(commentMember.getName())
+                        .memberProfileImg(commentMember.getPicture())
+                        .build();
+                commentDTOS.add(commentDTO);
+            }
         }
-
 
         return PostDTO.builder()
                 .id(id)

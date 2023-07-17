@@ -90,7 +90,7 @@ class CommentServiceImplTest {
 
 
         //when
-        commentService.getCommentList(postId)
+        commentService.getCommentList(postId);
 
         //then
 //        String content = result.getDtoList().get(0).getContent();

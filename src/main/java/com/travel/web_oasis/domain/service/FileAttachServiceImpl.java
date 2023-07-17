@@ -48,7 +48,6 @@ public class FileAttachServiceImpl implements FileAttachService {
     *Param
     * */
     private FileAttachDTO uploadSingleFile(MultipartFile multipartFile) {
-        String fileUrl = "http://localhost:8080/files/"; // 파일 URL 설정 -> 환경변수로 설정 예정
         String fileName = multipartFile.getOriginalFilename();
         String fileContentType = multipartFile.getContentType();
 
@@ -127,12 +126,7 @@ public class FileAttachServiceImpl implements FileAttachService {
             deleteFileFromStorage(fileStoreName);
         }
     }
-/*    @Override
-    public void deleteFiles(List<FileAttach> fileAttachList) {
-        for (FileAttach fileAttach : fileAttachList) {
-            deleteFileFromStorage(fileAttach);
-        }
-    }*/
+
     private void deleteFileFromStorage(String fileStoreName) {
         Path storePath = Paths.get(storagePath+fileStoreName);
         logger.info("deleteFileFromStorage() called : {}", storePath);

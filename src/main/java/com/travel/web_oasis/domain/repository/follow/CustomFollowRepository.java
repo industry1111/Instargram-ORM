@@ -1,10 +1,13 @@
 package com.travel.web_oasis.domain.repository.follow;
 
+import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.web.dto.MemberDTO;
+
 import java.util.List;
 
 public interface CustomFollowRepository {
 
     void deleteFollow(Long toMemberId, Long fromMemberId);
-    List<Long> getFollowing(Long toMemberId);
-    List<Long> getFollower(Long fromMemberId);
+    List<MemberDTO> getFollowings(Long toMemberId);
+    List<MemberDTO> getFollowers(Long fromMemberId);
 }
