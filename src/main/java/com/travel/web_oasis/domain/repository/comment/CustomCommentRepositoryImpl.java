@@ -1,14 +1,10 @@
 package com.travel.web_oasis.domain.repository.comment;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.travel.web_oasis.domain.entity.Comment;
 import com.travel.web_oasis.domain.entity.QComment;
 import com.travel.web_oasis.web.dto.CommentDTO;
 import com.travel.web_oasis.web.dto.QCommentDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;

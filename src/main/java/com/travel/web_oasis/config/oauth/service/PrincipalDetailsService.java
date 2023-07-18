@@ -21,12 +21,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        Member member = memberRepository.findByEmail(email);
-//        if (member != null) {
-//            return new PrincipalDetail(member);
-//        } else {
-//            return null;
-//        }
+
         Member member = memberRepository.findByEmail(email);
 
         if (member == null) {
@@ -35,7 +30,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         List<GrantedAuthority> roles = new ArrayList<>();
 
         roles.add(new SimpleGrantedAuthority("ROLE_" + member.getRole()));
-
 
         return new PrincipalDetail(member, roles);
 

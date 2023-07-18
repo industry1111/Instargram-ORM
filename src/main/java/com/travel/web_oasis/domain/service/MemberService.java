@@ -8,9 +8,12 @@ import java.util.List;
 
 
 public interface MemberService {
+
     Long saveMember(MemberDTO memberDTO);
+
+    MemberDTO login(MemberDTO memberDTO);
+
     MemberDTO updateMember(MemberDTO memberDto, Long memberId, MultipartFile file);
-    Boolean validateDuplicateMember(MemberDTO memberDTO);
 
     Member findById(Long id);
 

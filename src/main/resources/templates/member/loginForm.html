@@ -12,11 +12,6 @@
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
   <script th:inline="javascript">
-    const message = [[${message}]];
-    if (message) {
-      console.log(message)
-      alert(message);
-    }
   </script>
 </th:block>
 
@@ -51,15 +46,15 @@
       <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="background insta photo">
     </div>
     <div class="form-login">
-      <form method="post" th:action="@{/member/login}" th:object="${memberDTO}">
+      <form method="POST" action="/auth/login" th:object="${memberDTO}">
         <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
         <input type="text" name="email" placeholder="이메일">
         <input type="password" name="password" placeholder="비밀번호">
+        <input type="hidden" name="role" value="LOCAL">
         <button type="submit">로그인</button>
 
         <div class="or">또는</div>
         <a href="#" class="forgot-pass">비밀번호를 잊으셨나요?</a>
-        <p th:if="${message != null}" th:text="${message}"></p>
       </form>
       <div class="signup">
         <p>계정이 없으신가요? <a th:href="@{/member/register}">가입하기</a></p>

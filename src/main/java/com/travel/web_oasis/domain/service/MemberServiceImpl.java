@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +30,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
+
     private final MemberRepository memberRepository;
-    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     Logger log = org.slf4j.LoggerFactory.getLogger(MemberServiceImpl.class);
 
@@ -38,20 +39,11 @@ public class MemberServiceImpl implements MemberService{
     private String storagePath;
 
     @Override
-    public Boolean validateDuplicateMember(MemberDTO memberDTO) {
-        log.info("validationDuplicateMember() start");
-        if (findByEmailAndProvider(memberDTO.getEmail(), memberDTO.getProvider())!=null) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public Long saveMember(MemberDTO memberDTO) {
 
         log.info("saveMember() start");
 
-        if (!validateDuplicateMember(memberDTO)) {
+        if (findByEmailAndProvider(memberDTO.getEmail(), memberDTO.getProvider()) == null) {
             return -1L;
         }
 
@@ -69,6 +61,14 @@ public class MemberServiceImpl implements MemberService{
         Member member = dtoToEntity(saveMemberDTO);
 
         return memberRepository.save(member).getId();
+    }
+
+    @Override
+    public MemberDTO login(MemberDTO memberDTO) {
+
+        Member member = findByEmailAndProvider(memberDTO.getEmail(), memberDTO.getProvider());
+
+        return entityToDto(member);
     }
 
     @Override
