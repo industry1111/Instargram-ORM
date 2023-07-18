@@ -70,9 +70,3 @@
 - Like
 
 ## API
-
-[API DOC](https://documenter.getpostman.com/view/28541536/2s946fcsGD)
-
-
-----
-[README.md 양식 참조](https://github.com/JunYoung-C/Instagram/blob/main/README.md)
