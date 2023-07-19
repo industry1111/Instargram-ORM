@@ -21,7 +21,6 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         Member member = memberRepository.findByEmail(email);
 
         if (member == null) {
@@ -32,7 +31,6 @@ public class PrincipalDetailsService implements UserDetailsService {
         roles.add(new SimpleGrantedAuthority("ROLE_" + member.getRole()));
 
         return new PrincipalDetail(member, roles);
-
     }
 }
 

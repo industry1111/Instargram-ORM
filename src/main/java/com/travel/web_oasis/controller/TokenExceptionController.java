@@ -1,6 +1,6 @@
 package com.travel.web_oasis.controller;
 
-import com.travel.web_oasis.ErrorCode;
+import com.travel.web_oasis.error.ErrorCode;
 import com.travel.web_oasis.error.CustomException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

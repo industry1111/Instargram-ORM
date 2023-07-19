@@ -11,8 +11,7 @@
 
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <script th:inline="javascript">
-  </script>
+  <script th:src="@{/js/member/login.js}" type="module"></script>
 </th:block>
 
 <!-- 사용자 CSS 추가 -->
@@ -46,16 +45,15 @@
       <img th:src="@{/img/member/loginForm/phone-slide-1.png}" alt="background insta photo">
     </div>
     <div class="form-login">
-      <form method="POST" action="/auth/login" th:object="${memberDTO}">
+      <div class="form">
         <img th:src="@{/img/member/loginForm/logo.png}" class="logo-instagram" alt="Instagram logo">
-        <input type="text" name="email" placeholder="이메일">
-        <input type="password" name="password" placeholder="비밀번호">
-        <input type="hidden" name="role" value="LOCAL">
-        <button type="submit">로그인</button>
+        <input type="text" id="emailInpt" placeholder="이메일">
+        <input type="password" id="passwordInpt" placeholder="비밀번호">
+        <button type="submit" id="loginBtn">로그인</button>
 
         <div class="or">또는</div>
         <a href="#" class="forgot-pass">비밀번호를 잊으셨나요?</a>
-      </form>
+      </div>
       <div class="signup">
         <p>계정이 없으신가요? <a th:href="@{/member/register}">가입하기</a></p>
       </div>

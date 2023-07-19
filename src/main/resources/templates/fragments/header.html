@@ -5,7 +5,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div th:fragment="header">
-    <script th:src="@{/js/header.js}" type="module"></script>
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <header class="p-3 mb-3">
         <nav class="navbar header">
@@ -13,7 +12,7 @@
                 <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
                 <input type="text" class="search-box" placeholder="search">
                 <div class="nav-items" sec:authorize="hasRole('USER')">
-                    <img th:src="@{/img/main/home.PNG}" onclick="location.href='/'" th:id="btn-home" class="icon" alt="">
+                    <img th:src="@{/img/main/home.PNG}" onclick="location.href='/main'" th:id="btn-home" class="icon" alt="">
                     <img th:src="@{/img/main/messenger.PNG}" class="icon" alt="">
                     <img th:src="@{/img/main/add.PNG}"  th:id="btn-create_post" class="icon" alt="">
                     <img th:src="@{/img/main/explore.PNG}" class="icon" alt="">

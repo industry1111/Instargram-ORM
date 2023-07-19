@@ -6,6 +6,8 @@ import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
+import com.travel.web_oasis.error.CustomException;
+import com.travel.web_oasis.error.ErrorCode;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -68,7 +70,12 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = findByEmailAndProvider(memberDTO.getEmail(), memberDTO.getProvider());
 
-        return entityToDto(member);
+        if (member != null) {
+            return entityToDto(member);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -88,7 +95,7 @@ public class MemberServiceImpl implements MemberService{
         Member updateMember = memberRepository.save(member);
 
         // 현재 사용자의 인증 정보 업데이트
-        updateAuthentication(updateMember);
+//        updateAuthentication(updateMember);
 
         return entityToDto(updateMember);
 

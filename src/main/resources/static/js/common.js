@@ -143,7 +143,7 @@ function downloadPostFile(fileStoreName, submitFunc) {
     customAjax("GET", "/post/download/{fileStoreName}", data, submitFunc);
 }
 
-export {customAjax}; //ajax 함수를 외부에서 사용할 수 있도록 export
+export {customAjax};
 export {timeToString};
 export {downloadProfileImage};
 export {downloadPostFile};

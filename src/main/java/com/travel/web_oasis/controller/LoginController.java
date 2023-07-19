@@ -2,14 +2,14 @@ package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.jwt.JwtTokenProvider;
 import com.travel.web_oasis.domain.service.MemberService;
+import com.travel.web_oasis.error.ErrorCode;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/auth")
@@ -23,15 +23,26 @@ public class LoginController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public String authenticateUser(@RequestBody MemberDTO memberDTO, HttpServletResponse response) {
+    public ResponseEntity<?> authenticateUser(@RequestBody MemberDTO memberDTO, HttpServletResponse response) {
 
-        System.out.println("memberDTO = " + memberDTO);
         MemberDTO member = memberService.login(memberDTO);
-        String email = member.getEmail();
-        String provider = member.getProvider();
 
-        String token = jwtTokenProvider.createToken(email,provider);
-        response.setHeader("JWT", token);
-        return token;
+        if ( member != null ) {
+            String email = member.getEmail();
+            String provider = member.getProvider();
+
+            String result = jwtTokenProvider.createToken(email,provider);
+
+            // JWT 토큰을 쿠키에 설정
+            Cookie cookie = new Cookie("JWT", result);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            response.addCookie(cookie);
+
+            return ResponseEntity.ok().body(result);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("없는 사용자 입니다.");
+        }
+
     }
 }

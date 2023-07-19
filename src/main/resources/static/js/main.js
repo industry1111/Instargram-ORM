@@ -7,6 +7,7 @@ import {downloadPostFile} from "./common.js";
 const imageCache = new Map();
 
 window.onload = function () {
+    const sessionId = parseInt($("#sessionId").val());
 
     let page = 1;
     let size = 3;
@@ -200,17 +201,18 @@ window.onload = function () {
             addProfileImgToCache(postDTO.picture)
                 .then(() => {
                     $(".post-grid").append(appendPost(postDTO));
+
+                    downloadPostFile(fileStoreName, function (responseData) {
+                        const img = document.getElementById(fileStoreName);
+                        let blob = new Blob([responseData]);
+                        img.src = URL.createObjectURL(blob);
+                    });
                 })
                 .catch((error) => {
 
                 });
 
-            downloadPostFile(fileStoreName, function (responseData) {
-                const img = document.getElementById(fileStoreName);
-                let blob = new Blob([responseData]);
-                img.src = URL.createObjectURL(blob);
 
-            });
         });
         page++;
     }
@@ -243,15 +245,11 @@ window.onload = function () {
                 <p class="description"><span>${data.name}</span>${data.content}</p>
                 <p class="post-time" >${timeToString.call(this, data.createdDate)}</p> 
                `;
-        // if (data.commentDTOS[0] != null) {
-        //     innerHtml += ` <p class="description" id="comment${postId}"><span>${data.commentDTOS[0].memberName}</span>${data.commentDTOS[0].content}</p>`;
-        // }
         innerHtml += `
             </div>
             <div class="comment-wrapper">
                 <img src="/img/main/smile.png" class="icon" alt="">
                 <input type="text" class="comment-box"  placeholder="댓글을 입력하세요">
-<!--                <button class="comment-btn" onclick="addComment(this, ${postId})">게시</button>-->
                 <button class="comment-btn" value="${postId}" >게시</button>
             </div>
         </div>
@@ -272,7 +270,7 @@ window.onload = function () {
                 queryParams: {}
             }
             customAjax("GET", '/post/delete/{postId}', data, function () {
-                location.href="/";
+                location.href="/main";
             });
         }
     })

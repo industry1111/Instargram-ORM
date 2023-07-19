@@ -6,7 +6,6 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,11 +23,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
-
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -40,20 +37,20 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
         if (registrationId.equals("google")) {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+            System.out.println("oAuth2UserInfo = " + oAuth2UserInfo);
         } else if (registrationId.equals("naver")) {
             Map<String,Object> attributes = (Map<String, Object>) oAuth2User.getAttributes().get("response");
             oAuth2UserInfo = new NaverUserInfo(attributes);
         } else if (registrationId.equals("github")) {
             Map<String,Object> attributes =  oAuth2User.getAttributes();
             oAuth2UserInfo = new GithubUserInfo(attributes);
-            for (String s : attributes.keySet()) {
-            }
         } else if (registrationId.equals("kakao")) {
             Map<String, Object> kakaoAccount = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
             Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
             oAuth2UserInfo = new KakaoUserInfo(kakaoAccount,profile);
         } else {
         }
+
 
 
         String email = oAuth2UserInfo.getEmail();

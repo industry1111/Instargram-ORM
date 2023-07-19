@@ -1,4 +1,4 @@
-package com.travel.web_oasis;
+package com.travel.web_oasis.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
