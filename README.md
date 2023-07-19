@@ -70,3 +70,6 @@
 - Like
 
 ## API
+[API DOC](https://documenter.getpostman.com/view/28541536/2s946fcsGD)
+
+<img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/dd0b04e9-3ec7-4451-a010-20819e636aa4">
