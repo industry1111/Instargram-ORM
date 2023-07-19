@@ -1,7 +1,7 @@
 package com.travel.web_oasis.domain.service;
 
+import com.travel.web_oasis.domain.service.fileAttatch.FileAttachService;
 import com.travel.web_oasis.web.dto.FileAttachDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

@@ -269,7 +269,7 @@ window.onload = function () {
                 },
                 queryParams: {}
             }
-            customAjax("GET", '/post/delete/{postId}', data, function () {
+            customAjax("DELETE", '/post/delete/{postId}', data, function () {
                 location.href="/main";
             });
         }

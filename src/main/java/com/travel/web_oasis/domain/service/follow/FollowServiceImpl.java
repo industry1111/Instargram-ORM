@@ -1,8 +1,9 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.follow;
 
 import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
+import com.travel.web_oasis.domain.service.member.MemberService;
 import com.travel.web_oasis.web.dto.FollowDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

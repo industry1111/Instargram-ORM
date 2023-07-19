@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.follow;
 
 import com.travel.web_oasis.web.dto.FollowDTO;
 

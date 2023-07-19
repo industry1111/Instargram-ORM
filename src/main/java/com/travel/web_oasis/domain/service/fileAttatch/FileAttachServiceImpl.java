@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.fileAttatch;
 
 import com.travel.web_oasis.domain.entity.FileAttach;
 import com.travel.web_oasis.domain.repository.FileAttachRepository;

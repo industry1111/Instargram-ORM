@@ -1,7 +1,7 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.WebOasisApplication;
-import com.travel.web_oasis.domain.service.PostServiceImpl;
+import com.travel.web_oasis.domain.service.post.PostServiceImpl;
 
 import com.travel.web_oasis.web.dto.PostDTO;
 import org.junit.jupiter.api.BeforeEach;

@@ -17,7 +17,6 @@ import org.springframework.web.util.WebUtils;
 import java.util.Base64;
 import java.util.Date;
 
-// 토큰 생성, 검증
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -69,7 +68,7 @@ public class JwtTokenProvider {
         return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("email");
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
+    // Request의 Cookie 에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         Cookie jwtCookie = WebUtils.getCookie(request, "JWT");
 

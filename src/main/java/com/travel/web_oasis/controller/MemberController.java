@@ -1,7 +1,7 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
-import com.travel.web_oasis.domain.service.MemberServiceImpl;
+import com.travel.web_oasis.domain.service.member.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -130,8 +130,7 @@ public class MemberController {
     @ResponseBody
     @PutMapping("/profile/edit")
     public MemberDTO editProfile(@ModelAttribute MemberDTO memberDTO, @RequestPart(value = "file", required = false) MultipartFile file, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
-        log.info("editProfile");
-        log.info("MemberDTO : " + memberDTO.toString());
+
         Long memberId = principalDetail.getMember().getId();
         return memberService.updateMember(memberDTO, memberId, file);
     }
@@ -164,6 +163,7 @@ public class MemberController {
         log.info("getSuggestMembers start \n ");
 
         Long myId = principalDetail.getMember().getId();
+        System.out.println("myId = " + myId);
         return memberService.getSuggestMembers(membersIds, myId);
     }
 }

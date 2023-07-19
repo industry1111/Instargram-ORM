@@ -1,9 +1,9 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.post;
 
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.member.QMember;
 import com.travel.web_oasis.domain.repository.post.PostRepository;
+import com.travel.web_oasis.domain.service.fileAttatch.FileAttachService;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;
 import com.travel.web_oasis.web.dto.PostDTO;

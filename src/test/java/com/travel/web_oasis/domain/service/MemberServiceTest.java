@@ -4,6 +4,7 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
+import com.travel.web_oasis.domain.service.member.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

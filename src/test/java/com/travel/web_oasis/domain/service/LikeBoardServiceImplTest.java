@@ -1,14 +1,13 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.entity.LikeBoard;
-import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
-import com.travel.web_oasis.web.dto.LikeBoardDTO;
+import com.travel.web_oasis.domain.service.like.LikeBoardServiceImpl;
+import com.travel.web_oasis.domain.service.member.MemberServiceImpl;
+import com.travel.web_oasis.domain.service.post.PostServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

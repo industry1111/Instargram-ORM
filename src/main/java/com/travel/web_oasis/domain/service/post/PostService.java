@@ -1,10 +1,11 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.post;
 
 
 import com.travel.web_oasis.domain.entity.Comment;
 import com.travel.web_oasis.domain.entity.FileAttach;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.entity.Post;
+import com.travel.web_oasis.domain.service.fileAttatch.FileAttachServiceImpl;
 import com.travel.web_oasis.web.dto.CommentDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;

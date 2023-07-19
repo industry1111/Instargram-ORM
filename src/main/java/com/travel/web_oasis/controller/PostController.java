@@ -4,10 +4,10 @@ import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.entity.LikeBoard;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.entity.Post;
-import com.travel.web_oasis.domain.service.FileAttachService;
-import com.travel.web_oasis.domain.service.LikeBoardService;
-import com.travel.web_oasis.domain.service.MemberService;
-import com.travel.web_oasis.domain.service.PostService;
+import com.travel.web_oasis.domain.service.fileAttatch.FileAttachService;
+import com.travel.web_oasis.domain.service.like.LikeBoardService;
+import com.travel.web_oasis.domain.service.member.MemberService;
+import com.travel.web_oasis.domain.service.post.PostService;
 import com.travel.web_oasis.web.dto.*;
 import groovy.util.logging.Slf4j;
 import org.slf4j.Logger;
@@ -95,11 +95,11 @@ public class PostController {
      *
      * @Return : 메인 페이지로 이동
      * */
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deletePost(@PathVariable Long id) {
         logger.info("deletePost start");
         postService.deletePost(id);
-        return "redirect:/";
+        return "redirect:/main";
     }
 
 

@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.member;
 
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.web.dto.MemberDTO;

@@ -1,5 +1,7 @@
 package com.travel.web_oasis.domain.service;
 
+import com.travel.web_oasis.domain.service.follow.FollowService;
+import com.travel.web_oasis.domain.service.member.MemberService;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,10 @@ import static org.assertj.core.api.Assertions.*;
 class FollowServiceImplTest {
 
     @Autowired
-    private  MemberService memberService;
+    private MemberService memberService;
 
     @Autowired
-    private  FollowService followService;
+    private FollowService followService;
 
     @Test
     void followTest() {

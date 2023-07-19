@@ -1,11 +1,11 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.like;
 
 import com.travel.web_oasis.domain.entity.LikeBoard;
 import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.LikeBoardRepository;
-import com.travel.web_oasis.web.dto.LikeBoardDTO;
-import jakarta.persistence.EntityExistsException;
+import com.travel.web_oasis.domain.service.member.MemberService;
+import com.travel.web_oasis.domain.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

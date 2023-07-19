@@ -4,6 +4,8 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.entity.Post;
+import com.travel.web_oasis.domain.service.member.MemberService;
+import com.travel.web_oasis.domain.service.post.PostService;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import com.travel.web_oasis.web.dto.PageRequestDTO;
 import com.travel.web_oasis.web.dto.PageResultDTO;

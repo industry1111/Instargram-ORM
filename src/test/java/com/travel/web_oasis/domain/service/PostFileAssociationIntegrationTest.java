@@ -1,7 +1,8 @@
 package com.travel.web_oasis.domain.service;
 
-import com.travel.web_oasis.domain.entity.Post;
 import com.travel.web_oasis.domain.member.Member;
+import com.travel.web_oasis.domain.service.fileAttatch.FileAttachService;
+import com.travel.web_oasis.domain.service.post.PostService;
 import com.travel.web_oasis.web.dto.FileAttachDTO;
 import com.travel.web_oasis.web.dto.PostDTO;
 import org.junit.jupiter.api.DisplayName;

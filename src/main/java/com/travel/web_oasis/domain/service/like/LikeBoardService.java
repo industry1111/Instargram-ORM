@@ -1,4 +1,4 @@
-package com.travel.web_oasis.domain.service;
+package com.travel.web_oasis.domain.service.like;
 
 import com.travel.web_oasis.domain.entity.LikeBoard;
 import com.travel.web_oasis.domain.entity.Post;

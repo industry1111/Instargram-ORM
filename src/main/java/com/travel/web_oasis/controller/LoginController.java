@@ -1,8 +1,7 @@
 package com.travel.web_oasis.controller;
 
 import com.travel.web_oasis.config.jwt.JwtTokenProvider;
-import com.travel.web_oasis.domain.service.MemberService;
-import com.travel.web_oasis.error.ErrorCode;
+import com.travel.web_oasis.domain.service.member.MemberService;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
