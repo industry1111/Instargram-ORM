@@ -287,6 +287,7 @@ window.onload = function () {
 
 
     function createSuggestMemberGrid(data) {
+        $(".suggest-member-grid").html("");
         data.forEach((memberDTO) => {
             let imageUrl = memberDTO.picture;
             addProfileImgToCache(imageUrl)
@@ -311,12 +312,22 @@ window.onload = function () {
                     </a>
                     <p class="sub-text">${memberDTO.introduction}</p>
                 </div>
-                <div><button class="action-btn">follow</button></div>
+                <div><button class="action-btn" name="followBtn" value="${memberDTO.id}">follow</button></div>
             </div>
             `;
 
         $(".suggest-member-grid").append(innerHtml);
     }
+
+    $(Document).on("click", "button[name='followBtn']", function () {
+        let toMemberId = this.value;
+        let data = {
+            pathParams : {
+                toMemberId : toMemberId
+            }
+        }
+        customAjax("GET","/addFollow/{toMemberId}", data, getSuggestMembers);
+    })
 
     function showDetailPost(postId) {
         const detailModal = document.getElementById("detail_modal_feed_content");

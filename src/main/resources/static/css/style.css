@@ -253,7 +253,7 @@ body{
     margin-right: 10px;
 }
 
-.profile-card:first-child .profile-pic{
+.profile-pic{
     width: 70px;
     height: 70px;
 }

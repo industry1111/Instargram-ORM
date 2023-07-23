@@ -87,3 +87,14 @@
     background-repeat: no-repeat;
     background-position : center;
 }
+
+.modal_follow{
+    background: white;
+    backdrop-filter: blur(13.5px);
+    -webkit-backdrop-filter: blur(13.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width: 400px;
+    height: 300px;
+    position: relative;
+}

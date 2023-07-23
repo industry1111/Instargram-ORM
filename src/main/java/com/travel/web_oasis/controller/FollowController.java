@@ -28,18 +28,16 @@ public class FollowController {
     }
 
     @ResponseBody
-    @GetMapping("/followingList")
-    public List<MemberDTO> getFollowingList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+    @GetMapping("/followingList/{memberId}")
+    public List<MemberDTO> getFollowingList(@PathVariable Long memberId) {
 
-        Long memberId = principalDetail.getMember().getId();
         return followService.getFollowingList(memberId);
     }
 
     @ResponseBody
-    @GetMapping("/followerList")
-    public List<MemberDTO> getFollowerList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+    @GetMapping("/followerList/{memberId}")
+    public List<MemberDTO> getFollowerList(@PathVariable Long memberId) {
 
-        Long memberId = principalDetail.getMember().getId();
         return followService.getFollowerList(memberId);
     }
 }

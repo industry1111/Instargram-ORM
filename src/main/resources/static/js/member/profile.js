@@ -1,8 +1,10 @@
-import {customAjax} from "../common.js";
+import {customAjax, downloadProfileImage} from "../common.js";
 
 let page = 1;
 let size = 9;
 let totalPage;
+
+let imageCache = new Map();
 window.onload = function () {
     findMemberPost();
 
@@ -26,7 +28,7 @@ window.onload = function () {
 
     function findMemberPost() {
         let memberId = $("#memberId").val();
-        console.log(memberId)
+
         let data = {
             pathParams: {
                 id: memberId
@@ -87,20 +89,112 @@ window.onload = function () {
 
 
 
-    const followModal = document.getElementById("modal-follow");
-    const btnFollower = document.getElementById("followers")
-    btnFollower.addEventListener("click", e => {
-
-        followModal.style.display = "flex";
-
-
+    const followModal = document.getElementById('modal_follow');
+    const btnFollower = document.getElementById('followers');
+    const btnFollowing = document.getElementById('following');
+    btnFollower.addEventListener("click", function() {
+        getFollowList(this.id,this.value);
     });
-
+    btnFollowing.addEventListener("click", function(){
+        getFollowList(this.id,this.value);
+    });
 
     const btnCloseModal = document.getElementById("close_modal");
     btnCloseModal.addEventListener("click", e => {
-        $('#followModal').css({
+        $('#modal_follow').css({
             display: 'none'
         });
     });
+
+    function getFollowList(title, memberId) {
+
+        $('#modalTitle').text(title+ " List");
+
+        let url = "";
+        let data = {
+            pathParams : {
+                memberId: memberId
+            }
+        }
+        if(title === "followers") {
+            url = "/followerList/{memberId}";
+        } else {
+            url = "/followingList/{memberId}";
+        }
+
+        customAjax("GET",url,data, function (result) {
+            createFollowGrid(result);
+        })
+    }
+
+    function createFollowGrid(data) {
+        $(".suggest-member-grid").html("");
+        data.forEach((memberDTO) => {
+            let imageUrl = memberDTO.picture;
+            addProfileImgToCache(imageUrl)
+                .then(() => {
+                    appendFollowCard(memberDTO, imageCache.get(imageUrl));
+                    followModal.style.display = "flex";
+                })
+                .catch((error) => {
+                    // 에러 처리
+                });
+        });
+    }
+
+    function addProfileImgToCache(imageUrl) {
+        return new Promise((resolve, reject) => {
+            if (imageUrl == null) {
+                resolve();
+                return;
+            }
+
+            // 이미지 URL이 이미 캐시에 있는지 확인
+            if (imageCache.has(imageUrl)) {
+                resolve();
+            } else {
+                if (!imageUrl.startsWith("http")) {
+                    downloadProfileImage(imageUrl, function (result) {
+                        let blob = new Blob([result]);
+                        let url = URL.createObjectURL(blob);
+                        imageCache.set(imageUrl, url); // 이미지 URL을 캐시에 저장
+                        resolve();
+                    })
+                } else {
+                    imageCache.set(imageUrl, imageUrl); // 이미지 URL을 캐시에 저장
+                    resolve();
+                }
+            }
+        });
+    }
+
+
+    function appendFollowCard(memberDTO, url) {
+        let innerHtml = `
+                 <div class="profile-card">
+                    <div class="profile-pic">
+                        <img src="${url}"  alt="">
+                    </div>
+                    <div>
+                        <a href="/member/profile/${memberDTO.id}">
+                            <p class="username">${memberDTO.name}</p>
+                        </a>
+                        <p class="sub-text">${memberDTO.introduction}</p>
+                    </div>`;
+
+        if (!memberDTO.followStatus) {
+            innerHtml +=`
+                    <div><button class="action-btn" name="followBtn" value="">follow</button></div>`;
+        } else {
+            innerHtml +=`
+                    <div><button class="action-btn" name="followBtn" value="">unfollow</button></div>`;
+        }
+        innerHtml +=`</div>`;
+
+        $(".suggest-member-grid").append(innerHtml);
+    }
+
+
+
+
 }
