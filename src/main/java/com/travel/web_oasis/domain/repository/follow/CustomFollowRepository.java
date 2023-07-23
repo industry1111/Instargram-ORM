@@ -8,6 +8,6 @@ import java.util.List;
 public interface CustomFollowRepository {
 
     void deleteFollow(Long toMemberId, Long fromMemberId);
-    List<MemberDTO> getFollowings(Long toMemberId);
-    List<MemberDTO> getFollowers(Long fromMemberId);
+    List<MemberDTO> getFollowings(Long memberId);
+    List<MemberDTO> getFollowers(Long memberId);
 }

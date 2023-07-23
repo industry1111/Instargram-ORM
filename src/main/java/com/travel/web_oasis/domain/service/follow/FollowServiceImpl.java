@@ -5,8 +5,11 @@ import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.service.member.MemberService;
 import com.travel.web_oasis.web.dto.FollowDTO;
+import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -37,10 +40,12 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public FollowDTO getFollow(Long memberId) {
+    public List<MemberDTO> getFollowingList(Long memberId) {
+        return followRepository.getFollowings(memberId);
+    }
 
-//        followRepository.getFollowingCnt()
-
-        return null;
+    @Override
+    public List<MemberDTO> getFollowerList(Long memberId) {
+        return followRepository.getFollowers(memberId);
     }
 }

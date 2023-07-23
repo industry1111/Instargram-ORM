@@ -31,6 +31,15 @@ public class FollowController {
     @GetMapping("/followingList")
     public List<MemberDTO> getFollowingList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
 
-        return null;
+        Long memberId = principalDetail.getMember().getId();
+        return followService.getFollowingList(memberId);
+    }
+
+    @ResponseBody
+    @GetMapping("/followerList")
+    public List<MemberDTO> getFollowerList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+
+        Long memberId = principalDetail.getMember().getId();
+        return followService.getFollowerList(memberId);
     }
 }
