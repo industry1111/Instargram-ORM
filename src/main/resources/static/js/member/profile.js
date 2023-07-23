@@ -1,5 +1,7 @@
 import {customAjax, downloadProfileImage} from "../common.js";
 
+const sessionId = parseInt($("#sessionId").val());
+const profileId = parseInt($("#profileId").val());
 let page = 1;
 let size = 9;
 let totalPage;
@@ -181,14 +183,16 @@ window.onload = function () {
                         </a>
                         <p class="sub-text">${memberDTO.introduction}</p>
                     </div>`;
-
-        if (!memberDTO.followStatus) {
-            innerHtml +=`
+        if (profileId === sessionId) {
+            if (!memberDTO.followStatus) {
+                innerHtml +=`
                     <div><button class="action-btn" name="followBtn" value="">follow</button></div>`;
-        } else {
-            innerHtml +=`
+            } else {
+                innerHtml +=`
                     <div><button class="action-btn" name="followBtn" value="">unfollow</button></div>`;
+            }
         }
+
         innerHtml +=`</div>`;
 
         $(".suggest-member-grid").append(innerHtml);
