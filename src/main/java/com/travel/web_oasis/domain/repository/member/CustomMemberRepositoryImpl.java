@@ -3,6 +3,7 @@ package com.travel.web_oasis.domain.repository.member;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +16,7 @@ import com.travel.web_oasis.web.dto.QMemberDTO;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implements CustomMemberRepository {
@@ -31,12 +33,13 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
     public List<MemberDTO> getMemberList(List<Long> membersIds, Long myId) {
         QMember member = new QMember("member");
         QFollow follow = QFollow.follow;
-
         return queryFactory
                 .select(new QMemberDTO(member.id,
                         member.name,
                         member.picture,
-                        member.introduction))
+                        member.introduction,
+                        member.eq(member))
+                        )
                 .from(member)
                 .where(member.id.notIn(membersIds)
                         .and(member.id.notIn(

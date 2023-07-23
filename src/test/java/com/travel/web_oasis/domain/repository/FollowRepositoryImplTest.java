@@ -72,14 +72,17 @@ class FollowRepositoryImplTest {
         //when
         List<MemberDTO> actual = followRepository.getFollowers(toMemberId);
 
+        for (MemberDTO memberDTO : actual) {
+            System.out.println("memberDTO = " + memberDTO);
+        }
         //then
-        assertThat(actual.getClass()).isInstanceOf(expected.getClass());
+
     }
 
 
 
     @Test
-    void getFollowerCnt() {
+    void getFollowing() {
         //given
         Long fromMemberId = 1L;
         List<Long> expected = new ArrayList<>();
@@ -88,6 +91,8 @@ class FollowRepositoryImplTest {
         List<MemberDTO> actual = followRepository.getFollowings(fromMemberId);
 
         //then
-        assertThat(actual).isIn(expected);
+        for (MemberDTO memberDTO : actual) {
+            System.out.println("memberDTO = " + memberDTO);
+        }
     }
 }

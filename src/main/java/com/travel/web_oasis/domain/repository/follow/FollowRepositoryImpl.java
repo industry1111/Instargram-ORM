@@ -1,6 +1,10 @@
 package com.travel.web_oasis.domain.repository.follow;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.travel.web_oasis.domain.entity.Follow;
@@ -41,7 +45,7 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
     }
 
     @Override
-    public List<MemberDTO> getFollowings(Long toMemberId) {
+    public List<MemberDTO> getFollowings(Long memberId) {
         QFollow follow = new QFollow("follow");
         QMember member = new QMember("member");
 
@@ -50,16 +54,17 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
                         follow.toMember.id,
                         follow.toMember.name,
                         follow.toMember.picture,
-                        follow.toMember.introduction
+                        follow.toMember.introduction,
+                        follow.toMember.eq(follow.toMember)
                 ))
                 .from(follow)
-                .where(follow.toMember.id.eq(toMemberId))
+                .where(follow.fromMember.id.eq(memberId))
                 .fetch();
     }
 
 
     @Override
-    public List<MemberDTO> getFollowers(Long fromMemberId) {
+    public List<MemberDTO> getFollowers(Long memberId) {
         QFollow follow = new QFollow("follow");
         QMember member = new QMember("member");
 
@@ -68,10 +73,15 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
                         follow.fromMember.id,
                         follow.fromMember.name,
                         follow.fromMember.picture,
-                        follow.fromMember.introduction
+                        follow.fromMember.introduction,
+                        follow.fromMember.id.in(
+                                JPAExpressions.select(follow.toMember.id)
+                                        .from(follow)
+                                        .where(follow.fromMember.id.eq(memberId))
+                        )
                 ))
                 .from(follow)
-                .where(follow.fromMember.id.eq(fromMemberId))
+                .where(follow.toMember.id.eq(memberId))
                 .fetch();
     }
 }

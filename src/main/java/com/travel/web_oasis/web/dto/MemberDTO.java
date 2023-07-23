@@ -25,6 +25,7 @@ public class MemberDTO {
 
     private Long followersSize;
     private Long followingSize;
+    private Boolean followStatus;
 
     private Long postSize;
 
@@ -46,10 +47,11 @@ public class MemberDTO {
     }
 
     @QueryProjection
-    public MemberDTO(Long id, String name, String picture, String introduction) {
+    public MemberDTO(Long id, String name, String picture, String introduction, Boolean followStatus) {
         this.id = id;
         this.name = name;
         this.picture = picture;
         this.introduction = introduction;
+        this.followStatus = followStatus;
     }
 }
