@@ -24,8 +24,10 @@
 |:--:|:--:|
 |<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/41865184-f55a-4438-bf85-1a24f92ef518" width="370" height="300">|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/75444d96-2783-4a4b-a05b-064d16b0ec42" width="370" height="300">|
 
-|팔로우|좋아요|
+|팔로잉 게시글|팔로워 팔로잉 목록|
 |:--:|:--:|
+|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/edb27a45-35f7-49b9-bd84-719236ce9b36" width="370" height="300">|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/ebd2058c-50c2-4fc2-b1dd-7020aa64926d" width="370" height="300">|
+
 
 </div>
 </details>
