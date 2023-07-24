@@ -31,17 +31,15 @@ public class FollowRepositoryImpl extends QuerydslRepositorySupport implements C
 
     @Transactional
     @Override
-    public void deleteFollow(Long toMemberId, Long fromMemberId) {
+    public Long deleteFollow(Long toMemberId, Long fromMemberId) {
 
         QFollow follow = QFollow.follow;
 
         BooleanExpression expression = follow.toMember.id.eq(toMemberId)
                                             .and(follow.fromMember.id.eq(fromMemberId));
 
-        delete(follow)
+        return delete(follow)
                 .where(expression).execute();
-
-
     }
 
     @Override

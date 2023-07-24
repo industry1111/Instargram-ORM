@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
 
         log.info("saveMember() start");
 
-        if (findByEmailAndProvider(memberDTO.getEmail(), memberDTO.getProvider()) == null) {
+        if (findByEmailAndProvider(memberDTO.getEmail(), "N") != null) {
             return -1L;
         }
 
@@ -90,31 +90,10 @@ public class MemberServiceImpl implements MemberService{
 
         Member updateMember = memberRepository.save(member);
 
-        // 현재 사용자의 인증 정보 업데이트
-//        updateAuthentication(updateMember);
-
         return entityToDto(updateMember);
 
     }
 
-    private static void updateAuthentication(Member member) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null) {
-
-            // 인증 정보에서 Principal 개체를 가져오기
-            PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
-
-            // Principal 개체에서 회원 정보를 수정된 멤버로 업데이트
-            principalDetail.setMember(member);
-
-            // 업데이트된 Principal 개체를 저장
-            authentication.setAuthenticated(true);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        }
-    }
 
     public Member findByEmailAndProvider(String email,String provider) {
         return memberRepository.findByEmailAndProvider(email,provider);

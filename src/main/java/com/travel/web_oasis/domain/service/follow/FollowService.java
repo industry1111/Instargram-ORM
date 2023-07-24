@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FollowService {
     Long followMember(Long toMemberId, Long fromMemberId);
-    void unFollowMember(Long toMemberId, Long fromMemberId);
+    String unFollowMember(Long toMemberId, Long fromMemberId);
     List<MemberDTO> getFollowingList(Long memberId);
     List<MemberDTO> getFollowerList(Long memberId);
 }

@@ -33,10 +33,13 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public void unFollowMember(Long toMemberId, Long fromMemberId) {
+    public String unFollowMember(Long toMemberId, Long fromMemberId) {
 
-        followRepository.deleteFollow(toMemberId, fromMemberId);
-
+        String result = "관리자에게 문의해 주세요";
+        if (followRepository.deleteFollow(toMemberId, fromMemberId) != null) {
+            result =  "정상적으로 언팔로우 됐습니다.";
+        }
+        return result;
     }
 
     @Override

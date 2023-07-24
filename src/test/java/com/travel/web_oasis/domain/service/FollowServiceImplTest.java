@@ -6,6 +6,7 @@ import com.travel.web_oasis.web.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -48,6 +49,7 @@ class FollowServiceImplTest {
     }
 
     @Test
+    @Transactional
     void unFollowMember() {
         MemberDTO memberDTO = MemberDTO.builder()
                 .email("Test계정3@Test.com")
@@ -67,9 +69,9 @@ class FollowServiceImplTest {
         Long id = followService.followMember(toMemberId,fromMemberId);
 
         //when
-        followService.unFollowMember(toMemberId,fromMemberId);
+        String actual = followService.unFollowMember(toMemberId,fromMemberId);
 
         //then
-
+        assertThat(actual).isEqualTo("정상적으로 언팔로우 됐습니다.");
     }
 }

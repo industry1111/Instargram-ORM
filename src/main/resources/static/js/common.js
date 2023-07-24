@@ -33,7 +33,7 @@ function customAjax(method, url, data, submitFunc) {
             }
         };
 
-        if (method === "GET") {
+        if (method === "GET" || method === "DELETE") {
             if (data.pathParams) {
                 // 경로 변수를 사용하는 경우
                 url = url.replace(/{(\w+)}/g, function(match, pathParam) {

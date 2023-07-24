@@ -92,7 +92,7 @@ window.onload = function () {
 
 
     const followModal = document.getElementById('modal_follow');
-    const btnFollower = document.getElementById('followers');
+    const btnFollower = document.getElementById('follower');
     const btnFollowing = document.getElementById('following');
     btnFollower.addEventListener("click", function() {
         getFollowList(this.id,this.value);
@@ -118,7 +118,7 @@ window.onload = function () {
                 memberId: memberId
             }
         }
-        if(title === "followers") {
+        if(title === "follower") {
             url = "/followerList/{memberId}";
         } else {
             url = "/followingList/{memberId}";
@@ -186,19 +186,46 @@ window.onload = function () {
         if (profileId === sessionId) {
             if (!memberDTO.followStatus) {
                 innerHtml +=`
-                    <div><button class="action-btn" name="followBtn" value="">follow</button></div>`;
+                    <div><button class="action-btn" name="followBtn" value="${memberDTO.id}">follow</button></div>`;
             } else {
                 innerHtml +=`
-                    <div><button class="action-btn" name="followBtn" value="">unfollow</button></div>`;
+                    <div><button class="action-btn" name="unfollowBtn" value="${memberDTO.id}">unfollow</button></div>`;
             }
         }
-
         innerHtml +=`</div>`;
 
         $(".suggest-member-grid").append(innerHtml);
     }
 
 
+    $(Document).on("click", "button[name='unfollowBtn']", function () {
 
+        let title = $('#modalTitle').html().split(" ")[0];
+        let toMemberId = this.value;
+        let data = {
+            pathParams : {
+                toMemberId : toMemberId
+            }
+        };
+
+        customAjax("DELETE","/deleteFollow/{toMemberId}", data, function (){
+            getFollowList(title,sessionId);
+        });
+    });
+
+    $(Document).on("click", "button[name='followBtn']", function () {
+
+        let title = $('#modalTitle').html().split(" ")[0];
+        let toMemberId = this.value;
+        let data = {
+            pathParams : {
+                toMemberId : toMemberId
+            }
+        };
+
+        customAjax("GET","/addFollow/{toMemberId}", data, function (){
+            getFollowList(title,sessionId);
+        });
+    });
 
 }
