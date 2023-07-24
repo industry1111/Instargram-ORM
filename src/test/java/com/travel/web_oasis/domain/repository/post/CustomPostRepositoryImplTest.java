@@ -22,15 +22,15 @@ class CustomPostRepositoryImplTest {
     @Transactional
     void getPostList() {
         //given
-        Long memberId = 1L;
+        Long memberId = 2L;
 
         Pageable pageable = PageRequest.of(0,3);
 
         //when
-        Page<PostDTO> result = postRepository.getPostList(pageable,memberId);
+        Page<Post> result = postRepository.getPostList(pageable,memberId);
 
         //then
-//        result.stream().forEach(post -> System.out.println("post = " + post));
+        result.stream().forEach(post -> System.out.println("post = " + post));
 
     }
 

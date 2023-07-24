@@ -326,7 +326,13 @@ window.onload = function () {
                 toMemberId : toMemberId
             }
         }
-        customAjax("GET","/addFollow/{toMemberId}", data, getSuggestMembers);
+        customAjax("GET","/addFollow/{toMemberId}", data, function () {
+            getSuggestMembers();
+            $(".post-grid").html("");
+            page = 1;
+            size = 3;
+            getPosts();
+        });
     })
 
     function showDetailPost(postId) {

@@ -119,24 +119,20 @@ class PostServiceImplTest {
 
     @Test
     @DisplayName("게시글 목록 가져오기(Paging)")
+    @Transactional
     void getList() {
 
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-                                                    .page(1)
-                                                    .size(3)
+                                                    .page(2)
+                                                    .size(1)
                                                     .build();
 
 
-        PageResultDTO<PostDTO, Post> resultDTO = postService.getPostList(pageRequestDTO,1L);
+        PageResultDTO<PostDTO, Post> resultDTO = postService.getPostList(pageRequestDTO,2L);
 
-        System.out.println("resultDTO = " + resultDTO.getPrev());
-        System.out.println("resultDTO.getNext() = " + resultDTO.getNext());
-        System.out.println("resultDTO = " + resultDTO.getTotalPage());
         for (PostDTO postDTO : resultDTO.getDtoList()) {
             System.out.println("postDTO = " + postDTO);
         }
-
-        System.out.println("resultDTO.getPage() = " + resultDTO.getPageList());
     }
 
     @Test

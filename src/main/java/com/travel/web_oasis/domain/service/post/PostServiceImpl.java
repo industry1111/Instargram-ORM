@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService{
 
         Pageable pageable = requestDTO.getPageable(Sort.by("id").descending());
 
-        Page<Post> result = postRepository.findAll(pageable);
+        Page<Post> result = postRepository.getPostList(pageable,id);
 
         Function<Post, PostDTO> fn = (entity -> entityToDto(entity.getId(), entity.getContent(), entity.getCreatedDate(), entity.getMember(), entity.getFileAttachList(), entity.getCommentList()));
 
