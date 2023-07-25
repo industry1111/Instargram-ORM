@@ -6,6 +6,7 @@
 ## 기간
 - 2023년 06월 17 ~ 현재 진행중
 ### 데모
+
 <details>
 <summary><b>펼쳐 보기</b></summary>
 <div markdown="1">
@@ -26,8 +27,8 @@
 |:--:|:--:|
 |<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/edb27a45-35f7-49b9-bd84-719236ce9b36" width="370" height="300">|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/ebd2058c-50c2-4fc2-b1dd-7020aa64926d" width="370" height="300">|
 
-
 </div>
+</details>
 
 ## 사용기술
 ### Backend
