@@ -6,6 +6,8 @@
 ## 기간
 - 2023년 06월 17 ~ 현재 진행중
 ### 데모
+<details>
+<summary><b>펼쳐 보기</b></summary>
 <div markdown="1">
 
 |회원가입|로그인|
@@ -37,6 +39,7 @@
 - Gradle
 - MySQL
 - Junit
+- JWT
 
 ### FrontEnd
 - HTML
