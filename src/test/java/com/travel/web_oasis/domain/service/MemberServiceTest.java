@@ -127,14 +127,15 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("프로필 정보 가져오기")
+    @Transactional
     void getMemberProfile() {
         //given
-        Long memberId = 1L;
-
+        Long memberId = memberService.saveMember(newMember());
+        String expected = "profileImg.png";
         //when
         MemberDTO memberDTO = memberService.getMemberProfile(memberId);
-
+        String actual = memberDTO.getPicture();
         //then
-
+        assertThat(actual).isEqualTo(expected);
     }
 }
