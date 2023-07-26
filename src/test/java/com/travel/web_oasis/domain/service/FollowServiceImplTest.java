@@ -51,6 +51,8 @@ class FollowServiceImplTest {
     @Test
     @Transactional
     void unFollowMember() {
+
+        //given
         MemberDTO memberDTO = MemberDTO.builder()
                 .email("Test계정3@Test.com")
                 .password("1234")
