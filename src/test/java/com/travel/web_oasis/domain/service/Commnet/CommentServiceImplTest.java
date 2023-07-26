@@ -33,9 +33,12 @@ class CommentServiceImplTest {
     @Autowired
     private PostRepository postRepository;
 
+    private Member member;
+    private Post post;
+
     @BeforeEach
     void setUp() {
-        Member member = Member.builder()
+         member = Member.builder()
                 .name("테스트멤버")
                 .email("TestMail@test.com")
                 .password("1234")
@@ -45,7 +48,7 @@ class CommentServiceImplTest {
 
         memberRepository.save(member);
 
-        Post post = Post.builder()
+         post = Post.builder()
                 .content("게시글 생성")
                 .fileAttachList(new ArrayList<>())
                 .member(member)
@@ -53,13 +56,14 @@ class CommentServiceImplTest {
 
         postRepository.save(post);
     }
+
     @Test
     @DisplayName("댓글 등록")
     @Transactional
     void addComment() {
         //given
-        Long memberId = 1L;
-        Long postId = 1L;
+        Long memberId =member.getId();
+        Long postId = post.getId();
 
         CommentDTO commentDTO = CommentDTO.builder()
                 .content("댓글")
@@ -77,8 +81,8 @@ class CommentServiceImplTest {
     @Transactional
     void getCommentList() {
         //given
-        Long postId = 1L;
-        Long memberId = 1L;
+        Long memberId =member.getId();
+        Long postId = post.getId();
 
         CommentDTO commentDTO = CommentDTO.builder()
                 .content("댓글")

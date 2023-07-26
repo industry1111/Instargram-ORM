@@ -81,25 +81,24 @@ sourceSets {
 	main.java.srcDir generated
 }
 
-compileQuerydsl{
+compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
+	options.verbose = true
+	doFirst {
+		delete file(generated)
+		mkdir generated
+	}
+	doLast {
+		delete fileTree(dir: generated)
+	}
 }
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	querydsl.extendsFrom compileClasspath제
+	querydsl.extendsFrom compileClasspath
 }
 
 // complieQuerydsl Task에 clean 동작 추가
 tasks.compileQuerydsl.dependsOn(clean);
-
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
-
-// gradle clean 시에 QClass 디렉토리 삭제
-clean {
-	delete file(generated)
-}

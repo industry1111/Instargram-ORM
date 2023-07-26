@@ -7,6 +7,7 @@ import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,7 @@ class FollowRepositoryImplTest {
     private MemberRepository memberRepository;
 
     @Test
+    @Transactional
     void followTest() {
 
         Member member1 = Member.builder()

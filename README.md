@@ -76,3 +76,8 @@
 [API DOC](https://documenter.getpostman.com/view/28541536/2s946fcsGD)
 
 <img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/63e9a95d-0068-4aa5-8edf-39adfec78098">
+
+## 이슈
+./gradle test 시 `Attempt to recreate a file for type com.travel.web_oasis.domain.entity.Q` 에러 발생
+
+

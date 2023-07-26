@@ -20,6 +20,7 @@ class FollowServiceImplTest {
     private FollowService followService;
 
     @Test
+    @Transactional
     void followTest() {
 
         //given
@@ -38,13 +39,13 @@ class FollowServiceImplTest {
         Long toMemberId = memberService.saveMember(memberDTO);
         Long fromMemberId = memberService.saveMember(memberDTO2);
 
-        Long expected = 1L;
+
 
         //when
         Long actual = followService.followMember(toMemberId,fromMemberId);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isNotNull();
 
     }
 

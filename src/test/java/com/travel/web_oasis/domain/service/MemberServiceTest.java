@@ -6,6 +6,7 @@ import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.domain.service.member.MemberServiceImpl;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ class MemberServiceTest {
     MemberDTO newMember() {
         return MemberDTO.builder()
                 .name("테스트")
-                .email("test@mail.com")
+                .email("멤버서비스test@mail.com")
                 .password("1234")
                 .role(Role.USER)
                 .status(Status.PUBLIC)
@@ -55,11 +56,13 @@ class MemberServiceTest {
     }
 
     @Test
+    @Transactional
     void saveMember() {
         memberService.saveMember(newMember());
     }
 
     @Test
+    @Transactional
     void deleteMember() {
 
         Long id = memberService.saveMember(newMember());
@@ -71,10 +74,12 @@ class MemberServiceTest {
     }
 
     @Test
+    @Transactional
     void updateMember() {
         Long id = memberService.saveMember(newMember());
         MemberDTO memberDTO = update(id);
-//        memberService.updateMember(memberDTO, null);
+        System.out.println("id = " + id);
+        memberService.updateMember(memberDTO, id,null);
 
         Member member = memberService.findById(id);
 
@@ -84,6 +89,7 @@ class MemberServiceTest {
     }
 
     @Test
+    @Transactional
     void updateProfile() throws IOException {
         MemberDTO memberDTO = newMember();
 

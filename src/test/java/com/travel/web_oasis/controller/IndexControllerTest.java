@@ -27,7 +27,7 @@ class IndexControllerTest {
         String body = restTemplate.getForObject("/", String.class);
 
         //then
-        assertThat(body).contains("industry1111@naver.com");
+        assertThat(body).contains("로그인");
     }
 
 }

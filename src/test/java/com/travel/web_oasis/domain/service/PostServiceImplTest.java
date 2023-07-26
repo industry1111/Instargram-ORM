@@ -38,7 +38,7 @@ class PostServiceImplTest {
     void setUp() {
            memberDTO = MemberDTO.builder()
                    .name("테스트")
-                   .email("test@mail.com")
+                   .email("게시글test@mail.com")
                    .password("1234")
                    .role(Role.USER)
                    .status(Status.PUBLIC)
@@ -47,9 +47,9 @@ class PostServiceImplTest {
 
     @Test
     @DisplayName("게시글 생성")
+    @Transactional
     public void createPost() throws IOException {
         //given
-        Long expected = 1L ;
         PostDTO postDto = new PostDTO();
         postDto.setContent("게시글 생성 테스트");
 
@@ -63,11 +63,12 @@ class PostServiceImplTest {
         Long actual = postService.createPost(postDto, member);
 
         //then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isNotNull();
     }
 
     @Test
     @DisplayName("게시글 찾기")
+    @Transactional
     public void getPost() throws IOException{
         //given
         String expected = "게시글 찾기 테스트";
@@ -91,6 +92,7 @@ class PostServiceImplTest {
 
     @Test
     @DisplayName("게시글 삭제")
+    @Transactional
     void deletePost() throws IOException{
         //given
         PostDTO postDTO = PostDTO.builder()

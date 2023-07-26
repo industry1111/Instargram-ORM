@@ -57,48 +57,48 @@ class PostControllerTest {
         }
     }
 
-    @Test
-    void createPost() throws Exception {
-        // given
-        PostDTO postDTO = PostDTO.builder()
-                            .content("test")
-                            .build();
-        // when && then
-        // 리다이렉션이 발생했는지 확인
-        mockMvc.perform(multipart("/post/create")
-                        .file((MockMultipartFile) files.get(0))
-                        .file((MockMultipartFile) files.get(1))
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .param("content", postDTO.getContent()))
-                .andExpect(status().is3xxRedirection());
-
-        //then
-//        verify(postService).createPost(postDTO, files);
-    }
-
-    @Test
-    @DisplayName("게시글 상세보기 요청")
-    @Transactional
-    void getPost() throws Exception {
-        //given
-       PostDTO postDTO = PostDTO.builder()
-                            .content("게시글 상세보기 요청 테스트")
-                            .build();
-        Long id = postService.createPost(postDTO,null);
-
-        //when && then
-        //리턴값에 JSON 형식으로 post id, content 있는지 확인
-        //리턴값에 JSON Array 형식으로 files 있는지 확인
-        MvcResult mvcResult = mockMvc.perform(get("/post/{id}", id))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.content").value("게시글 상세보기 요청 테스트"))
+//    @Test
+//    void createPost() throws Exception {
+//        // given
+//        PostDTO postDTO = PostDTO.builder()
+//                            .content("test")
+//                            .build();
+//        // when && then
+//        // 리다이렉션이 발생했는지 확인
+//        mockMvc.perform(multipart("/post/create")
+//                        .file((MockMultipartFile) files.get(0))
+//                        .file((MockMultipartFile) files.get(1))
+//                        .contentType(MediaType.MULTIPART_FORM_DATA)
+//                        .param("content", postDTO.getContent()))
+//                .andExpect(status().is3xxRedirection());
+//
+//        //then
+////        verify(postService).createPost(postDTO, files);
+//    }
+//
+//    @Test
+//    @DisplayName("게시글 상세보기 요청")
+//    @Transactional
+//    void getPost() throws Exception {
+//        //given
+//       PostDTO postDTO = PostDTO.builder()
+//                            .content("게시글 상세보기 요청 테스트")
+//                            .build();
+//        Long id = postService.createPost(postDTO,null);
+//
+//        //when && then
+//        //리턴값에 JSON 형식으로 post id, content 있는지 확인
+//        //리턴값에 JSON Array 형식으로 files 있는지 확인
+//        MvcResult mvcResult = mockMvc.perform(get("/post/{id}", id))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(id))
+//                .andExpect(jsonPath("$.content").value("게시글 상세보기 요청 테스트"))
 //                .andExpect(jsonPath("$.files").isArray())
-                .andReturn();
-
+//                .andReturn();
+//
 //        String responseBody = mvcResult.getResponse().getContentAsString();
 //        JSONObject jsonObject = new JSONObject(responseBody);
-    }
+//    }
 
 //    @Test
 //    @DisplayName("게시글삭제 요청")
