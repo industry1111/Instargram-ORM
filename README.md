@@ -7,7 +7,6 @@
 - 2023년 06월 17 ~ 현재 진행중
 ### 데모
 
-
 <details>
 <summary><b>펼쳐 보기</b></summary>
 <div markdown="1">
@@ -24,8 +23,9 @@
 |:--:|:--:|
 |<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/41865184-f55a-4438-bf85-1a24f92ef518" width="370" height="300">|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/75444d96-2783-4a4b-a05b-064d16b0ec42" width="370" height="300">|
 
-|팔로우|좋아요|
+|팔로잉 게시글|팔로워 팔로잉 목록|
 |:--:|:--:|
+|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/edb27a45-35f7-49b9-bd84-719236ce9b36" width="370" height="300">|<img src="https://github.com/industry1111/Instargram-ORM/assets/98158673/ebd2058c-50c2-4fc2-b1dd-7020aa64926d" width="370" height="300">|
 
 </div>
 </details>
@@ -40,6 +40,7 @@
 - Gradle
 - MySQL
 - Junit
+- JWT
 
 ### FrontEnd
 - HTML
@@ -67,9 +68,11 @@
   - 댓글 등록
   - 댓글 목록 조회
 - Follow
+  - 팔로우
+  - 언팔로우
 - Like
 
 ## API
 [API DOC](https://documenter.getpostman.com/view/28541536/2s946fcsGD)
 
-<img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/dd0b04e9-3ec7-4451-a010-20819e636aa4">
+<img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/63e9a95d-0068-4aa5-8edf-39adfec78098">
