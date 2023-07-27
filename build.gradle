@@ -102,3 +102,7 @@ configurations {
 
 // complieQuerydsl Task에 clean 동작 추가
 tasks.compileQuerydsl.dependsOn(clean);
+
+jar {
+	enabled = false
+}
