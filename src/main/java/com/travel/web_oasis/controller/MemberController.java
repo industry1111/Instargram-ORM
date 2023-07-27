@@ -72,7 +72,7 @@ public class MemberController {
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("memberDTO", new MemberDTO());
-        return "/member/registerForm";
+        return "member/registerForm";
     }
 
     /*
