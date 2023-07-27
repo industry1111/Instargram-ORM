@@ -41,6 +41,7 @@
 - MySQL
 - Junit
 - JWT
+- AWS
 
 ### FrontEnd
 - HTML
@@ -79,3 +80,5 @@
 
 ## 이슈
 [aws서버에서 build 시 `Attemp recreate ...Q* ` 에러 발생](https://github.com/industry1111/Instargram-ORM/issues/1)
+
+[AWS gradle 멈춤현상](https://github.com/industry1111/Instargram-ORM/issues/2)
