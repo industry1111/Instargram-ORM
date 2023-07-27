@@ -45,6 +45,6 @@ public class IndexController {
             model.addAttribute("member", principalDetail.getMember());
         }
 
-        return "/main";
+        return "main";
     }
 }

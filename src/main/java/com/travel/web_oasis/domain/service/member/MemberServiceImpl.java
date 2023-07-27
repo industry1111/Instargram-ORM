@@ -83,7 +83,7 @@ public class MemberServiceImpl implements MemberService{
         if (file != null) {
             String picture = member.getPicture();
 
-            if (picture != "profileImg.png") {
+            if ("profileImg.png".equals(picture)) {
                 deleteProfileFromStorage(member.getPicture());
             }
 
