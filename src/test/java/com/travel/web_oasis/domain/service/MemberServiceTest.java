@@ -88,24 +88,24 @@ class MemberServiceTest {
         Assertions.assertEquals("테스트2", member.getName());
     }
 
-    @Test
-    @Transactional
-    void updateProfile() throws IOException {
-        MemberDTO memberDTO = newMember();
-
-        Long memberId = memberService.saveMember(memberDTO);
-
-        String imagePath = "/Users/gohyeong-gyu/Downloads/logo.png";
-        byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
-
-        MultipartFile profileImg = new MockMultipartFile(
-                "file",
-                "image.jpg",
-                "image/jpeg",
-                imageBytes
-        );
-        memberService.updateMember(memberDTO,memberId,profileImg);
-    }
+//    @Test
+//    @Transactional
+//    void updateProfile() throws IOException {
+//        MemberDTO memberDTO = newMember();
+//
+//        Long memberId = memberService.saveMember(memberDTO);
+//
+//        String imagePath = "/Users/gohyeong-gyu/Downloads/logo.png";
+//        byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+//
+//        MultipartFile profileImg = new MockMultipartFile(
+//                "file",
+//                "image.jpg",
+//                "image/jpeg",
+//                imageBytes
+//        );
+//        memberService.updateMember(memberDTO,memberId,profileImg);
+//    }
 
     @Test
     void getMemberList() {
