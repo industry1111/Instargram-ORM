@@ -236,9 +236,9 @@ window.onload = function () {
             <div class="post-content" id="postContent${postId}">
                 <div class="reaction-wrapper">
                     <input type="hidden" name="post" value="${postId}">
-                    <img src="/img/main/like.png" class="icon like" alt="">
-                    <img src="/img/main/comment.png" class="icon comment" alt="">
-                    <img src="/img/main/send.png" class="icon" alt="">
+                    <img src="/img/main/like.PNG" class="icon like" alt="">
+                    <img src="/img/main/comment.PNG" class="icon comment" alt="">
+                    <img src="/img/main/send.PNG" class="icon" alt="">
                     <img src="/img/main/save.png" class="save icon" alt="">
                 </div>
                 <p class="likes">1,012 likes</p>
@@ -248,7 +248,7 @@ window.onload = function () {
         innerHtml += `
             </div>
             <div class="comment-wrapper">
-                <img src="/img/main/smile.png" class="icon" alt="">
+                <img src="/img/main/smile.PNG" class="icon" alt="">
                 <input type="text" class="comment-box"  placeholder="댓글을 입력하세요">
                 <button class="comment-btn" value="${postId}" >게시</button>
             </div>

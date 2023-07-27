@@ -9,7 +9,7 @@
     <header class="p-3 mb-3">
         <nav class="navbar header">
             <div class="nav-wrapper">
-                <img th:src="@{/img/main/logo.png}" class="brand-img" alt="">
+                <img th:src="@{/img/main/logo.PNG}" class="brand-img" alt="">
                 <input type="text" class="search-box" placeholder="search">
                 <div class="nav-items" sec:authorize="hasRole('USER')">
                     <img th:src="@{/img/main/home.PNG}" onclick="location.href='/main'" th:id="btn-home" class="icon" alt="">

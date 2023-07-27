@@ -27,7 +27,6 @@ public class CustomPostRepositoryImpl extends QuerydslRepositorySupport implemen
     @Override
     public Page<Post> getPostList(Pageable pageable, Long memberId) {
         QPost post = new QPost("post");
-        QMember member = new QMember("member");
         QFollow follow = new QFollow("follow");
 
         QueryResults<Post> results = queryFactory.selectFrom(post)

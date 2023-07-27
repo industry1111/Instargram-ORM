@@ -81,7 +81,12 @@ public class MemberServiceImpl implements MemberService{
         Member member = findById(memberId);
 
         if (file != null) {
-            deleteProfileFromStorage(member.getPicture());
+            String picture = member.getPicture();
+
+            if (picture != "profileImg.png") {
+                deleteProfileFromStorage(member.getPicture());
+            }
+
             String profileStoreName = pictureUpload(file);
 
             memberDto.setPicture(profileStoreName);
