@@ -239,7 +239,7 @@ window.onload = function () {
                     <img src="/img/main/like.PNG" class="icon like" alt="">
                     <img src="/img/main/comment.PNG" class="icon comment" alt="">
                     <img src="/img/main/send.PNG" class="icon" alt="">
-                    <img src="/img/main/save.png" class="save icon" alt="">
+                    <img src="/img/main/save.PNG" class="save icon" alt="">
                 </div>
                 <p class="likes">1,012 likes</p>
                 <p class="description"><span>${data.name}</span>${data.content}</p>
