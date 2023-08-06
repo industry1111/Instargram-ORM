@@ -1,19 +1,17 @@
 package com.travel.web_oasis.domain.service.member;
 
-import com.travel.web_oasis.config.oauth.dto.PrincipalDetail;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.member.Role;
 import com.travel.web_oasis.domain.member.Status;
 import com.travel.web_oasis.domain.repository.member.MemberRepository;
 import com.travel.web_oasis.web.dto.MemberDTO;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.core.Authentication;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +35,7 @@ public class MemberServiceImpl implements MemberService{
     private String storagePath;
 
     @Override
+    @Transactional
     public Long saveMember(MemberDTO memberDTO) {
 
         log.info("saveMember() start");
@@ -75,6 +74,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public MemberDTO updateMember(MemberDTO memberDto, Long memberId, MultipartFile file) {
         log.info("updateMember() start");
 
@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService{
         return result.get();
     }
 
-    public String pictureUpload(MultipartFile file) {
+    private String pictureUpload(MultipartFile file) {
 
         String fileName = file.getOriginalFilename();
 

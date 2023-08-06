@@ -59,6 +59,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
+    @Transactional
     public void deletePost(Long id) {
 //    삭제할 포스트
         PostDTO removePostDTO = findPost(id);

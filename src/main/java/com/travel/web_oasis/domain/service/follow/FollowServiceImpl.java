@@ -4,10 +4,10 @@ import com.travel.web_oasis.domain.entity.Follow;
 import com.travel.web_oasis.domain.member.Member;
 import com.travel.web_oasis.domain.repository.follow.FollowRepository;
 import com.travel.web_oasis.domain.service.member.MemberService;
-import com.travel.web_oasis.web.dto.FollowDTO;
 import com.travel.web_oasis.web.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class FollowServiceImpl implements FollowService{
     private final MemberService memberService;
 
     @Override
+    @Transactional
     public Long followMember(Long toMemberId, Long fromMemberId) {
 
         Member toMember = memberService.findById(toMemberId);
@@ -33,6 +34,7 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
+    @Transactional
     public String unFollowMember(Long toMemberId, Long fromMemberId) {
 
         String result = "관리자에게 문의해 주세요";

@@ -41,6 +41,7 @@ public class CustomPostRepositoryImpl extends QuerydslRepositorySupport implemen
                                                         .where(follow.fromMember.id.eq(memberId))
                                         )
                                 ))
+                .orderBy(post.id)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
