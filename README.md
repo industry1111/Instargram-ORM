@@ -31,27 +31,42 @@
 </details>
 
 ## 사용기술
-### Backend
-- Java17
-- SpringBoot 3.1
-- Spring Data JPA
-- QueryDSL
-- Thymeleaf
-- Gradle
-- MySQL
-- Junit
-- JWT
-- AWS
+#### 📚 Backend
 
-### FrontEnd
-- HTML
-- CSS
-- JavScript
-- JQuery
+<div> 
+  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
+  <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> 
+  <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=JPA&logoColor=white">
+  <img src="https://img.shields.io/badge/QueryDSL-007396?style=for-the-badge&logo=java&logoColor=white"> 
+</div>
+
+#### 📚 Frontend
+<div>
+  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> 
+  <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
+</div>
+
+#### 📚 DevOps
+<div>
+  <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white">
+  <img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+  <img src="https://img.shields.io/badge/amazon rds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white">
+  <img src="https://img.shields.io/badge/travisci-3EAAAF?style=for-the-badge&logo=travisci&logoColor=white">
+  <img src="https://img.shields.io/badge/code deploy-6DB33F?style=for-the-badge&logo=java&logoColor=white"> 
+</div>
+
+----
 
 ## ERD 설계
 
 <img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/e9aceb87-25bb-4fc4-ba92-a66eda63f31e">
+
+## Travis CI + CodeDeploy
+<img width="811" alt="스크린샷 2023-07-15 오후 4 26 38" src="https://github.com/industry1111/Instargram-ORM/assets/98158673/3d5ca621-8ac6-4471-85f6-c3c21278fda8">
+
 
 ## 기능목록
 
